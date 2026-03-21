@@ -91,4 +91,4 @@ Read `CONTRIBUTING.md` before opening a pull request. The short version:
 
 ## License
 
-No license file has been added yet. The repository may be public, but reuse terms are not granted until a license is specified.
+This repository is licensed under the MIT License. See `LICENSE` for the full text.

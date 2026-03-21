@@ -35,6 +35,10 @@ Codex skill for source-led fundamental stock analysis across global markets.
 - `Analyze IREN, but block valuation if consensus or dilution-stack inputs are incomplete.`
 - `Analyze UUUU and ignore technical-analysis or self-media material.`
 
+## Non-Investment-Advice Notice
+
+This repository is for source-quality control, analysis structure, and evaluation design. It is not investment advice, not a solicitation, and not a substitute for your own legal, financial, or tax judgment.
+
 ## Validation
 
 This repository uses two validation layers.
@@ -68,6 +72,22 @@ The eval suite is intended to test gate behavior, source routing, and valuation 
 - `evals/cases/`: YAML case definitions
 - `evals/fixtures/`: frozen official-source bundle directories
 - `evals/README.md`: how to review the cases and what each case is asserting
+
+## Contributing
+
+Read `CONTRIBUTING.md` before opening a pull request. The short version:
+
+- keep new claims source-led
+- do not add self-media, technical-analysis, or uncited-number patterns
+- update `evals/` whenever behavior changes
+- keep runtime gates stricter, not looser
+
+## Project Health
+
+- `CONTRIBUTING.md`: contribution rules and review checklist
+- `SECURITY.md`: how to report repository-security issues
+- `.github/ISSUE_TEMPLATE/`: bug report and feature request templates
+- `.github/workflows/validate.yml`: structural and fixture validation on push and pull request
 
 ## License
 

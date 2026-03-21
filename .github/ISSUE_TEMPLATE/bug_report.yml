@@ -1,0 +1,48 @@
+name: Bug report
+description: Report a repository bug, broken gate, wrong router, or regression gap
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: What is broken?
+      description: Describe the incorrect behavior in one paragraph.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What should have happened?
+      description: Describe the expected gate, route, or blocked behavior.
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: Which part is affected?
+      options:
+        - Archetype routing
+        - Commercial evidence gating
+        - Capacity-state gating
+        - Valuation blocking
+        - Source routing
+        - Eval coverage
+        - Documentation
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Minimal evidence bundle
+      description: List the official source types involved and any relevant case file.
+      placeholder: "issuer filing, regulator source, eval case name"
+  - type: checkboxes
+    id: compliance
+    attributes:
+      label: Confirm
+      options:
+        - label: This report does not rely on self-media, Discord, YouTube, or uncited numbers.
+          required: true
+        - label: This report does not contain secrets or non-public data.
+          required: true

@@ -1,0 +1,40 @@
+name: Feature request
+description: Propose a new router, gate, digest improvement, or eval case
+title: "[Feature] "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What gap are you trying to close?
+      description: Explain the missing behavior or missing coverage.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+      description: Be concrete about which file or behavior should change.
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: Primary category
+      options:
+        - Global market router
+        - Sector router
+        - Commercial evidence gate
+        - Capacity-state gate
+        - Valuation hard gate
+        - Angle library or digest
+        - Eval case
+        - README or contributor docs
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: Describe the exact pass condition.
+      placeholder: "New case should block valuation when ..."

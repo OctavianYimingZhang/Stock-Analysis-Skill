@@ -1,0 +1,4 @@
+interface:
+  display_name: "Stock Analysis"
+  short_description: "Analyze stocks with authoritative sources first"
+  default_prompt: "Use $stock-analysis to analyze a public company with primary filings, official sources, and explicit source-quality rules."

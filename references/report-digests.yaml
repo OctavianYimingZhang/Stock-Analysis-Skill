@@ -1,0 +1,152 @@
+version: 1
+digests:
+  - id: tsem
+    source_file: "TowerSemiconductor深度研究报告 (1).pdf"
+    sections:
+      - {label: angle, summary: "Specialty foundry framed around AI-adjacent analog, image-sensor, and photonics demand."}
+      - {label: evidence, summary: "Track process mix, utilization, customer/program mix, revenue, margins, and capex from issuer materials."}
+      - {label: gates, summary: "Do not reuse rerating logic, position language, or uncited AI-demand extrapolation."}
+  - id: uamy
+    source_file: "UAMY深度研究报告 (3).pdf"
+    sections:
+      - {label: angle, summary: "Critical-minerals and sovereignty thesis built on vertical integration and capacity expansion."}
+      - {label: evidence, summary: "Use production, processing capacity, pricing, permits, and working-capital evidence from filings and official sources."}
+      - {label: gates, summary: "Do not treat geopolitical premium, institution-buying claims, or technical analysis as evidence."}
+  - id: ter
+    source_file: "TeradyneInc（TER）深度研究报告.pdf"
+    sections:
+      - {label: angle, summary: "Semiconductor test and automation beneficiary with cycle-driven operating leverage."}
+      - {label: evidence, summary: "Use segment revenue, test demand, robotics mix, margins, EPS, and guidance from issuer sources."}
+      - {label: gates, summary: "Do not reuse unsupported PE expansion or unlabeled cycle assumptions."}
+  - id: umac
+    source_file: "Unusual Machines Inc.（UMAC）研究报告 (4).pdf"
+    sections:
+      - {label: angle, summary: "Frontier drone-components story driven by commercialization, contracts, and regulatory milestones."}
+      - {label: evidence, summary: "Use filings, FAA items, partner disclosures, contract form, liquidity, and channel structure."}
+      - {label: gates, summary: "Partnership language is not revenue proof; reject price targets and self-media framing."}
+  - id: csiq
+    source_file: "CSIQ分析 (3).docx"
+    sections:
+      - {label: angle, summary: "Manufacturing plus project-development split with localization and restructuring as catalysts."}
+      - {label: evidence, summary: "Use shipments, storage deliveries, project pipeline, US capacity, and restructuring disclosures."}
+      - {label: gates, summary: "Do not let technical overlays or policy rhetoric outrun disclosed facts."}
+  - id: t1energy
+    source_file: "T1Energy深度研究报告 (3).pdf"
+    sections:
+      - {label: angle, summary: "Clean-energy manufacturing case gated by governance, factory execution, and financing."}
+      - {label: evidence, summary: "Use factory progress, planned capacity, capex, financing, and incentive disclosures."}
+      - {label: gates, summary: "Planned capacity and policy hopes are not valuation-ready denominators."}
+  - id: fcel
+    source_file: "FuelCell Energy（FCEL）深度研究报告 (6).pdf"
+    sections:
+      - {label: angle, summary: "Commercialization and backlog execution matter more than generic clean-energy narrative."}
+      - {label: evidence, summary: "Use backlog, project milestones, service revenue, cash burn, and DOE-linked disclosures."}
+      - {label: gates, summary: "Narrative demand without order evidence does not support valuation."}
+  - id: gdot
+    source_file: "GDOT分析Green Dot（GDOT）深度分析报告.pdf"
+    sections:
+      - {label: angle, summary: "Fintech or bank-platform analyzed through segment mix, partner channels, and margin improvement."}
+      - {label: evidence, summary: "Use segment revenue, account metrics, partner concentration, EBITDA, and capital structure."}
+      - {label: gates, summary: "Do not reuse multi-bagger claims or uncited operating metrics."}
+  - id: bw
+    source_file: "BW分析.pdf"
+    sections:
+      - {label: angle, summary: "Installed-base service franchise plus project-risk cleanup in legacy energy and industrial equipment."}
+      - {label: evidence, summary: "Use backlog, service mix, customer project releases, cash flow, and contract form."}
+      - {label: gates, summary: "Broad power-theme claims without attributable orders are not investment-grade."}
+  - id: comm
+    source_file: "COMM分析.docx"
+    sections:
+      - {label: angle, summary: "Turnaround through inventory normalization, margin repair, and debt reduction."}
+      - {label: evidence, summary: "Use segment revenue, EBITDA, backlog, debt maturities, interest burden, and asset-sale proceeds."}
+      - {label: gates, summary: "Do not skip maturity detail or refinancing risk when discussing deleveraging."}
+  - id: hims
+    source_file: "HIMS分析.pptx"
+    sections:
+      - {label: angle, summary: "Healthcare or consumer platform framed as a personalization and data flywheel."}
+      - {label: evidence, summary: "Use subscriber growth, personalization adoption, product mix, marketing efficiency, and profitability."}
+      - {label: gates, summary: "Do not accept platform or moat claims without disclosed retention or operating evidence."}
+  - id: sofi
+    source_file: "SOFI (1).pptx"
+    sections:
+      - {label: angle, summary: "Digital finance platform driven by deposits, rate sensitivity, and non-lending segment mix."}
+      - {label: evidence, summary: "Use deposits, NIM, member growth, product growth, tech-platform mix, and credit disclosures."}
+      - {label: gates, summary: "Conference remarks or institution-buying claims without source support do not count."}
+  - id: uranium_chain_1
+    source_file: "铀矿及核产业链分析---第一篇 (1).docx"
+    sections:
+      - {label: angle, summary: "Industry-chain context for uranium or nuclear names, not a standalone stock conclusion."}
+      - {label: evidence, summary: "Use official supply-demand, reactor-addition, fuel-cycle, and policy datasets."}
+      - {label: gates, summary: "Theme arguments must bridge back to company-level evidence."}
+  - id: zeta
+    source_file: "ZETA分析.docx"
+    sections:
+      - {label: angle, summary: "Platform software moat through customer quality, margins, and cash-flow durability."}
+      - {label: evidence, summary: "Use scaled-customer data, growth, margins, FCF, and attributable third-party references."}
+      - {label: gates, summary: "Reject uncited TAM, superiority claims, and DCF outputs without explicit assumptions."}
+  - id: uuuu
+    source_file: "UUUU详尽研究报告.pdf"
+    sections:
+      - {label: angle, summary: "Strategic-materials name through inventory, resource base, permits, and processing capability."}
+      - {label: evidence, summary: "Use filings, technical reports, USGS, permits, production, inventory, and cash needs."}
+      - {label: gates, summary: "Reject self-media, Discord, YouTube, technical analysis, and trade-plan content."}
+  - id: sei
+    source_file: "SEI分析.docx"
+    sections:
+      - {label: angle, summary: "Capacity-driven infrastructure or power-services case with financing overlay."}
+      - {label: evidence, summary: "Use deployed capacity, utilization, contract length, backlog, financing structure, and EBITDA."}
+      - {label: gates, summary: "Do not map capacity directly to EBITDA without status, monetization, and contract labels."}
+  - id: rzlv
+    source_file: "RZLV详尽研究报告(3).pdf"
+    sections:
+      - {label: angle, summary: "Enterprise-AI commercialization thesis built on actual deployment and partner conversion."}
+      - {label: evidence, summary: "Use partner announcements, deployment milestones, revenue ramp evidence, and issuer materials."}
+      - {label: gates, summary: "Reject self-media, technical analysis, and unsupported commercial-ramp assumptions."}
+  - id: pgy
+    source_file: "PGY分析 (3).docx"
+    sections:
+      - {label: angle, summary: "Lending-network platform through underwriting loop, ABS access, and ecosystem quality."}
+      - {label: evidence, summary: "Use application volume, conversion, ABS issuance, fee revenue, margins, and credit indicators."}
+      - {label: gates, summary: "Comp tables without method and flywheel claims without KPI support are not usable."}
+  - id: nutx
+    source_file: "Nutex Health (NUTX) 深度研究报告 (2).pdf"
+    sections:
+      - {label: angle, summary: "Healthcare-services thesis through facility economics and reimbursement mechanics."}
+      - {label: evidence, summary: "Use facility count, visit volume, IPA membership, reimbursement collections, margins, and policy sources."}
+      - {label: gates, summary: "Policy upside and reimbursement durability require official support and should not be treated as permanent."}
+  - id: iren
+    source_file: "IREN分析 (2).docx"
+    sections:
+      - {label: angle, summary: "Transition from legacy mining to AI cloud and data-center monetization."}
+      - {label: evidence, summary: "Use EH/s, production, cash cost, GPU count, MW, financing, and contract status."}
+      - {label: gates, summary: "Unsupported SOTP or uncontracted capacity cannot support valuation."}
+  - id: inod
+    source_file: "INOD分析.docx"
+    sections:
+      - {label: angle, summary: "AI-data and enterprise-services mix through recurring revenue and operating leverage."}
+      - {label: evidence, summary: "Use revenue mix, customer concentration, recurring revenue, margins, cash, and debt."}
+      - {label: gates, summary: "Do not infer customer quality or valuation from name recognition alone."}
+  - id: dave
+    source_file: "DAVE分析.docx"
+    sections:
+      - {label: angle, summary: "Consumer-fintech turnaround through monetization and credit discipline."}
+      - {label: evidence, summary: "Use members, ARPU, advance-product performance, take rate, acquisition efficiency, and EBITDA."}
+      - {label: gates, summary: "Credit or funding dependency cannot be hand-waved away by growth narrative."}
+  - id: asts
+    source_file: "ASTS分析.docx"
+    sections:
+      - {label: angle, summary: "Frontier communications case driven by regulatory, testing, and partner milestones."}
+      - {label: evidence, summary: "Use launch cadence, testing results, spectrum milestones, partner commitments, and runway."}
+      - {label: gates, summary: "Regulatory and commercialization optimism without official support is not valuation evidence."}
+  - id: aspi
+    source_file: "ASPI分析---核电第二篇.docx"
+    sections:
+      - {label: angle, summary: "Specialty nuclear infrastructure thesis through plant progress, offtake, and regulatory gating."}
+      - {label: evidence, summary: "Use plant capacity, production milestones, offtake, capex, financing, and approvals."}
+      - {label: gates, summary: "Theme alone is insufficient without plant execution and commercial evidence."}
+  - id: achr
+    source_file: "ACHR分析.docx"
+    sections:
+      - {label: angle, summary: "Aerospace commercialization through certification, manufacturing readiness, and defense adjacency."}
+      - {label: evidence, summary: "Use FAA stage, manufacturing progress, order counterparties, cash burn, liquidity, and DoD-related evidence."}
+      - {label: gates, summary: "Partner announcements are not revenue proof; certification and runway gates come first."}

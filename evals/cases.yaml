@@ -1,0 +1,110 @@
+version: 1
+cases:
+  - id: ter_public_mature
+    kind: golden
+    prompt: "Analyze TER after earnings and tell me whether valuation is supported by public authoritative sources alone."
+    fixture_bundle: [issuer_filings, issuer_ir, official_calls]
+    expected_archetype: mature
+    required_gates: [source_router, data_sufficiency_note]
+    required_tables: []
+    valuation_expected: allowed_if_cap_structure_verified
+    forbidden_outputs: [corpus_as_fact, technical_analysis, target_price_without_gates]
+  - id: comm_turnaround_debt
+    kind: golden
+    prompt: "Analyze COMM as a turnaround and explain whether valuation is blocked by debt or dilution uncertainty."
+    fixture_bundle: [issuer_filings, issuer_ir, official_calls, debt_disclosures]
+    expected_archetype: turnaround
+    required_gates: [maturity_wall, refi_path, interest_burden, covenant_headroom]
+    required_tables: []
+    valuation_expected: blocked_if_debt_or_dilution_incomplete
+    forbidden_outputs: [technical_analysis, target_price_without_gates]
+  - id: achr_frontier_certification
+    kind: golden
+    prompt: "Analyze ACHR with emphasis on certification, manufacturing readiness, runway, and partner quality."
+    fixture_bundle: [issuer_filings, issuer_ir, faa, dod, partner_disclosures]
+    expected_archetype: frontier
+    required_gates: [certification_status, commercialization_gates, runway, dilution_ladder, partner_quality]
+    required_tables: [commercial_evidence]
+    valuation_expected: blocked_if_partner_claims_not_firm
+    forbidden_outputs: [partner_implies_revenue, technical_analysis]
+  - id: umac_contract_layering
+    kind: golden
+    prompt: "Analyze UMAC and classify each partnership or government-linked relationship by commercial form before discussing valuation."
+    fixture_bundle: [issuer_filings, issuer_ir, faa, partner_disclosures]
+    expected_archetype: frontier
+    required_gates: [commercial_evidence_table, contract_form_taxonomy]
+    required_tables: [commercial_evidence]
+    valuation_expected: only_binding_forms_can_enter_valuation
+    forbidden_outputs: [mou_as_revenue, pilot_as_backlog]
+  - id: sei_capacity_state
+    kind: golden
+    prompt: "Analyze SEI and tag every MW or capacity claim by operational status and monetization state."
+    fixture_bundle: [issuer_filings, issuer_ir, official_calls, customer_disclosures]
+    expected_archetype: mature
+    required_gates: [capacity_status_tags, monetization_status_tags]
+    required_tables: [capacity_milestone]
+    valuation_expected: blocked_for_planned_or_uncontracted_capacity
+    forbidden_outputs: [planned_capacity_as_denominator]
+  - id: iren_valuation_hard_gate
+    kind: golden
+    prompt: "Analyze IREN and include valuation only if dilution stack, debt stack, and terminal-dependent inputs are sufficiently verified."
+    fixture_bundle: [issuer_filings, issuer_ir, partner_disclosures, power_site_disclosures]
+    expected_archetype: frontier
+    required_gates: [capital_structure_gate, terminal_data_gate, scenario_framing_when_blocked]
+    required_tables: [commercial_evidence, capacity_milestone]
+    valuation_expected: blocked_without_full_cap_structure_or_terminal_inputs
+    forbidden_outputs: [target_price_when_blocked, uncontracted_capacity_as_revenue]
+  - id: sofi_fintech_router
+    kind: golden
+    prompt: "Analyze SOFI and require funding stack, credit quality, partner concentration, and deposit dependence before valuation."
+    fixture_bundle: [issuer_filings, bank_disclosures, issuer_ir, official_calls]
+    expected_archetype: platform_fintech
+    required_gates: [funding_stack, credit_quality, partner_concentration, funding_source_dependence]
+    required_tables: []
+    valuation_expected: blocked_if_terminal_comp_inputs_missing
+    forbidden_outputs: [institution_buying_claims, conference_quote_without_source]
+  - id: nutx_healthcare_reimbursement
+    kind: golden
+    prompt: "Analyze NUTX and route reimbursement claims through CMS, HHS, and No Surprises Act or IDR sources."
+    fixture_bundle: [issuer_filings, issuer_ir, official_calls, cms, hhs, no_surprises_act, idr]
+    expected_archetype: mature
+    required_gates: [healthcare_router, policy_sensitivity]
+    required_tables: []
+    valuation_expected: blocked_if_policy_upside_not_supported
+    forbidden_outputs: [policy_upside_as_permanent_fact, technical_analysis]
+  - id: uuuu_resource_policy
+    kind: golden
+    prompt: "Analyze UUUU and require permits, technical reports, realized pricing, processing capacity, and working capital."
+    fixture_bundle: [issuer_filings, technical_reports, usgs, permit_records]
+    expected_archetype: resource_policy
+    required_gates: [permit_path, realized_pricing, processing_capacity, working_capital]
+    required_tables: [commercial_evidence, capacity_milestone]
+    valuation_expected: blocked_if_scarcity_narrative_lacks_execution_support
+    forbidden_outputs: [self_media_as_evidence, technical_analysis]
+  - id: rzlv_corpus_contamination
+    kind: golden
+    prompt: "Analyze RZLV, but ignore self-media, Discord, YouTube, stop-loss language, and technical-analysis sections."
+    fixture_bundle: [issuer_filings, issuer_ir, partner_disclosures, contaminated_self_media]
+    expected_archetype: frontier
+    required_gates: [source_rejection, data_sufficiency_note]
+    required_tables: [commercial_evidence]
+    valuation_expected: blocked_if_commercial_evidence_is_weak
+    forbidden_outputs: [discord_youtube, stop_loss_language, technical_analysis, uncited_numbers]
+  - id: global_non_us_router
+    kind: stress
+    prompt: "Analyze a non-US issuer and verify that the skill uses the correct exchange, filing system, and sector regulator before broader web search."
+    fixture_bundle: [non_us_exchange_filing, issuer_ir, sector_regulator]
+    expected_archetype: depends_on_fixture
+    required_gates: [market_router, sector_router]
+    required_tables: []
+    valuation_expected: depends_on_fixture
+    forbidden_outputs: [generic_other_markets_fallback]
+  - id: conflicting_disclosures
+    kind: stress
+    prompt: "Analyze a company where issuer, regulator, and partner disclosures conflict and explain how the conflict changes confidence and valuation."
+    fixture_bundle: [issuer_filings, regulator_record, partner_disclosure]
+    expected_archetype: depends_on_fixture
+    required_gates: [source_priority, conflict_flagging]
+    required_tables: [commercial_evidence]
+    valuation_expected: blocked_if_conflict_hits_key_inputs
+    forbidden_outputs: [single_source_assertion, secondary_source_override]

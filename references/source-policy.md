@@ -1,6 +1,6 @@
 # Source Policy
 
-Use this file on every stock-analysis task. It defines the required source hierarchy, evidence standards, and source exclusions.
+Use this file on every stock-analysis task. It defines the required source hierarchy, global market routers, sector routers, evidence standards, and source exclusions.
 
 ## Core Rule
 
@@ -12,9 +12,9 @@ Search authoritative online sources first. Do not rely on memory, recycled resea
 
 Use these first whenever available:
 
-- Issuer filings: `10-K`, `10-Q`, `20-F`, `6-K`, `8-K`, annual reports, interim reports, proxy statements, offering documents
-- Issuer IR materials: investor presentations, shareholder letters, earnings releases, official earnings-call transcripts, event transcripts, prepared remarks
-- Exchange or filing-system sources:
+- issuer filings: `10-K`, `10-Q`, `20-F`, `6-K`, `8-K`, annual reports, interim reports, proxy statements, offering documents
+- issuer IR materials: investor presentations, shareholder letters, earnings releases, official earnings-call transcripts, event transcripts, prepared remarks
+- exchange or filing-system sources:
   - `SEC/EDGAR`
   - `SEDAR+`
   - `HKEXnews`
@@ -24,38 +24,24 @@ Use these first whenever available:
 
 ### Tier 2: Regulators, Governments, and Official Counterparties
 
-Use these when the thesis depends on regulation, approvals, contracts, subsidies, or official statistics:
+Use these when the thesis depends on regulation, approvals, contracts, subsidies, permits, procurement, reimbursement, or official statistics:
 
-- General regulators and agencies: competition authorities, banking regulators, healthcare regulators, energy regulators, communications regulators, defense agencies, procurement portals
-- Common sector examples from the corpus:
-  - `FAA`
-  - `FCC`
-  - `NRC`
-  - `DOE`
-  - `CMS`
-  - `HHS`
-  - `DoD`
-  - `USGS`
-  - `IAEA`
-  - `WNA`
-- Official partner or customer disclosures are acceptable when the relationship, contract, or award is material and directly attributable.
+- general regulators and agencies: competition authorities, banking regulators, healthcare regulators, energy regulators, communications regulators, defense agencies, procurement portals
+- official partner or customer disclosures are acceptable when the relationship, contract, or award is material and directly attributable
 
 ### Tier 3: Official Industry and Public Datasets
 
 Use these when the primary published dataset for an industry is maintained by an official or recognized body:
 
-- Government statistical series
-- Recognized industry bodies with attributable methodology
-- Official market operators or exchange-published data
+- government statistical series
+- recognized industry bodies with attributable methodology
+- official market operators or exchange-published data
 
-Use these carefully:
-
-- Treat them as industry context or benchmark inputs.
-- Do not let them override issuer disclosures for company-specific facts.
+Use them as context and benchmark inputs, not as overrides for issuer-specific facts.
 
 ### Tier 4: Secondary Sources
 
-Use only for non-critical context when no primary or official source exists, and label them as secondary.
+Use secondary sources only for non-critical context when no primary or official source exists, and label them as secondary.
 
 Do not use secondary sources for:
 
@@ -67,13 +53,82 @@ Do not use secondary sources for:
 - market-share claims
 - valuation inputs
 
-## Market-Specific Guidance
+## Global Market Routers
 
-- For US issuers, start with `SEC/EDGAR`, the issuer IR site, and sector regulators.
-- For Canadian issuers, start with `SEDAR+`, issuer IR, and relevant provincial or federal regulators.
-- For Hong Kong issuers, start with `HKEXnews`, issuer IR, and market-specific regulators.
-- For mainland China issuers, start with `SSE` or `SZSE`, issuer disclosures, and sector regulators.
-- For other markets, use the local exchange or filing portal before searching broader web sources.
+- US: `SEC/EDGAR`, issuer IR, applicable sector regulators
+- Canada: `SEDAR+`, issuer IR, applicable federal or provincial regulators
+- UK: `LSE` / `RNS`, issuer IR, `FCA` or sector regulators when relevant
+- Australia: `ASX`, issuer IR, sector regulators
+- Japan: `JPX` / `TDnet`, issuer IR, sector regulators
+- Korea: `DART`, issuer IR, sector regulators
+- Hong Kong: `HKEXnews`, issuer IR, sector regulators
+- Mainland China: `SSE` or `SZSE`, issuer disclosures, sector regulators
+- Euronext markets: `Euronext`, issuer IR, applicable national regulators
+- France: `AMF`, issuer IR, sector regulators
+- Germany: `BaFin`, issuer IR, sector regulators
+- India: `NSE` / `BSE`, issuer IR, sector regulators
+- Israel: `TASE`, issuer IR, sector regulators
+- South Africa: `JSE`, issuer IR, sector regulators
+- Other markets: use the applicable exchange, filing system, and sector regulator before broader web search
+
+## Sector Routers
+
+### Energy and Power
+
+Prefer, in order:
+
+- issuer filings and project disclosures
+- `EIA`
+- `FERC`
+- ISO/RTO sources
+- state utility or public utility commission sources
+- official counterparties such as utilities or grid operators
+
+### Government Contracts and Procurement
+
+Prefer, in order:
+
+- issuer filings
+- `SAM.gov`
+- `USASpending`
+- agency procurement, award, or contract notices
+- official counterparty disclosures
+
+### Healthcare Reimbursement and Policy
+
+Prefer, in order:
+
+- issuer filings
+- `CMS`
+- `HHS`
+- `No Surprises Act`
+- `IDR`
+- state insurance or reimbursement regulators
+
+### Mining and Resources
+
+Prefer, in order:
+
+- issuer filings
+- `NI 43-101`
+- `S-K 1300`
+- `USGS`
+- mine, environmental, or permit regulators
+- official project or offtake counterparties
+
+### Aerospace and Satellite
+
+Prefer, in order:
+
+- issuer filings
+- `FAA`
+- `FCC`
+- `ITU`
+- official launch, spectrum, or government counterparties
+
+## Hard Rule for Sector Claims
+
+When a sector-specific official source exists, issuer IR alone is not sufficient for regulatory, reimbursement, procurement, permit, or certification claims.
 
 ## Evidence Standards by Claim Type
 
@@ -109,6 +164,16 @@ Prefer:
 Examples:
 
 - backlog, bookings, utilization, subscribers, shipped units, installed base, visit volume, capacity, production, project pipeline, satellite launches, approvals
+
+### Commercial Relationships
+
+Prefer:
+
+- bilateral disclosures
+- issuer filings that define economic terms
+- regulator or procurement evidence when relevant
+
+Do not assume `partnership`, `pilot`, or `framework` means economic visibility equivalent to orders, backlog, or revenue.
 
 ### Policy, Regulation, and Certification
 

@@ -1,0 +1,54 @@
+version: 1
+claim_gates:
+  data_flywheel:
+    allowed_labels:
+      strong: data_flywheel
+      fallback: scale_effect
+    minimum_evidence:
+      - retention_delta
+      - cross_sell_delta
+      - model_quality_delta
+    disallowed_proxies:
+      - user_growth_only
+      - revenue_growth_only
+      - management_claim_only
+  network_effect:
+    allowed_labels:
+      strong: network_effect
+      fallback: distribution_scale
+    minimum_evidence:
+      - two_sided_liquidity
+      - direct_user_to_user_utility
+    disallowed_proxies:
+      - member_growth_only
+      - lower_marketing_ratio_only
+      - partner_count_only
+  moat:
+    allowed_labels:
+      strong: moat
+      fallback: competitive_advantage_claim
+    minimum_evidence:
+      - switching_cost
+      - exclusive_data_rights
+      - regulatory_barrier
+      - cost_advantage
+    disallowed_proxies:
+      - management_claim_only
+      - third_party_hype_only
+      - market_share_without_barrier
+  platform_claim:
+    allowed_labels:
+      strong: platform
+      fallback: multi_product_distribution
+    minimum_evidence:
+      - multi_surface_distribution
+      - cross_sell_evidence
+      - integration_or_workflow_lockin
+    disallowed_proxies:
+      - product_count_only
+      - brand_narrative_only
+      - user_growth_only
+output_rule:
+  - "If minimum evidence is incomplete, do not state the strong label as fact."
+  - "Downgrade to the fallback label or mark the statement as inference."
+  - "Do not use downgraded semantic claims as valuation support by themselves."

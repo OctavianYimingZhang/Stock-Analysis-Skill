@@ -1,0 +1,14 @@
+id: uuuu-study-and-inventory
+kind: golden
+prompt: "Analyze UUUU and separate study standard, qualification status, and inventory realization."
+fixture_bundle:
+  - "issuer filings"
+  - "technical study excerpt"
+  - "inventory or qualification disclosure"
+expected_archetype: resource_policy
+required_tables: [commercial_evidence_if_offtake_used, capacity_and_milestone_if_processing_capacity_used, regulatory_qualification_legal_gate_if_qualification_is_material]
+required_tags: [study_standard, qualification_status, inventory_realization_status]
+required_source_routes: [issuer_filings, NI43_101_or_SK1300_or_other_official_study_source, permit_or_qualification_source_if_used]
+valuation_expected: blocked_if_study_or_inventory_layering_is_not_investment_grade
+valuation_block_reason: "study_qualification_or_inventory_status_not_valuation_ready"
+forbidden_outputs: [aace_equals_ni43_101_or_sk1300, under_certification_equals_binding_demand, inventory_mark_to_market_as_cash_realization]

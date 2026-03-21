@@ -24,9 +24,9 @@ Use these first whenever available:
 
 ### Tier 2: Regulators, Governments, and Official Counterparties
 
-Use these when the thesis depends on regulation, approvals, contracts, subsidies, permits, procurement, reimbursement, or official statistics:
+Use these when the thesis depends on regulation, approvals, contracts, subsidies, permits, procurement, reimbursement, official statistics, or litigation records.
 
-- general regulators and agencies: competition authorities, banking regulators, healthcare regulators, energy regulators, communications regulators, defense agencies, procurement portals
+- general regulators and agencies: competition authorities, banking regulators, healthcare regulators, energy regulators, communications regulators, defense agencies, procurement portals, courts, and official dockets
 - official partner or customer disclosures are acceptable when the relationship, contract, or award is material and directly attributable
 
 ### Tier 3: Official Industry and Public Datasets
@@ -52,6 +52,7 @@ Do not use secondary sources for:
 - contract terms
 - market-share claims
 - valuation inputs
+- active legal or accounting disputes
 
 ## Global Market Routers
 
@@ -105,6 +106,27 @@ Prefer, in order:
 - `IDR`
 - state insurance or reimbursement regulators
 
+### Telehealth / Consumer Health / Pharmacy
+
+Prefer, in order:
+
+- issuer filings
+- `FDA`
+- `FTC`
+- `DEA` if applicable
+- state medical boards
+- state pharmacy boards
+- telehealth statutes
+- payer or reimbursement rules if relevant
+
+Use this router for:
+
+- prescription and distribution legality
+- pharmacy fulfillment
+- telehealth compliance
+- advertising and consumer-protection issues
+- clinician licensing or cross-state practice
+
 ### Mining and Resources
 
 Prefer, in order:
@@ -126,9 +148,28 @@ Prefer, in order:
 - `ITU`
 - official launch, spectrum, or government counterparties
 
-## Hard Rule for Sector Claims
+### Legal / Accounting Quality
 
-When a sector-specific official source exists, issuer IR alone is not sufficient for regulatory, reimbursement, procurement, permit, or certification claims.
+Prefer, in order:
+
+- `10-K` / `10-Q` legal proceedings, risk factors, and controls
+- `8-K`
+- court docket or `PACER`
+- regulator release
+- issuer commentary
+
+Use this router for:
+
+- active securities litigation
+- restatement or reissuance risk
+- material weakness
+- revenue-recognition challenge
+- legal proceedings that affect management credibility or key adjusted metrics
+
+## Hard Rules for Sector and Legal Claims
+
+- When a sector-specific official source exists, issuer IR alone is not sufficient for regulatory, reimbursement, procurement, permit, certification, or qualification claims.
+- When accounting or litigation issues remain unresolved, any thesis relying on guidance, adjusted EBITDA, FCF, or management credibility must be downgraded.
 
 ## Evidence Standards by Claim Type
 
@@ -175,13 +216,25 @@ Prefer:
 
 Do not assume `partnership`, `pilot`, or `framework` means economic visibility equivalent to orders, backlog, or revenue.
 
-### Policy, Regulation, and Certification
+### Policy, Regulation, Certification, and Qualification
 
 Prefer:
 
 - regulator or agency publications
 - official approval databases
 - company filings that explicitly cite the regulatory event
+- official qualification or testing updates when commercial use depends on them
+
+### Legal and Accounting Quality
+
+Prefer:
+
+- issuer legal-proceedings disclosures
+- internal-control disclosures
+- official court or docket records
+- regulator releases
+
+Do not rely on management commentary alone when active litigation, restatement risk, or material weakness exists.
 
 ### Industry Context
 

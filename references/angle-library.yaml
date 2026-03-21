@@ -4,8 +4,13 @@ defaults:
     - mature
     - frontier
     - turnaround
-    - platform_fintech
+    - consumer_health_platform
+    - b2b_software_platform
+    - digital_bank_or_lender
+    - lending_marketplace
+    - provider_reimbursement
     - resource_policy
+    - industry_chain_context
   contract_form_taxonomy:
     - mou
     - pilot
@@ -25,39 +30,36 @@ defaults:
     - uncontracted
     - partially_contracted
     - contracted
+  study_standard_taxonomy:
+    - ni43_101
+    - sk1300
+    - jorc
+    - pea
+    - pfs
+    - fs
+    - aace_class4
+    - company_presentation
+  qualification_status_taxonomy:
+    - sample_sent
+    - under_certification
+    - qualified
+    - purchase_agreement
+    - recurring_revenue
+  inventory_realization_status_taxonomy:
+    - produced_unsold
+    - contracted_unsold
+    - mark_to_market_only
   required_sections_by_archetype:
-    mature:
-      - business_logic
-      - operating_metrics
-      - customers_channels
-      - orders_backlog
-      - capital_structure
-      - valuation
-      - risks
-    frontier:
-      - certification_status
-      - commercialization_gates
-      - runway
-      - dilution_ladder
-      - partner_quality
-    turnaround:
-      - maturity_wall
-      - refi_path
-      - interest_burden
-      - covenant_headroom
-      - asset_sale_dependency
-    platform_fintech:
-      - funding_stack
-      - credit_quality
-      - partner_concentration
-      - funding_source_dependence
-      - cohort_economics
-    resource_policy:
-      - permit_path
-      - offtake
-      - realized_pricing
-      - processing_capacity
-      - working_capital
+    mature: [business_logic, operating_metrics, customers_channels, orders_backlog, capital_structure, valuation, risks]
+    frontier: [certification_status, commercialization_gates, cash_runway, dilution_ladder, partner_quality]
+    turnaround: [maturity_wall, refi_path, interest_burden, covenant_headroom, asset_sale_dependency]
+    consumer_health_platform: [product_concentration, retention_cross_sell, marketing_efficiency, regulatory_distribution_risk, fulfillment_margin]
+    b2b_software_platform: [customer_concentration, nrr_or_expansion, sbc_and_true_fcf, legal_accounting_quality, data_privacy]
+    digital_bank_or_lender: [funding_stack, asset_liability_sensitivity, credit_quality, capital_ratios, regulatory_status]
+    lending_marketplace: [funding_stack, partner_funding_quality, credit_quality, securitization_dependence, take_rate_or_fee_model]
+    provider_reimbursement: [site_or_facility_economics, reimbursement_mechanics, collections_quality, policy_sensitivity, payer_or_idr_dependency]
+    resource_policy: [permit_path, offtake, realized_pricing, processing_capacity, working_capital]
+    industry_chain_context: [supply_demand_balance, bottleneck_map, policy_catalysts, company_bridge, no_valuation]
   valuation_gates:
     - default_cap_structure
     - no_unverified_denominator
@@ -78,6 +80,9 @@ reports:
     official_sources: [issuer_filings, issuer_ir, official_calls, partner_disclosures]
     commercial_evidence: {required: false, contract_form_taxonomy: default}
     capacity_evidence: {required: true, status_taxonomy: default, monetization_taxonomy: default}
+    study_standard: null
+    qualification_status: null
+    inventory_realization_status: null
     forbidden_inferences: [uncited_ai_demand_extrapolation, unsupported_margin_rerating]
     valuation_gates: [default_cap_structure, no_unverified_denominator]
     red_flags: [technical_analysis, position_language, uncited_numbers]
@@ -90,6 +95,9 @@ reports:
     official_sources: [issuer_filings, usgs, doe, dod, permit_disclosures]
     commercial_evidence: {required: true, contract_form_taxonomy: default}
     capacity_evidence: {required: true, status_taxonomy: default, monetization_taxonomy: default}
+    study_standard: null
+    qualification_status: null
+    inventory_realization_status: null
     forbidden_inferences: [geopolitical_premium_as_fact, unsupported_demand_claims]
     valuation_gates: [default_cap_structure, no_unverified_denominator]
     red_flags: [technical_analysis, institution_buying_claims, uncited_numbers]
@@ -102,6 +110,9 @@ reports:
     official_sources: [issuer_filings, issuer_ir, official_calls, customer_disclosures]
     commercial_evidence: {required: false, contract_form_taxonomy: default}
     capacity_evidence: {required: false, status_taxonomy: default, monetization_taxonomy: default}
+    study_standard: null
+    qualification_status: null
+    inventory_realization_status: null
     forbidden_inferences: [unsupported_pe_expansion, cycle_without_source]
     valuation_gates: [default_cap_structure, no_terminal_target_price]
     red_flags: [technical_analysis, uncited_numbers]
@@ -109,11 +120,14 @@ reports:
     source_file: "Unusual Machines Inc.（UMAC）研究报告 (4).pdf"
     archetype: frontier
     primary_angle: "drone-component commercialization through partner and government channels"
-    required_sections: [commercialization_gates, partner_quality, runway, dilution_ladder, certification_status]
+    required_sections: [commercialization_gates, partner_quality, cash_runway, dilution_ladder, certification_status]
     must_have_metrics: [product_mix, contract_wins, channel_structure, liquidity, regulatory_milestones]
     official_sources: [issuer_filings, sec, official_calls, faa, partner_disclosures]
     commercial_evidence: {required: true, contract_form_taxonomy: default}
     capacity_evidence: {required: false, status_taxonomy: default, monetization_taxonomy: default}
+    study_standard: null
+    qualification_status: null
+    inventory_realization_status: null
     forbidden_inferences: [partnership_implies_revenue, milestone_as_fact]
     valuation_gates: [default_cap_structure, no_unverified_denominator, no_terminal_target_price]
     red_flags: [technical_analysis, self_media, uncited_numbers]
@@ -126,6 +140,9 @@ reports:
     official_sources: [issuer_filings, issuer_ir, official_calls, project_disclosures]
     commercial_evidence: {required: true, contract_form_taxonomy: default}
     capacity_evidence: {required: true, status_taxonomy: default, monetization_taxonomy: default}
+    study_standard: null
+    qualification_status: null
+    inventory_realization_status: null
     forbidden_inferences: [policy_conclusion_without_disclosure, technical_overlay_as_evidence]
     valuation_gates: [default_cap_structure, no_unverified_denominator]
     red_flags: [technical_analysis, position_language, uncited_numbers]
@@ -133,11 +150,14 @@ reports:
     source_file: "T1Energy深度研究报告 (3).pdf"
     archetype: frontier
     primary_angle: "capital-intensive clean-energy manufacturing gated by management and factory execution"
-    required_sections: [commercialization_gates, runway, dilution_ladder, partner_quality, certification_status]
+    required_sections: [commercialization_gates, cash_runway, dilution_ladder, partner_quality, certification_status]
     must_have_metrics: [factory_progress, planned_capacity, capex, financing, incentive_reliance]
     official_sources: [issuer_filings, sec, issuer_ir, management_disclosures, subsidy_disclosures]
     commercial_evidence: {required: false, contract_form_taxonomy: default}
     capacity_evidence: {required: true, status_taxonomy: default, monetization_taxonomy: default}
+    study_standard: null
+    qualification_status: null
+    inventory_realization_status: null
     forbidden_inferences: [policy_subsidy_as_fact, roadmap_as_settled]
     valuation_gates: [default_cap_structure, no_unverified_denominator]
     red_flags: [technical_analysis, uncited_numbers]
@@ -145,23 +165,29 @@ reports:
     source_file: "FuelCell Energy（FCEL）深度研究报告 (6).pdf"
     archetype: frontier
     primary_angle: "commercialization and backlog execution dominate over narrative demand"
-    required_sections: [commercialization_gates, runway, dilution_ladder, partner_quality, certification_status]
+    required_sections: [commercialization_gates, cash_runway, dilution_ladder, partner_quality, certification_status]
     must_have_metrics: [backlog, project_milestones, service_revenue, gross_margin, cash_burn]
     official_sources: [issuer_filings, sec, doe, official_calls, project_disclosures]
     commercial_evidence: {required: true, contract_form_taxonomy: default}
     capacity_evidence: {required: true, status_taxonomy: default, monetization_taxonomy: default}
+    study_standard: null
+    qualification_status: null
+    inventory_realization_status: null
     forbidden_inferences: [narrative_demand_without_orders, profitability_without_filings]
     valuation_gates: [default_cap_structure, no_unverified_denominator]
     red_flags: [technical_analysis, uncited_numbers]
   - id: gdot
     source_file: "GDOT分析Green Dot（GDOT）深度分析报告.pdf"
-    archetype: platform_fintech
-    primary_angle: "fintech platform through segment mix, partner channels, and margin improvement"
-    required_sections: [funding_stack, credit_quality, partner_concentration, funding_source_dependence, cohort_economics]
+    archetype: digital_bank_or_lender
+    primary_angle: "digital bank platform through partner channels and margin improvement"
+    required_sections: [funding_stack, asset_liability_sensitivity, credit_quality, capital_ratios, regulatory_status]
     must_have_metrics: [segment_revenue, account_metrics, partner_concentration, ebitda, cash_generation]
     official_sources: [issuer_filings, issuer_ir, official_calls, bank_regulatory_disclosures]
     commercial_evidence: {required: true, contract_form_taxonomy: default}
     capacity_evidence: {required: false, status_taxonomy: default, monetization_taxonomy: default}
+    study_standard: null
+    qualification_status: null
+    inventory_realization_status: null
     forbidden_inferences: [multi_bagger_without_method, uncited_operating_metrics]
     valuation_gates: [default_cap_structure, no_terminal_target_price]
     red_flags: [technical_analysis, uncited_numbers]
@@ -174,6 +200,9 @@ reports:
     official_sources: [issuer_filings, issuer_ir, official_calls, customer_project_releases]
     commercial_evidence: {required: true, contract_form_taxonomy: default}
     capacity_evidence: {required: true, status_taxonomy: default, monetization_taxonomy: default}
+    study_standard: null
+    qualification_status: null
+    inventory_realization_status: null
     forbidden_inferences: [broad_power_theme_without_orders, target_price_without_support]
     valuation_gates: [default_cap_structure, no_unverified_denominator]
     red_flags: [technical_analysis, target_price_hype, uncited_numbers]
@@ -186,55 +215,70 @@ reports:
     official_sources: [sec, issuer_ir, official_calls, telecom_policy_disclosures]
     commercial_evidence: {required: true, contract_form_taxonomy: default}
     capacity_evidence: {required: false, status_taxonomy: default, monetization_taxonomy: default}
+    study_standard: null
+    qualification_status: null
+    inventory_realization_status: null
     forbidden_inferences: [deleveraging_without_maturity_detail, target_price_without_support]
     valuation_gates: [default_cap_structure, no_terminal_target_price]
     red_flags: [technical_analysis, target_price_hype, uncited_numbers]
   - id: hims
     source_file: "HIMS分析.pptx"
-    archetype: platform_fintech
-    primary_angle: "health platform and personalization flywheel"
-    required_sections: [partner_concentration, cohort_economics, funding_source_dependence, credit_quality, funding_stack]
+    archetype: consumer_health_platform
+    primary_angle: "consumer health platform and personalization flywheel"
+    required_sections: [product_concentration, retention_cross_sell, marketing_efficiency, regulatory_distribution_risk, fulfillment_margin]
     must_have_metrics: [subscriber_growth, personalization_adoption, product_mix, marketing_efficiency, profitability]
-    official_sources: [issuer_filings, issuer_letters, official_calls, product_disclosures]
+    official_sources: [issuer_filings, issuer_letters, official_calls, product_disclosures, fda, ftc, state_medical_boards, state_pharmacy_boards]
     commercial_evidence: {required: false, contract_form_taxonomy: default}
     capacity_evidence: {required: false, status_taxonomy: default, monetization_taxonomy: default}
-    forbidden_inferences: [platform_claim_without_retention, unsourced_peer_multiple]
+    study_standard: null
+    qualification_status: null
+    inventory_realization_status: null
+    forbidden_inferences: [platform_claim_without_retention, moat_without_cross_sell_or_operating_evidence]
     valuation_gates: [default_cap_structure, no_terminal_target_price]
     red_flags: [thin_evidence, uncited_numbers]
   - id: sofi
     source_file: "SOFI (1).pptx"
-    archetype: platform_fintech
-    primary_angle: "rate-sensitive digital finance platform with diversified segments"
-    required_sections: [funding_stack, credit_quality, partner_concentration, funding_source_dependence, cohort_economics]
+    archetype: digital_bank_or_lender
+    primary_angle: "rate-sensitive digital bank with diversified segments"
+    required_sections: [funding_stack, asset_liability_sensitivity, credit_quality, capital_ratios, regulatory_status]
     must_have_metrics: [deposits, nim, member_growth, product_growth, tech_platform_mix]
     official_sources: [issuer_filings, bank_disclosures, issuer_ir, official_calls]
     commercial_evidence: {required: false, contract_form_taxonomy: default}
     capacity_evidence: {required: false, status_taxonomy: default, monetization_taxonomy: default}
+    study_standard: null
+    qualification_status: null
+    inventory_realization_status: null
     forbidden_inferences: [institution_buying_as_fact, loan_growth_without_credit_context]
     valuation_gates: [default_cap_structure, no_terminal_target_price]
     red_flags: [conference_quote_without_transcript, uncited_numbers]
   - id: uranium_chain_1
     source_file: "铀矿及核产业链分析---第一篇 (1).docx"
-    archetype: resource_policy
+    archetype: industry_chain_context
     primary_angle: "uranium and nuclear industry-chain context for stock selection"
-    required_sections: [permit_path, offtake, realized_pricing, processing_capacity, working_capital]
+    required_sections: [supply_demand_balance, bottleneck_map, policy_catalysts, company_bridge, no_valuation]
     must_have_metrics: [supply_demand_balance, reactor_additions, fuel_cycle_bottlenecks, policy_support]
     official_sources: [wna, iaea, doe, nrc, official_energy_datasets]
     commercial_evidence: {required: false, contract_form_taxonomy: default}
     capacity_evidence: {required: false, status_taxonomy: default, monetization_taxonomy: default}
+    study_standard: null
+    qualification_status: null
+    inventory_realization_status: null
     forbidden_inferences: [theme_without_company_bridge, weak_macro_source_reuse]
     valuation_gates: [no_unverified_denominator]
     red_flags: [weak_media, uncited_numbers]
   - id: zeta
     source_file: "ZETA分析.docx"
-    archetype: platform_fintech
+    archetype: b2b_software_platform
     primary_angle: "platform software moat through customer quality, margin inflection, and cash flow"
-    required_sections: [partner_concentration, cohort_economics, funding_source_dependence, credit_quality, funding_stack]
+    required_sections: [customer_concentration, nrr_or_expansion, sbc_and_true_fcf, legal_accounting_quality, data_privacy]
     must_have_metrics: [customer_cohorts, scaled_customers, revenue_growth, adjusted_margins, free_cash_flow]
-    official_sources: [issuer_filings, issuer_ir, official_calls, attributable_gartner_forrester]
+    official_sources: [issuer_filings, issuer_ir, official_calls, attributable_gartner_forrester, legal_proceedings]
     commercial_evidence: {required: false, contract_form_taxonomy: default}
     capacity_evidence: {required: false, status_taxonomy: default, monetization_taxonomy: default}
-    forbidden_inferences: [uncited_tam, uncited_superiority_claims]
+    study_standard: null
+    qualification_status: null
+    inventory_realization_status: null
+    forbidden_inferences: [uncited_tam, uncited_superiority_claims, moat_without_minimum_evidence]
     valuation_gates: [default_cap_structure, no_terminal_target_price]
     red_flags: [target_price_hype, uncited_numbers]
   - id: uuuu
@@ -246,7 +290,10 @@ reports:
     official_sources: [issuer_filings, ni43_101_or_sk1300, usgs, nrc, doe]
     commercial_evidence: {required: true, contract_form_taxonomy: default}
     capacity_evidence: {required: true, status_taxonomy: default, monetization_taxonomy: default}
-    forbidden_inferences: [scarcity_narrative_as_valuation, self_media_as_evidence]
+    study_standard: [sk1300, aace_class4]
+    qualification_status: under_certification
+    inventory_realization_status: produced_unsold
+    forbidden_inferences: [scarcity_narrative_as_valuation, self_media_as_evidence, aace_class4_equals_ni43_101_or_sk1300, under_certification_equals_binding_demand, inventory_mark_to_market_equals_cash_realization]
     valuation_gates: [default_cap_structure, no_unverified_denominator]
     red_flags: [technical_analysis, discord_youtube, stop_loss_language, self_media]
   - id: sei
@@ -258,6 +305,9 @@ reports:
     official_sources: [issuer_filings, issuer_ir, official_calls, customer_disclosures]
     commercial_evidence: {required: true, contract_form_taxonomy: default}
     capacity_evidence: {required: true, status_taxonomy: default, monetization_taxonomy: default}
+    study_standard: null
+    qualification_status: null
+    inventory_realization_status: null
     forbidden_inferences: [straight_line_capacity_to_ebitda, unsupported_utilization]
     valuation_gates: [default_cap_structure, no_unverified_denominator]
     red_flags: [unlabeled_scenario_math, uncited_numbers]
@@ -265,35 +315,44 @@ reports:
     source_file: "RZLV详尽研究报告(3).pdf"
     archetype: frontier
     primary_angle: "enterprise-AI commercialization through partner activation and revenue conversion"
-    required_sections: [commercialization_gates, runway, dilution_ladder, partner_quality, certification_status]
+    required_sections: [commercialization_gates, cash_runway, dilution_ladder, partner_quality, certification_status]
     must_have_metrics: [signed_partners, deployment_milestones, revenue_ramp, commercialization_timing, gross_margin_path]
     official_sources: [issuer_filings, issuer_ir, partner_announcements, product_deployment_disclosures]
     commercial_evidence: {required: true, contract_form_taxonomy: default}
     capacity_evidence: {required: false, status_taxonomy: default, monetization_taxonomy: default}
+    study_standard: null
+    qualification_status: null
+    inventory_realization_status: null
     forbidden_inferences: [commercial_ramp_without_support, self_media_as_evidence]
     valuation_gates: [default_cap_structure, no_terminal_target_price]
     red_flags: [technical_analysis, target_price_hype, discord_youtube, self_media]
   - id: pgy
     source_file: "PGY分析 (3).docx"
-    archetype: platform_fintech
+    archetype: lending_marketplace
     primary_angle: "lending-network platform through underwriting loop and securitization access"
-    required_sections: [funding_stack, credit_quality, partner_concentration, funding_source_dependence, cohort_economics]
+    required_sections: [funding_stack, partner_funding_quality, credit_quality, securitization_dependence, take_rate_or_fee_model]
     must_have_metrics: [application_volume, conversion, abs_issuance, fee_revenue, margins, credit_indicators]
     official_sources: [issuer_filings, issuer_ir, official_calls, abs_filings, ratings_agency_docs]
     commercial_evidence: {required: true, contract_form_taxonomy: default}
     capacity_evidence: {required: false, status_taxonomy: default, monetization_taxonomy: default}
+    study_standard: null
+    qualification_status: null
+    inventory_realization_status: null
     forbidden_inferences: [flywheel_without_kpi_support, comp_table_without_method]
     valuation_gates: [default_cap_structure, no_terminal_target_price]
     red_flags: [uncited_peer_multiples, uncited_numbers]
   - id: nutx
     source_file: "Nutex Health (NUTX) 深度研究报告 (2).pdf"
-    archetype: mature
+    archetype: provider_reimbursement
     primary_angle: "healthcare-services model through facility economics and reimbursement mechanics"
-    required_sections: [business_logic, operating_metrics, customers_channels, capital_structure, valuation, risks]
+    required_sections: [site_or_facility_economics, reimbursement_mechanics, collections_quality, policy_sensitivity, payer_or_idr_dependency]
     must_have_metrics: [facility_count, visit_volume, ipa_membership, reimbursement_collections, margins, cash_conversion]
     official_sources: [issuer_filings, issuer_ir, official_calls, cms, hhs, no_surprises_act, idr]
     commercial_evidence: {required: false, contract_form_taxonomy: default}
     capacity_evidence: {required: false, status_taxonomy: default, monetization_taxonomy: default}
+    study_standard: null
+    qualification_status: null
+    inventory_realization_status: null
     forbidden_inferences: [policy_upside_as_permanent, reimbursement_durability_without_support]
     valuation_gates: [default_cap_structure, no_terminal_target_price]
     red_flags: [technical_analysis, uncited_numbers]
@@ -301,35 +360,44 @@ reports:
     source_file: "IREN分析 (2).docx"
     archetype: frontier
     primary_angle: "transition from legacy mining cash flow into AI cloud and data-center monetization"
-    required_sections: [commercialization_gates, runway, dilution_ladder, partner_quality, certification_status]
+    required_sections: [commercialization_gates, cash_runway, dilution_ladder, partner_quality, certification_status]
     must_have_metrics: [ehs, production, cash_cost, gpu_count, mw, capex_per_mw, financing]
     official_sources: [issuer_filings, issuer_ir, partner_disclosures, power_site_disclosures, financing_docs]
     commercial_evidence: {required: true, contract_form_taxonomy: default}
     capacity_evidence: {required: true, status_taxonomy: default, monetization_taxonomy: default}
+    study_standard: null
+    qualification_status: null
+    inventory_realization_status: null
     forbidden_inferences: [unsupported_sotp, uncontracted_capacity_as_revenue]
     valuation_gates: [default_cap_structure, no_unverified_denominator, no_terminal_target_price]
     red_flags: [btc_price_as_base_case, uncited_numbers]
   - id: inod
     source_file: "INOD分析.docx"
-    archetype: platform_fintech
+    archetype: b2b_software_platform
     primary_angle: "AI-data and enterprise-services mix through recurring revenue and operating leverage"
-    required_sections: [partner_concentration, cohort_economics, funding_source_dependence, credit_quality, funding_stack]
+    required_sections: [customer_concentration, nrr_or_expansion, sbc_and_true_fcf, legal_accounting_quality, data_privacy]
     must_have_metrics: [revenue_mix, customer_concentration, recurring_revenue, margins, cash, debt]
     official_sources: [issuer_filings, issuer_ir, official_calls, customer_disclosures]
     commercial_evidence: {required: true, contract_form_taxonomy: default}
     capacity_evidence: {required: false, status_taxonomy: default, monetization_taxonomy: default}
+    study_standard: null
+    qualification_status: null
+    inventory_realization_status: null
     forbidden_inferences: [customer_name_extrapolation, valuation_jump_without_support]
     valuation_gates: [default_cap_structure, no_terminal_target_price]
     red_flags: [technical_analysis, uncited_numbers]
   - id: dave
     source_file: "DAVE分析.docx"
-    archetype: platform_fintech
+    archetype: digital_bank_or_lender
     primary_angle: "consumer-fintech turnaround through monetization and credit discipline"
-    required_sections: [funding_stack, credit_quality, partner_concentration, funding_source_dependence, cohort_economics]
+    required_sections: [funding_stack, asset_liability_sensitivity, credit_quality, capital_ratios, regulatory_status]
     must_have_metrics: [members, arpu, advance_performance, take_rate, acquisition_efficiency, ebitda]
     official_sources: [issuer_filings, issuer_ir, official_calls, partner_disclosures]
     commercial_evidence: {required: false, contract_form_taxonomy: default}
     capacity_evidence: {required: false, status_taxonomy: default, monetization_taxonomy: default}
+    study_standard: null
+    qualification_status: null
+    inventory_realization_status: null
     forbidden_inferences: [growth_without_credit_context, funding_dependency_ignored]
     valuation_gates: [default_cap_structure, no_terminal_target_price]
     red_flags: [technical_analysis, position_language, uncited_numbers]
@@ -337,11 +405,14 @@ reports:
     source_file: "ASTS分析.docx"
     archetype: frontier
     primary_angle: "frontier communications case driven by regulatory and partner milestones"
-    required_sections: [certification_status, commercialization_gates, runway, dilution_ladder, partner_quality]
+    required_sections: [certification_status, commercialization_gates, cash_runway, dilution_ladder, partner_quality]
     must_have_metrics: [launch_cadence, testing_results, spectrum_milestones, partner_commitments, cash_runway]
     official_sources: [issuer_filings, issuer_ir, fcc, partner_disclosures, spectrum_docs]
     commercial_evidence: {required: true, contract_form_taxonomy: default}
     capacity_evidence: {required: true, status_taxonomy: default, monetization_taxonomy: default}
+    study_standard: null
+    qualification_status: null
+    inventory_realization_status: null
     forbidden_inferences: [milestone_optimism_without_regulator_support, thematic_scarcity_as_valuation]
     valuation_gates: [default_cap_structure, no_unverified_denominator, no_terminal_target_price]
     red_flags: [stop_loss_language, uncited_numbers]
@@ -354,6 +425,9 @@ reports:
     official_sources: [issuer_filings, issuer_ir, nrc, doe, offtake_disclosures]
     commercial_evidence: {required: true, contract_form_taxonomy: default}
     capacity_evidence: {required: true, status_taxonomy: default, monetization_taxonomy: default}
+    study_standard: null
+    qualification_status: null
+    inventory_realization_status: null
     forbidden_inferences: [nuclear_theme_without_execution, target_price_without_support]
     valuation_gates: [default_cap_structure, no_unverified_denominator]
     red_flags: [technical_analysis, institution_buying_claims, uncited_numbers]
@@ -361,11 +435,14 @@ reports:
     source_file: "ACHR分析.docx"
     archetype: frontier
     primary_angle: "aerospace commercialization through certification, manufacturing readiness, and defense adjacency"
-    required_sections: [certification_status, commercialization_gates, runway, dilution_ladder, partner_quality]
+    required_sections: [certification_status, commercialization_gates, cash_runway, dilution_ladder, partner_quality]
     must_have_metrics: [faa_stage, manufacturing_progress, orders_or_counterparties, cash_burn, liquidity]
     official_sources: [issuer_filings, issuer_ir, faa, dod, partner_disclosures]
     commercial_evidence: {required: true, contract_form_taxonomy: default}
     capacity_evidence: {required: true, status_taxonomy: default, monetization_taxonomy: default}
+    study_standard: null
+    qualification_status: null
+    inventory_realization_status: null
     forbidden_inferences: [partner_announcement_implies_revenue, unverified_commercialization_timing]
     valuation_gates: [default_cap_structure, no_unverified_denominator, no_terminal_target_price]
     red_flags: [stop_loss_language, technical_analysis, uncited_numbers]

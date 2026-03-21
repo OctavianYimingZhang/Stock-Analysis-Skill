@@ -1,152 +1,206 @@
 version: 1
-digests:
+digest_policy:
+  runtime_rule: "Read this YAML first; do not reread raw reports unless a digest block is missing."
+  locator_rule: "Use loc_hint by default. Add exact loc only when page or slide positions are already verified."
+  corpus_rule: "This file is for angle selection and anti-pattern filtering only, not factual sourcing."
+reports:
   - id: tsem
     source_file: "TowerSemiconductor深度研究报告 (1).pdf"
+    format: pdf
+    extent: {pages: 11, slides: null, paragraphs: null}
     sections:
-      - {label: angle, summary: "Specialty foundry framed around AI-adjacent analog, image-sensor, and photonics demand."}
-      - {label: evidence, summary: "Track process mix, utilization, customer/program mix, revenue, margins, and capex from issuer materials."}
-      - {label: gates, summary: "Do not reuse rerating logic, position language, or uncited AI-demand extrapolation."}
+      - {label: angle, summary: "Specialty foundry framed around AI-adjacent analog, image-sensor, and photonics demand.", loc_hint: "opening pages"}
+      - {label: evidence, summary: "Track process mix, utilization, customer or program mix, revenue, margins, and capex from issuer materials.", loc_hint: "middle pages"}
+      - {label: gates, summary: "Do not reuse rerating logic, position language, or uncited AI-demand extrapolation.", loc_hint: "closing pages"}
   - id: uamy
     source_file: "UAMY深度研究报告 (3).pdf"
+    format: pdf
+    extent: {pages: 9, slides: null, paragraphs: null}
     sections:
-      - {label: angle, summary: "Critical-minerals and sovereignty thesis built on vertical integration and capacity expansion."}
-      - {label: evidence, summary: "Use production, processing capacity, pricing, permits, and working-capital evidence from filings and official sources."}
-      - {label: gates, summary: "Do not treat geopolitical premium, institution-buying claims, or technical analysis as evidence."}
+      - {label: angle, summary: "Critical-minerals and sovereignty thesis built on vertical integration and capacity expansion.", loc_hint: "opening pages"}
+      - {label: evidence, summary: "Use production, processing capacity, pricing, permits, and working-capital evidence from filings and official sources.", loc_hint: "middle pages"}
+      - {label: gates, summary: "Do not treat geopolitical premium, institution-buying claims, or technical analysis as evidence.", loc_hint: "closing pages"}
   - id: ter
     source_file: "TeradyneInc（TER）深度研究报告.pdf"
+    format: pdf
+    extent: {pages: 6, slides: null, paragraphs: null}
     sections:
-      - {label: angle, summary: "Semiconductor test and automation beneficiary with cycle-driven operating leverage."}
-      - {label: evidence, summary: "Use segment revenue, test demand, robotics mix, margins, EPS, and guidance from issuer sources."}
-      - {label: gates, summary: "Do not reuse unsupported PE expansion or unlabeled cycle assumptions."}
+      - {label: angle, summary: "Semiconductor test and automation beneficiary with cycle-driven operating leverage.", loc_hint: "opening pages"}
+      - {label: evidence, summary: "Use segment revenue, test demand, robotics mix, margins, EPS, and guidance from issuer sources.", loc_hint: "middle pages"}
+      - {label: gates, summary: "Do not reuse unsupported PE expansion or unlabeled cycle assumptions.", loc_hint: "closing pages"}
   - id: umac
     source_file: "Unusual Machines Inc.（UMAC）研究报告 (4).pdf"
+    format: pdf
+    extent: {pages: 24, slides: null, paragraphs: null}
     sections:
-      - {label: angle, summary: "Frontier drone-components story driven by commercialization, contracts, and regulatory milestones."}
-      - {label: evidence, summary: "Use filings, FAA items, partner disclosures, contract form, liquidity, and channel structure."}
-      - {label: gates, summary: "Partnership language is not revenue proof; reject price targets and self-media framing."}
+      - {label: angle, summary: "Frontier drone-components story driven by commercialization, contracts, and regulatory milestones.", loc_hint: "opening pages"}
+      - {label: evidence, summary: "Use filings, FAA items, partner disclosures, contract form, liquidity, and channel structure.", loc_hint: "middle pages"}
+      - {label: gates, summary: "Partnership language is not revenue proof; reject price targets and self-media framing.", loc_hint: "closing pages"}
   - id: csiq
     source_file: "CSIQ分析 (3).docx"
+    format: docx
+    extent: {pages: null, slides: null, paragraphs: 151}
     sections:
-      - {label: angle, summary: "Manufacturing plus project-development split with localization and restructuring as catalysts."}
-      - {label: evidence, summary: "Use shipments, storage deliveries, project pipeline, US capacity, and restructuring disclosures."}
-      - {label: gates, summary: "Do not let technical overlays or policy rhetoric outrun disclosed facts."}
+      - {label: angle, summary: "Manufacturing plus project-development split with localization and restructuring as catalysts.", loc_hint: "opening sections"}
+      - {label: evidence, summary: "Use shipments, storage deliveries, project pipeline, US capacity, and restructuring disclosures.", loc_hint: "middle sections"}
+      - {label: gates, summary: "Do not let technical overlays or policy rhetoric outrun disclosed facts.", loc_hint: "closing sections"}
   - id: t1energy
     source_file: "T1Energy深度研究报告 (3).pdf"
+    format: pdf
+    extent: {pages: 14, slides: null, paragraphs: null}
     sections:
-      - {label: angle, summary: "Clean-energy manufacturing case gated by governance, factory execution, and financing."}
-      - {label: evidence, summary: "Use factory progress, planned capacity, capex, financing, and incentive disclosures."}
-      - {label: gates, summary: "Planned capacity and policy hopes are not valuation-ready denominators."}
+      - {label: angle, summary: "Clean-energy manufacturing case gated by governance, factory execution, and financing.", loc_hint: "opening pages"}
+      - {label: evidence, summary: "Use factory progress, planned capacity, capex, financing, and incentive disclosures.", loc_hint: "middle pages"}
+      - {label: gates, summary: "Planned capacity and policy hopes are not valuation-ready denominators.", loc_hint: "closing pages"}
   - id: fcel
     source_file: "FuelCell Energy（FCEL）深度研究报告 (6).pdf"
+    format: pdf
+    extent: {pages: 22, slides: null, paragraphs: null}
     sections:
-      - {label: angle, summary: "Commercialization and backlog execution matter more than generic clean-energy narrative."}
-      - {label: evidence, summary: "Use backlog, project milestones, service revenue, cash burn, and DOE-linked disclosures."}
-      - {label: gates, summary: "Narrative demand without order evidence does not support valuation."}
+      - {label: angle, summary: "Commercialization and backlog execution matter more than generic clean-energy narrative.", loc_hint: "opening pages"}
+      - {label: evidence, summary: "Use backlog, project milestones, service revenue, cash burn, and DOE-linked disclosures.", loc_hint: "middle pages"}
+      - {label: gates, summary: "Narrative demand without order evidence does not support valuation.", loc_hint: "closing pages"}
   - id: gdot
     source_file: "GDOT分析Green Dot（GDOT）深度分析报告.pdf"
+    format: pdf
+    extent: {pages: 16, slides: null, paragraphs: null}
     sections:
-      - {label: angle, summary: "Fintech or bank-platform analyzed through segment mix, partner channels, and margin improvement."}
-      - {label: evidence, summary: "Use segment revenue, account metrics, partner concentration, EBITDA, and capital structure."}
-      - {label: gates, summary: "Do not reuse multi-bagger claims or uncited operating metrics."}
+      - {label: angle, summary: "Digital bank or fintech analyzed through segment mix, partner channels, and margin improvement.", loc_hint: "opening pages"}
+      - {label: evidence, summary: "Use segment revenue, account metrics, partner concentration, EBITDA, and capital structure.", loc_hint: "middle pages"}
+      - {label: gates, summary: "Do not reuse multi-bagger claims or uncited operating metrics.", loc_hint: "closing pages"}
   - id: bw
     source_file: "BW分析.pdf"
+    format: pdf
+    extent: {pages: 19, slides: null, paragraphs: null}
     sections:
-      - {label: angle, summary: "Installed-base service franchise plus project-risk cleanup in legacy energy and industrial equipment."}
-      - {label: evidence, summary: "Use backlog, service mix, customer project releases, cash flow, and contract form."}
-      - {label: gates, summary: "Broad power-theme claims without attributable orders are not investment-grade."}
+      - {label: angle, summary: "Installed-base service franchise plus project-risk cleanup in legacy energy and industrial equipment.", loc_hint: "opening pages"}
+      - {label: evidence, summary: "Use backlog, service mix, customer project releases, cash flow, and contract form.", loc_hint: "middle pages"}
+      - {label: gates, summary: "Broad power-theme claims without attributable orders are not investment-grade.", loc_hint: "closing pages"}
   - id: comm
     source_file: "COMM分析.docx"
+    format: docx
+    extent: {pages: null, slides: null, paragraphs: 106}
     sections:
-      - {label: angle, summary: "Turnaround through inventory normalization, margin repair, and debt reduction."}
-      - {label: evidence, summary: "Use segment revenue, EBITDA, backlog, debt maturities, interest burden, and asset-sale proceeds."}
-      - {label: gates, summary: "Do not skip maturity detail or refinancing risk when discussing deleveraging."}
+      - {label: angle, summary: "Turnaround through inventory normalization, margin repair, and debt reduction.", loc_hint: "opening sections"}
+      - {label: evidence, summary: "Use segment revenue, EBITDA, backlog, debt maturities, interest burden, and asset-sale proceeds.", loc_hint: "middle sections"}
+      - {label: gates, summary: "Do not skip maturity detail or refinancing risk when discussing deleveraging.", loc_hint: "closing sections"}
   - id: hims
     source_file: "HIMS分析.pptx"
+    format: pptx
+    extent: {pages: null, slides: 10, paragraphs: null}
     sections:
-      - {label: angle, summary: "Healthcare or consumer platform framed as a personalization and data flywheel."}
-      - {label: evidence, summary: "Use subscriber growth, personalization adoption, product mix, marketing efficiency, and profitability."}
-      - {label: gates, summary: "Do not accept platform or moat claims without disclosed retention or operating evidence."}
+      - {label: angle, summary: "Consumer health platform framed through personalization and repeat usage.", loc_hint: "slides 1-2"}
+      - {label: evidence, summary: "Use subscriber growth, personalization adoption, product mix, marketing efficiency, and profitability.", loc_hint: "slides 2 and 10"}
+      - {label: gates, summary: "Do not accept platform, moat, or flywheel claims without retention, cross-sell, or operating evidence.", loc_hint: "slides 2 and 10"}
   - id: sofi
     source_file: "SOFI (1).pptx"
+    format: pptx
+    extent: {pages: null, slides: 10, paragraphs: null}
     sections:
-      - {label: angle, summary: "Digital finance platform driven by deposits, rate sensitivity, and non-lending segment mix."}
-      - {label: evidence, summary: "Use deposits, NIM, member growth, product growth, tech-platform mix, and credit disclosures."}
-      - {label: gates, summary: "Conference remarks or institution-buying claims without source support do not count."}
+      - {label: angle, summary: "Digital bank and lender driven by deposits, rate sensitivity, and non-lending mix.", loc_hint: "slides 1-4"}
+      - {label: evidence, summary: "Use deposits, NIM, member growth, product growth, tech-platform mix, and capital disclosures.", loc_hint: "slides 5-8"}
+      - {label: gates, summary: "Conference remarks or institution-buying claims without source support do not count.", loc_hint: "slides 9-10"}
   - id: uranium_chain_1
     source_file: "铀矿及核产业链分析---第一篇 (1).docx"
+    format: docx
+    extent: {pages: null, slides: null, paragraphs: 53}
     sections:
-      - {label: angle, summary: "Industry-chain context for uranium or nuclear names, not a standalone stock conclusion."}
-      - {label: evidence, summary: "Use official supply-demand, reactor-addition, fuel-cycle, and policy datasets."}
-      - {label: gates, summary: "Theme arguments must bridge back to company-level evidence."}
+      - {label: angle, summary: "Industry-chain context for uranium or nuclear names, not a standalone stock conclusion.", loc_hint: "opening sections"}
+      - {label: evidence, summary: "Use official supply-demand, reactor-addition, fuel-cycle, and policy datasets.", loc_hint: "middle sections"}
+      - {label: gates, summary: "Theme arguments must bridge back to company-level evidence and cannot support valuation alone.", loc_hint: "closing sections"}
   - id: zeta
     source_file: "ZETA分析.docx"
+    format: docx
+    extent: {pages: null, slides: null, paragraphs: 347}
     sections:
-      - {label: angle, summary: "Platform software moat through customer quality, margins, and cash-flow durability."}
-      - {label: evidence, summary: "Use scaled-customer data, growth, margins, FCF, and attributable third-party references."}
-      - {label: gates, summary: "Reject uncited TAM, superiority claims, and DCF outputs without explicit assumptions."}
+      - {label: angle, summary: "B2B software or martech platform through customer quality, margins, and cash-flow durability.", loc_hint: "opening sections"}
+      - {label: evidence, summary: "Use scaled-customer data, growth, margins, FCF, and attributable third-party references.", loc_hint: "middle sections"}
+      - {label: gates, summary: "Reject uncited TAM, superiority claims, weak moat language, and DCF outputs without explicit assumptions.", loc_hint: "closing sections"}
   - id: uuuu
     source_file: "UUUU详尽研究报告.pdf"
+    format: pdf
+    extent: {pages: 20, slides: null, paragraphs: null}
     sections:
-      - {label: angle, summary: "Strategic-materials name through inventory, resource base, permits, and processing capability."}
-      - {label: evidence, summary: "Use filings, technical reports, USGS, permits, production, inventory, and cash needs."}
-      - {label: gates, summary: "Reject self-media, Discord, YouTube, technical analysis, and trade-plan content."}
+      - {label: angle, summary: "Strategic-materials name through inventory, resource base, permits, and processing capability.", loc_hint: "opening pages"}
+      - {label: evidence, summary: "Use filings, technical reports, USGS, permits, production, inventory, qualification status, and cash needs.", loc_hint: "middle pages"}
+      - {label: gates, summary: "Reject self-media, Discord, YouTube, technical analysis, trade plans, and inventory mark-to-market as realized cash.", loc_hint: "closing pages"}
   - id: sei
     source_file: "SEI分析.docx"
+    format: docx
+    extent: {pages: null, slides: null, paragraphs: 53}
     sections:
-      - {label: angle, summary: "Capacity-driven infrastructure or power-services case with financing overlay."}
-      - {label: evidence, summary: "Use deployed capacity, utilization, contract length, backlog, financing structure, and EBITDA."}
-      - {label: gates, summary: "Do not map capacity directly to EBITDA without status, monetization, and contract labels."}
+      - {label: angle, summary: "Capacity-driven power or infrastructure services with financing overlay.", loc_hint: "opening sections"}
+      - {label: evidence, summary: "Use deployed capacity, utilization, contract length, backlog, financing structure, and EBITDA.", loc_hint: "middle sections"}
+      - {label: gates, summary: "Do not map capacity directly to EBITDA without status, monetization, and contract labels.", loc_hint: "closing sections"}
   - id: rzlv
     source_file: "RZLV详尽研究报告(3).pdf"
+    format: pdf
+    extent: {pages: 20, slides: null, paragraphs: null}
     sections:
-      - {label: angle, summary: "Enterprise-AI commercialization thesis built on actual deployment and partner conversion."}
-      - {label: evidence, summary: "Use partner announcements, deployment milestones, revenue ramp evidence, and issuer materials."}
-      - {label: gates, summary: "Reject self-media, technical analysis, and unsupported commercial-ramp assumptions."}
+      - {label: angle, summary: "Enterprise-AI commercialization thesis built on actual deployment and partner conversion.", loc_hint: "opening pages"}
+      - {label: evidence, summary: "Use partner announcements, deployment milestones, revenue ramp evidence, and issuer materials.", loc_hint: "middle pages"}
+      - {label: gates, summary: "Reject self-media, technical analysis, and unsupported commercial-ramp assumptions.", loc_hint: "closing pages"}
   - id: pgy
     source_file: "PGY分析 (3).docx"
+    format: docx
+    extent: {pages: null, slides: null, paragraphs: 137}
     sections:
-      - {label: angle, summary: "Lending-network platform through underwriting loop, ABS access, and ecosystem quality."}
-      - {label: evidence, summary: "Use application volume, conversion, ABS issuance, fee revenue, margins, and credit indicators."}
-      - {label: gates, summary: "Comp tables without method and flywheel claims without KPI support are not usable."}
+      - {label: angle, summary: "Lending marketplace through underwriting loop, ABS access, and ecosystem quality.", loc_hint: "opening sections"}
+      - {label: evidence, summary: "Use application volume, conversion, ABS issuance, fee revenue, margins, and credit indicators.", loc_hint: "middle sections"}
+      - {label: gates, summary: "Comp tables without method and flywheel claims without KPI support are not usable.", loc_hint: "closing sections"}
   - id: nutx
     source_file: "Nutex Health (NUTX) 深度研究报告 (2).pdf"
+    format: pdf
+    extent: {pages: 13, slides: null, paragraphs: null}
     sections:
-      - {label: angle, summary: "Healthcare-services thesis through facility economics and reimbursement mechanics."}
-      - {label: evidence, summary: "Use facility count, visit volume, IPA membership, reimbursement collections, margins, and policy sources."}
-      - {label: gates, summary: "Policy upside and reimbursement durability require official support and should not be treated as permanent."}
+      - {label: angle, summary: "Provider and reimbursement thesis through facility economics and collections quality.", loc_hint: "opening pages"}
+      - {label: evidence, summary: "Use facility count, visit volume, IPA membership, reimbursement collections, margins, and policy sources.", loc_hint: "middle pages"}
+      - {label: gates, summary: "Policy upside and reimbursement durability require official support and should not be treated as permanent.", loc_hint: "closing pages"}
   - id: iren
     source_file: "IREN分析 (2).docx"
+    format: docx
+    extent: {pages: null, slides: null, paragraphs: 86}
     sections:
-      - {label: angle, summary: "Transition from legacy mining to AI cloud and data-center monetization."}
-      - {label: evidence, summary: "Use EH/s, production, cash cost, GPU count, MW, financing, and contract status."}
-      - {label: gates, summary: "Unsupported SOTP or uncontracted capacity cannot support valuation."}
+      - {label: angle, summary: "Transition from legacy mining to AI cloud and data-center monetization.", loc_hint: "opening sections"}
+      - {label: evidence, summary: "Use EH/s, production, cash cost, GPU count, MW, financing, and contract status.", loc_hint: "middle sections"}
+      - {label: gates, summary: "Unsupported SOTP or uncontracted capacity cannot support valuation.", loc_hint: "closing sections"}
   - id: inod
     source_file: "INOD分析.docx"
+    format: docx
+    extent: {pages: null, slides: null, paragraphs: 31}
     sections:
-      - {label: angle, summary: "AI-data and enterprise-services mix through recurring revenue and operating leverage."}
-      - {label: evidence, summary: "Use revenue mix, customer concentration, recurring revenue, margins, cash, and debt."}
-      - {label: gates, summary: "Do not infer customer quality or valuation from name recognition alone."}
+      - {label: angle, summary: "B2B software or data-services mix through recurring revenue and operating leverage.", loc_hint: "opening sections"}
+      - {label: evidence, summary: "Use revenue mix, customer concentration, recurring revenue, margins, cash, and debt.", loc_hint: "middle sections"}
+      - {label: gates, summary: "Do not infer customer quality or moat from name recognition alone.", loc_hint: "closing sections"}
   - id: dave
     source_file: "DAVE分析.docx"
+    format: docx
+    extent: {pages: null, slides: null, paragraphs: 43}
     sections:
-      - {label: angle, summary: "Consumer-fintech turnaround through monetization and credit discipline."}
-      - {label: evidence, summary: "Use members, ARPU, advance-product performance, take rate, acquisition efficiency, and EBITDA."}
-      - {label: gates, summary: "Credit or funding dependency cannot be hand-waved away by growth narrative."}
+      - {label: angle, summary: "Digital lender turnaround through monetization and credit discipline.", loc_hint: "opening sections"}
+      - {label: evidence, summary: "Use members, ARPU, advance-product performance, take rate, acquisition efficiency, and EBITDA.", loc_hint: "middle sections"}
+      - {label: gates, summary: "Credit or funding dependency cannot be hand-waved away by growth narrative.", loc_hint: "closing sections"}
   - id: asts
     source_file: "ASTS分析.docx"
+    format: docx
+    extent: {pages: null, slides: null, paragraphs: 97}
     sections:
-      - {label: angle, summary: "Frontier communications case driven by regulatory, testing, and partner milestones."}
-      - {label: evidence, summary: "Use launch cadence, testing results, spectrum milestones, partner commitments, and runway."}
-      - {label: gates, summary: "Regulatory and commercialization optimism without official support is not valuation evidence."}
+      - {label: angle, summary: "Frontier communications case driven by regulatory, testing, and partner milestones.", loc_hint: "opening sections"}
+      - {label: evidence, summary: "Use launch cadence, testing results, spectrum milestones, partner commitments, and runway.", loc_hint: "middle sections"}
+      - {label: gates, summary: "Regulatory and commercialization optimism without official support is not valuation evidence.", loc_hint: "closing sections"}
   - id: aspi
     source_file: "ASPI分析---核电第二篇.docx"
+    format: docx
+    extent: {pages: null, slides: null, paragraphs: 64}
     sections:
-      - {label: angle, summary: "Specialty nuclear infrastructure thesis through plant progress, offtake, and regulatory gating."}
-      - {label: evidence, summary: "Use plant capacity, production milestones, offtake, capex, financing, and approvals."}
-      - {label: gates, summary: "Theme alone is insufficient without plant execution and commercial evidence."}
+      - {label: angle, summary: "Specialty nuclear infrastructure thesis through plant progress, offtake, and regulatory gating.", loc_hint: "opening sections"}
+      - {label: evidence, summary: "Use plant capacity, production milestones, offtake, capex, financing, and approvals.", loc_hint: "middle sections"}
+      - {label: gates, summary: "Theme alone is insufficient without plant execution and commercial evidence.", loc_hint: "closing sections"}
   - id: achr
     source_file: "ACHR分析.docx"
+    format: docx
+    extent: {pages: null, slides: null, paragraphs: 94}
     sections:
-      - {label: angle, summary: "Aerospace commercialization through certification, manufacturing readiness, and defense adjacency."}
-      - {label: evidence, summary: "Use FAA stage, manufacturing progress, order counterparties, cash burn, liquidity, and DoD-related evidence."}
-      - {label: gates, summary: "Partner announcements are not revenue proof; certification and runway gates come first."}
+      - {label: angle, summary: "Aerospace commercialization through certification, manufacturing readiness, and defense adjacency.", loc_hint: "opening sections"}
+      - {label: evidence, summary: "Use FAA stage, manufacturing progress, order counterparties, cash burn, liquidity, and DoD-related evidence.", loc_hint: "middle sections"}
+      - {label: gates, summary: "Partner announcements are not revenue proof; certification and runway gates come first.", loc_hint: "closing sections"}

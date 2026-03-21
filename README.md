@@ -16,6 +16,7 @@ Codex skill for source-led fundamental stock analysis across global markets.
 - `agents/openai.yaml`: UI metadata
 - `references/angle-library.md`: human-readable angle library
 - `references/angle-library.yaml`: machine-readable angle and gate library
+- `references/claim-gates.yaml`: semantic claim controls for `moat`, `platform`, `data_flywheel`, and `network_effect`
 - `references/report-digests.yaml`: offline section-level digests for the report corpus
 - `references/source-policy.md`: source hierarchy, routers, exclusions, and evidence rules
 - `references/proprietary-data.md`: terminal-data gap handling and hard valuation blocks
@@ -28,16 +29,35 @@ Codex skill for source-led fundamental stock analysis across global markets.
 - Final output follows the user's language when possible
 - Tickers, filing names, and source names remain in their original language
 
+## Archetypes
+
+- `mature`
+- `frontier`
+- `turnaround`
+- `consumer_health_platform`
+- `b2b_software_platform`
+- `digital_bank_or_lender`
+- `lending_marketplace`
+- `provider_reimbursement`
+- `resource_policy`
+- `industry_chain_context`
+
+## Gate Tables
+
+The runtime workflow now uses three mandatory gate tables when relevant:
+
+- `Commercial Evidence Table`
+- `Capacity and Milestone Table`
+- `Regulatory_Qualification_Legal_Gate_Table`
+
 ## Example Prompts
 
 - `Analyze TER after earnings and tell me whether valuation is supported by public sources alone.`
 - `Analyze ACHR and focus on certification, manufacturing readiness, runway, and partner quality.`
 - `Analyze IREN, but block valuation if consensus or dilution-stack inputs are incomplete.`
 - `Analyze UUUU and ignore technical-analysis or self-media material.`
-
-## Non-Investment-Advice Notice
-
-This repository is for source-quality control, analysis structure, and evaluation design. It is not investment advice, not a solicitation, and not a substitute for your own legal, financial, or tax judgment.
+- `Analyze HIMS, but do not call it a flywheel or moat unless retention or cross-sell evidence supports it.`
+- `Analyze uranium-chain context only and force a company bridge before any stock conclusion.`
 
 ## Validation
 
@@ -73,21 +93,7 @@ The eval suite is intended to test gate behavior, source routing, and valuation 
 - `evals/fixtures/`: frozen official-source bundle directories
 - `evals/README.md`: how to review the cases and what each case is asserting
 
-## Contributing
-
-Read `CONTRIBUTING.md` before opening a pull request. The short version:
-
-- keep new claims source-led
-- do not add self-media, technical-analysis, or uncited-number patterns
-- update `evals/` whenever behavior changes
-- keep runtime gates stricter, not looser
-
-## Project Health
-
-- `CONTRIBUTING.md`: contribution rules and review checklist
-- `SECURITY.md`: how to report repository-security issues
-- `.github/ISSUE_TEMPLATE/`: bug report and feature request templates
-- `.github/workflows/validate.yml`: structural and fixture validation on push and pull request
+Current coverage includes commercial layering, capacity-state gating, semantic claim downgrades, legal-accounting quality, industry-chain context-only routing, and resource study or inventory layering.
 
 ## License
 

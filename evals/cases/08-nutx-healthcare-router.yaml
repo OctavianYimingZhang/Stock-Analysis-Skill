@@ -4,7 +4,7 @@ prompt: "Analyze Nutex Health (NUTX)."
 fixture_bundle:
   - "issuer filings"
   - "CMS/HHS/IDR-related official material"
-expected_archetype: resource_policy
+expected_archetype: provider_reimbursement
 required_tables: []
 required_tags: []
 required_source_routes: [issuer_filings, CMS, HHS, No_Surprises_Act_or_IDR_material]

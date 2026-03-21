@@ -5,7 +5,7 @@ fixture_bundle:
   - "issuer filings"
   - "ABS or funding disclosure"
   - "official earnings materials"
-expected_archetype: platform_fintech
+expected_archetype: lending_marketplace
 required_tables: []
 required_tags: []
 required_source_routes: [issuer_filings, issuer_ir, official_funding_documents_if_used]

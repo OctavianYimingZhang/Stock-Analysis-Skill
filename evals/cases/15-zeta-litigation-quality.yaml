@@ -1,0 +1,14 @@
+id: zeta-litigation-quality
+kind: golden
+prompt: "Analyze ZETA and include any legal or accounting-quality risk that changes the thesis."
+fixture_bundle:
+  - "issuer filings"
+  - "legal proceedings or litigation disclosure"
+  - "management commentary"
+expected_archetype: b2b_software_platform
+required_tables: [regulatory_qualification_legal_gate]
+required_tags: [gate_type, economic_dependency]
+required_source_routes: [issuer_filings, legal_accounting_quality]
+valuation_expected: scenario_only_if_litigation_or_accounting_quality_is_unresolved
+valuation_block_reason: "legal_accounting_quality_unresolved"
+forbidden_outputs: [moat_as_fact_without_minimum_evidence, strong_target_price_despite_active_litigation]

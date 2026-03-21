@@ -1,0 +1,14 @@
+id: hims-claim-gate
+kind: golden
+prompt: "Analyze HIMS and tell me whether personalization and platform claims are supported."
+fixture_bundle:
+  - "issuer filings"
+  - "official product or distribution disclosures"
+  - "no explicit retention or cross-sell evidence"
+expected_archetype: consumer_health_platform
+required_tables: [regulatory_qualification_legal_gate_if_distribution_or_approval_is_material]
+required_tags: []
+required_source_routes: [issuer_filings, FDA_or_FTC_or_state_board_if_relevant]
+valuation_expected: scenario_only_if_claim_gates_fail
+valuation_block_reason: "flywheel_or_moat_claim_lacks_minimum_evidence"
+forbidden_outputs: [platform_moat_as_fact_without_retention, technical_analysis, unsourced_peer_multiple]

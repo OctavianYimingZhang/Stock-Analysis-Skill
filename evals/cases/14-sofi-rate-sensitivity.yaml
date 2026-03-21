@@ -1,0 +1,14 @@
+id: sofi-rate-sensitivity
+kind: golden
+prompt: "Analyze SoFi and explain whether lower rates are clearly bullish."
+fixture_bundle:
+  - "issuer filings"
+  - "bank or lender disclosures"
+  - "no complete capital or credit context"
+expected_archetype: digital_bank_or_lender
+required_tables: []
+required_tags: []
+required_source_routes: [issuer_filings, bank_disclosures]
+valuation_expected: blocked_if_funding_credit_or_capital_context_is_missing
+valuation_block_reason: "asset_liability_or_credit_context_incomplete"
+forbidden_outputs: [simple_rate_cut_beneficiary_claim, bank_style_pb_comparison_without_balance_sheet_context, conference_quote_without_transcript]

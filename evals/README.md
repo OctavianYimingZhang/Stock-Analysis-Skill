@@ -7,6 +7,8 @@ These evals test runtime gate behavior for `stock-analysis`.
 - archetype routing
 - commercial evidence layering
 - capacity and milestone tagging
+- regulatory, qualification, and legal gating
+- semantic claim downgrades for moat, flywheel, network effect, and platform language
 - source-router selection
 - valuation blocking logic
 - rejection of forbidden evidence patterns
@@ -25,3 +27,13 @@ These evals test runtime gate behavior for `stock-analysis`.
 ## Review Rule
 
 A case passes only if the output behavior matches the case assertions. If the skill produces a polished answer but violates a gate, the case fails.
+
+## New Coverage Areas
+
+The suite also covers:
+
+- `consumer_health_platform` claim-gate behavior
+- `digital_bank_or_lender` rate-sensitivity gating
+- `b2b_software_platform` legal-accounting quality gating
+- `industry_chain_context` no-valuation behavior
+- `resource_policy` study-standard, qualification-status, and inventory-realization layering

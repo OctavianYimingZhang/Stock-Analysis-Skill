@@ -7,7 +7,7 @@ description: Fundamental stock analysis for public companies using authoritative
 
 ## Overview
 
-Analyze a public company from verified evidence, not from memory or recycled writeups. This skill is gate-driven: it must block weak commercial evidence, untagged capacity claims, incomplete capital-structure work, and terminal-only valuation inputs that the user has not supplied.
+Analyze a public company from verified evidence, not from memory or recycled writeups. This skill is gate-driven: it must block weak commercial evidence, untagged capacity claims, incomplete capital-structure work, unsupported semantic claims such as `moat` or `network effect`, and terminal-only valuation inputs that the user has not supplied.
 
 ## Default Scope
 
@@ -26,14 +26,21 @@ Analyze a public company from verified evidence, not from memory or recycled wri
   - `mature`
   - `frontier`
   - `turnaround`
-  - `platform_fintech`
+  - `consumer_health_platform`
+  - `b2b_software_platform`
+  - `digital_bank_or_lender`
+  - `lending_marketplace`
+  - `provider_reimbursement`
   - `resource_policy`
-- Read [angle-library.md](./references/angle-library.md) for human guidance and [angle-library.yaml](./references/angle-library.yaml) for runtime fields.
+  - `industry_chain_context`
+- Read [angle-library.yaml](./references/angle-library.yaml) first for runtime routing.
+- Read [claim-gates.yaml](./references/claim-gates.yaml) before writing any semantic claim such as `moat`, `platform`, `data flywheel`, or `network effect`.
 - Read [report-digests.yaml](./references/report-digests.yaml) for offline report summaries. Do not reread the raw research corpus at runtime.
+- Read [angle-library.md](./references/angle-library.md) only as human-readable backup context.
 
 ### 2. Build the mandatory gating tables before writing a thesis
 
-Create both tables whenever the stock has commercial claims, milestones, capacity claims, deployments, facilities, fleets, satellites, rigs, GPUs, EH/s, MW, manufacturing lines, project pipelines, or contract language.
+Create these tables whenever the thesis depends on commercial claims, milestones, capacity, regulatory gating, reimbursement, qualification, litigation, or accounting quality.
 
 #### Commercial Evidence Table
 
@@ -65,6 +72,24 @@ Hard rules:
 - `planned`, `ordered`, `under_construction`, or `uncontracted` capacity cannot be used as a valuation denominator.
 - Distinguish physical completion from commercial monetization. `operational` is not the same as `contracted`.
 
+#### Regulatory_Qualification_Legal_Gate_Table
+
+Create this table whenever the thesis depends on certification, permits, reimbursement, qualification, litigation, accounting quality, product approval, telehealth or pharmacy distribution rules, or regulatory distribution.
+
+- `gate`
+- `gate_type`: `regulator | qualification | legal`
+- `authority_or_counterparty`
+- `status`: `not_started | submitted | under_review | approved | qualified | contested`
+- `economic_dependency`: `low | medium | high`
+- `next_observable`
+- `source`
+
+Hard rules:
+
+- `under_review`, `qualified_pending`, and `contested` are not realized economic facts.
+- If `economic_dependency` is `high` and status is not `approved` or `qualified`, downgrade valuation to scenario framing.
+- If active litigation, restatement, material weakness, or revenue-recognition challenge exists, surface it here rather than only in risks.
+
 ### 3. Search authoritative sources first
 
 - Search online before relying on memory.
@@ -78,9 +103,9 @@ Hard rules:
 
 ### 4. Build an evidence ledger
 
-For every material quantitative claim, capture:
+For every material quantitative or semantic claim, capture:
 
-- value
+- value or claim text
 - date or period
 - source
 - source class
@@ -94,21 +119,28 @@ Separate content into four buckets while you work:
 
 Do not let inference or assumptions drift into fact statements.
 
-### 5. Detect proprietary data and capital-structure gaps early
+### 5. Run semantic claim gates before thesis writing
+
+- When the output uses `data_flywheel`, `network_effect`, `moat`, or `platform`, check [claim-gates.yaml](./references/claim-gates.yaml).
+- If the minimum evidence is incomplete, do not state the strong label as fact.
+- Downgrade to the configured fallback label or mark the statement as inference.
+- Do not use downgraded semantic claims as valuation support by themselves.
+
+### 6. Detect proprietary data and capital-structure gaps early
 
 - Before writing valuation, verify the capital structure from authoritative disclosures.
 - Read [proprietary-data.md](./references/proprietary-data.md) whenever valuation, ownership, consensus, peer-multiple, or debt-market work is involved.
 - If the user has not supplied terminal-only data required for peer multiples, valuation bands, or consensus, allow scenario framing only.
 - If fully diluted share count, dilution stack, debt stack, or net-debt bridge is incomplete, block valuation.
 
-### 6. Write the analysis as base structure plus archetype routing
+### 7. Write the analysis as base structure plus archetype routing
 
 Start with a `Data Sufficiency` note:
 
 - what was verified
 - what was inferred
 - what is blocked by missing proprietary data
-- what is blocked by weak commercial or capacity evidence
+- what is blocked by weak commercial, capacity, regulatory, qualification, or legal evidence
 
 Then write the base structure:
 
@@ -139,21 +171,61 @@ Add archetype-specific mandatory sections:
 - covenant headroom
 - asset-sale dependency
 
-#### `platform_fintech`
+#### `consumer_health_platform`
 
-- funding stack
-- credit quality
-- partner concentration
-- ABS, deposit, or funding-source dependence
-- cohort or unit economics
+- product concentration
+- retention_cross_sell
+- marketing_efficiency
+- regulatory_distribution_risk
+- fulfillment_margin
+
+#### `b2b_software_platform`
+
+- customer_concentration
+- nrr_or_expansion
+- sbc_and_true_fcf
+- legal_accounting_quality
+- data_privacy
+
+#### `digital_bank_or_lender`
+
+- funding_stack
+- asset_liability_sensitivity
+- credit_quality
+- capital_ratios
+- regulatory_status
+
+#### `lending_marketplace`
+
+- funding_stack
+- partner_funding_quality
+- credit_quality
+- securitization_dependence
+- take_rate_or_fee_model
+
+#### `provider_reimbursement`
+
+- site_or_facility_economics
+- reimbursement_mechanics
+- collections_quality
+- policy_sensitivity
+- payer_or_idr_dependency
 
 #### `resource_policy`
 
-- permit path
+- permit_path
 - offtake
-- realized pricing
-- processing capacity
-- working capital
+- realized_pricing
+- processing_capacity
+- working_capital
+
+#### `industry_chain_context`
+
+- supply_demand_balance
+- bottleneck_map
+- policy_catalysts
+- company_bridge
+- no_valuation
 
 #### `mature`
 
@@ -174,7 +246,7 @@ In the valuation section, always state:
 - major assumptions
 - source basis for inputs
 
-### 7. Run quality gates before answering
+### 8. Run quality gates before answering
 
 - Reject excluded sources and patterns listed in [source-policy.md](./references/source-policy.md).
 - Do not use technical analysis, chart patterns, position sizing, stop-loss, stop-gain, or trading plans in the main output.
@@ -185,6 +257,7 @@ In the valuation section, always state:
   - the debt stack or net-debt bridge is unverified
   - the denominator depends on `mou`, `pilot`, `framework`, management aspiration, planned capacity, or uncontracted capacity
   - terminal-only consensus or peer data are required and the user has not provided them
+  - `economic_dependency` is `high` and the relevant regulatory, qualification, or legal gate is not `approved` or `qualified`
 - If valuation is blocked, downgrade to scenario framing and ask for the exact missing fields.
 - If evidence is insufficient to verify a claim, leave it out or label it as uncertain.
 
@@ -194,12 +267,14 @@ In the valuation section, always state:
 - Prefer primary and official sources over summaries.
 - Cite the source class for every material figure.
 - State when a conclusion is an inference rather than a disclosed fact.
-- If commercial evidence or capacity status is not investment-grade, block valuation rather than forcing a numeric conclusion.
+- If commercial evidence, capacity status, regulatory status, qualification status, or legal quality is not investment-grade, block valuation rather than forcing a numeric conclusion.
+- `industry_chain_context` may provide context and company bridges only. It cannot produce standalone stock valuation.
 
 ## Reference Files
 
-- Read [angle-library.md](./references/angle-library.md) for human-readable angle guidance.
 - Read [angle-library.yaml](./references/angle-library.yaml) for runtime field-level routing and gates.
-- Read [report-digests.yaml](./references/report-digests.yaml) for offline report digests.
+- Read [claim-gates.yaml](./references/claim-gates.yaml) for semantic claim controls.
+- Read [report-digests.yaml](./references/report-digests.yaml) for offline report digests and locators.
+- Read [angle-library.md](./references/angle-library.md) for human-readable angle guidance.
 - Read [source-policy.md](./references/source-policy.md) for source hierarchy, global market routing, sector routing, and exclusions.
 - Read [proprietary-data.md](./references/proprietary-data.md) whenever valuation or market-data work might depend on terminal-only fields.

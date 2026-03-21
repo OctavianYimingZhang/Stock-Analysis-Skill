@@ -1,0 +1,13 @@
+id: uranium-theme-context-only
+kind: golden
+prompt: "Use uranium industry-chain material to frame the opportunity."
+fixture_bundle:
+  - "official industry datasets"
+  - "no company-specific filing bundle"
+expected_archetype: industry_chain_context
+required_tables: []
+required_tags: []
+required_source_routes: [official_industry_datasets]
+valuation_expected: blocked
+valuation_block_reason: "industry_chain_context_requires_company_bridge_and_no_valuation"
+forbidden_outputs: [stock_specific_thesis_without_company_bridge, standalone_valuation_from_theme_context]

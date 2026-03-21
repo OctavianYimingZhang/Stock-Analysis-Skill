@@ -1,0 +1,13 @@
+id: nutx-healthcare-router
+kind: golden
+prompt: "Analyze Nutex Health (NUTX)."
+fixture_bundle:
+  - "issuer filings"
+  - "CMS/HHS/IDR-related official material"
+expected_archetype: resource_policy
+required_tables: []
+required_tags: []
+required_source_routes: [issuer_filings, CMS, HHS, No_Surprises_Act_or_IDR_material]
+valuation_expected: scenario_only_if_policy_sensitivity_is_high
+valuation_block_reason: "policy-sensitive revenue mechanics not stable enough"
+forbidden_outputs: [policy_upside_as_base_case_fact, technical_analysis]

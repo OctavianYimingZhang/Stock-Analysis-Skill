@@ -1,0 +1,14 @@
+id: iren-valuation-hard-gate
+kind: golden
+prompt: "Analyze IREN and include a valuation view."
+fixture_bundle:
+  - "issuer filings"
+  - "official site or contract disclosures"
+  - "no terminal comp table"
+expected_archetype: frontier
+required_tables: [capacity_and_milestone, commercial_evidence_if_contracts_used]
+required_tags: [status, monetization_status]
+required_source_routes: [issuer_filings, issuer_ir, official_counterparty_if_used]
+valuation_expected: blocked_if_terminal_data_or_cap_structure_is_missing
+valuation_block_reason: "missing debt/dilution stack or terminal-only peer inputs"
+forbidden_outputs: [target_price_without_missing_field_request, uncontracted_capacity_in_denominator]

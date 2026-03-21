@@ -1,0 +1,13 @@
+id: sei-capacity-state
+kind: golden
+prompt: "Analyze SEI with focus on capacity monetization."
+fixture_bundle:
+  - "issuer filing excerpt"
+  - "official project or customer disclosure if used"
+expected_archetype: frontier
+required_tables: [capacity_and_milestone]
+required_tags: [status, monetization_status]
+required_source_routes: [issuer_filings, issuer_ir, official_counterparty_if_used]
+valuation_expected: blocked_if_capacity_is_non_operational_or_uncontracted
+valuation_block_reason: "capacity status not investment-grade"
+forbidden_outputs: [planned_capacity_as_revenue_base, technical_analysis]

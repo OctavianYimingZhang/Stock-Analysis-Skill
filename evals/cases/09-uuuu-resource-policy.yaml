@@ -1,0 +1,14 @@
+id: uuuu-resource-policy
+kind: golden
+prompt: "Analyze Energy Fuels (UUUU)."
+fixture_bundle:
+  - "issuer filings"
+  - "technical report excerpt"
+  - "USGS or permit/regulator source"
+expected_archetype: resource_policy
+required_tables: [commercial_evidence_if_offtake_used, capacity_and_milestone_if_processing_capacity_used]
+required_tags: [status_if_capacity_used]
+required_source_routes: [issuer_filings, NI43_101_or_SK1300, USGS, permit_regulator_if_used]
+valuation_expected: allowed_only_with_realized_or_contract_backed_evidence
+valuation_block_reason: "scarcity narrative alone is insufficient"
+forbidden_outputs: [self_media_as_evidence, technical_analysis, discord_youtube_links]

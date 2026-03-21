@@ -1,0 +1,14 @@
+id: pgy-fintech-funding-stack
+kind: golden
+prompt: "Analyze Pagaya (PGY)."
+fixture_bundle:
+  - "issuer filings"
+  - "ABS or funding disclosure"
+  - "official earnings materials"
+expected_archetype: platform_fintech
+required_tables: []
+required_tags: []
+required_source_routes: [issuer_filings, issuer_ir, official_funding_documents_if_used]
+valuation_expected: blocked_if_terminal_comp_or_consensus_is_missing
+valuation_block_reason: "missing terminal-style comp or consensus inputs"
+forbidden_outputs: [technical_analysis, shallow_growth_story_without_funding_stack]

@@ -1,0 +1,14 @@
+id: global-non-us-router
+kind: stress
+prompt: "Analyze a non-US issuer that requires a market-specific router outside US/Canada/HK/China."
+fixture_bundle:
+  - "official exchange filing"
+  - "issuer IR"
+  - "sector regulator if relevant"
+expected_archetype: varies
+required_tables: []
+required_tags: []
+required_source_routes: [LSE_RNS_or_ASX_or_JPX_TDnet_or_DART_or_TASE_or_JSE]
+valuation_expected: varies
+valuation_block_reason: "depends on evidence quality"
+forbidden_outputs: [generic_web_search_before_market_router]

@@ -1,0 +1,14 @@
+id: conflicting-disclosures
+kind: stress
+prompt: "Analyze a company where issuer disclosure conflicts with partner or media summaries."
+fixture_bundle:
+  - "issuer filing excerpt"
+  - "partner disclosure"
+  - "optional regulator record"
+expected_archetype: varies
+required_tables: [commercial_evidence_if_relationship_is_material]
+required_tags: [source_side]
+required_source_routes: [issuer_filings, official_counterparty, regulator_if_available]
+valuation_expected: blocked_if_conflict_affects_key_denominator
+valuation_block_reason: "material disclosure conflict unresolved"
+forbidden_outputs: [choosing_secondary_summary_over_primary_source, unstated_confidence]

@@ -1,39 +1,27 @@
-# Evals
+# Behavior Regression Evals
 
-This directory holds frozen prompt-plus-fixture regression cases for `stock-analysis`.
+These evals test runtime gate behavior for `stock-analysis`.
 
-## Goal
+## What They Check
 
-Test gate behavior, source routing, archetype routing, and valuation blocking logic. Do not use this suite to score prose quality.
+- archetype routing
+- commercial evidence layering
+- capacity and milestone tagging
+- source-router selection
+- valuation blocking logic
+- rejection of forbidden evidence patterns
 
-## Files
+## What They Do Not Check
 
-- `cases.yaml`: case definitions, fixture bundles, expected archetypes, required gates, and forbidden outputs
+- prose quality
+- formatting preferences
+- live-web freshness
 
-## What Each Case Must Assert
+## Directory Layout
 
-- selected archetype
-- required tables or tags present
-- source router selected correctly
-- valuation allowed or blocked for the correct reason
-- forbidden evidence or trading language absent
+- `cases/`: one YAML file per regression case
+- `fixtures/`: one directory per case family for frozen official-source bundles
 
-## Structural vs Behavior Validation
+## Review Rule
 
-Structural validation:
-
-```bash
-python3 ~/.codex/skills/.system/skill-creator/scripts/quick_validate.py /path/to/stock-analysis
-```
-
-Behavior regression:
-
-- load the fixture bundle for a case
-- run the case prompt through the skill
-- check only the required assertions in `cases.yaml`
-
-## Fixture Guidance
-
-- Prefer frozen official-source excerpts or snapshots over live-web outputs.
-- Include user-provided terminal tables only in cases that explicitly test terminal-data blocking or unblocking.
-- Keep fixtures minimal so failures are easy to localize.
+A case passes only if the output behavior matches the case assertions. If the skill produces a polished answer but violates a gate, the case fails.

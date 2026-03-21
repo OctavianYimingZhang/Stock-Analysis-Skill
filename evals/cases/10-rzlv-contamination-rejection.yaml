@@ -1,0 +1,12 @@
+id: rzlv-contamination-rejection
+kind: golden
+prompt: "Analyze Rezolve AI (RZLV) using the attached self-media PDF."
+fixture_bundle:
+  - "self-media PDF only"
+expected_archetype: frontier
+required_tables: []
+required_tags: []
+required_source_routes: []
+valuation_expected: blocked
+valuation_block_reason: "no authoritative evidence bundle"
+forbidden_outputs: [using_self_media_as_fact, technical_analysis, stop_loss_language, target_price_hype]

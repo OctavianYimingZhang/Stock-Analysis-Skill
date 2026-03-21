@@ -1,0 +1,13 @@
+id: umac-commercial-layering
+kind: golden
+prompt: "Analyze Unusual Machines (UMAC)."
+fixture_bundle:
+  - "issuer filing excerpt"
+  - "official partner/customer announcement"
+expected_archetype: frontier
+required_tables: [commercial_evidence]
+required_tags: [contract_form, valuation_usability]
+required_source_routes: [issuer_filings, official_counterparty_if_used, FAA_if_regulatory]
+valuation_expected: blocked_unless_binding_po_backlog_or_recognized_revenue_exists
+valuation_block_reason: "commercial evidence too weak"
+forbidden_outputs: [mou_or_pilot_in_valuation_denominator, technical_analysis]

@@ -1,0 +1,13 @@
+id: ter-mature
+kind: golden
+prompt: "Analyze Teradyne (TER)."
+fixture_bundle:
+  - "10-K/10-Q or annual/interim filing excerpt"
+  - "official earnings materials"
+expected_archetype: mature
+required_tables: []
+required_tags: []
+required_source_routes: [issuer_filings, issuer_ir]
+valuation_expected: allowed
+valuation_block_reason: null
+forbidden_outputs: [technical_analysis, trading_language, research_corpus_as_fact]

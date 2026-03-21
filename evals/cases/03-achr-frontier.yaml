@@ -1,0 +1,14 @@
+id: achr-frontier
+kind: golden
+prompt: "Analyze Archer Aviation (ACHR)."
+fixture_bundle:
+  - "issuer filings"
+  - "FAA status source"
+  - "official partner or DoD disclosure if used"
+expected_archetype: frontier
+required_tables: [commercial_evidence]
+required_tags: []
+required_source_routes: [issuer_filings, FAA, official_counterparty_if_used]
+valuation_expected: scenario_only_unless_commercial_evidence_is_strong
+valuation_block_reason: "frontier milestones not yet investment-grade"
+forbidden_outputs: [partner_news_equals_revenue, technical_analysis]

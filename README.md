@@ -37,17 +37,37 @@ Codex skill for source-led fundamental stock analysis across global markets.
 
 ## Validation
 
-Structural validation:
+This repository uses two validation layers.
+
+### 1. Structural Validation
+
+Use `quick_validate.py` to confirm the skill folder is well-formed.
 
 ```bash
 python3 ~/.codex/skills/.system/skill-creator/scripts/quick_validate.py /path/to/stock-analysis
 ```
 
-Behavior regression:
+This checks structure only. It does not test runtime behavior.
 
-- read `evals/README.md`
-- run the frozen prompt-plus-fixture cases in `evals/cases.yaml`
-- verify archetype routing, required tables, source routing, valuation blocking, and forbidden-output rejection
+### 2. Behavior Regression
+
+Use the frozen cases under `evals/cases/` with their matching fixture directories under `evals/fixtures/`.
+
+Each case should assert only:
+
+- selected archetype
+- required tables or tags present
+- source router selected correctly
+- valuation allowed or blocked for the correct reason
+- forbidden evidence or trading language absent
+
+The eval suite is intended to test gate behavior, source routing, and valuation blocking logic, not prose style.
+
+## Evals Layout
+
+- `evals/cases/`: YAML case definitions
+- `evals/fixtures/`: frozen official-source bundle directories
+- `evals/README.md`: how to review the cases and what each case is asserting
 
 ## License
 

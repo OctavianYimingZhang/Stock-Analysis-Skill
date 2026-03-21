@@ -1,0 +1,14 @@
+id: comm-turnaround
+kind: golden
+prompt: "Analyze CommScope (COMM) as a turnaround."
+fixture_bundle:
+  - "debt maturity disclosure"
+  - "official earnings materials"
+  - "asset-sale disclosure"
+expected_archetype: turnaround
+required_tables: []
+required_tags: []
+required_source_routes: [issuer_filings, issuer_ir]
+valuation_expected: blocked_if_missing_debt_or_dilution_stack
+valuation_block_reason: "unverified debt stack or dilution stack"
+forbidden_outputs: [target_price_without_capital_structure, technical_analysis]

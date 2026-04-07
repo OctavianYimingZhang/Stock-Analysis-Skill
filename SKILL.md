@@ -249,7 +249,8 @@ In the valuation section, always state:
 ### 8. Run quality gates before answering
 
 - Reject excluded sources and patterns listed in [source-policy.md](./references/source-policy.md).
-- Do not use technical analysis, chart patterns, position sizing, stop-loss, stop-gain, or trading plans in the main output.
+- Do not use technical analysis, chart patterns, or Wyckoff phase labels in the fundamental-analysis body (sections 1–7). Technical analysis is confined to the dedicated §9 Technical Structure Assessment appendix.
+- Do not use position sizing, stop-loss, stop-gain, or trading plans anywhere in the output.
 - Do not output a target price unless the user explicitly asks for one and the valuation section clears all hard gates.
 - Block valuation if:
   - fully diluted share count is unverified
@@ -260,6 +261,138 @@ In the valuation section, always state:
   - `economic_dependency` is `high` and the relevant regulatory, qualification, or legal gate is not `approved` or `qualified`
 - If valuation is blocked, downgrade to scenario framing and ask for the exact missing fields.
 - If evidence is insufficient to verify a claim, leave it out or label it as uncertain.
+
+### 9. Technical Structure Assessment (Appendix)
+
+After the fundamental analysis body is complete, append a **Technical Structure Assessment** section. This section is supplementary context only — it cannot override fundamental conclusions, block or unblock valuation, or serve as a standalone investment thesis.
+
+Skip this section entirely for `industry_chain_context` archetype, pre-IPO targets, or SPACs that have not completed de-SPAC.
+
+Read [technical-analysis-framework.md](./references/technical-analysis-framework.md) for detailed methodology guidance.
+
+#### Scope and Data Requirements
+
+- Use publicly available price and volume data only (daily and weekly timeframes).
+- State the observation date and data source (exchange data, Yahoo Finance, etc.).
+- Do not fabricate price levels or volume figures. If real-time data is unavailable, state so and skip this section.
+
+#### Three-Layer Analysis Framework
+
+The technical assessment integrates three complementary methodologies. All three layers must be addressed in order.
+
+##### Layer 1: Trend Structure and Key Levels (Murphy)
+
+Identify the current trend regime using Dow Theory and classical trend analysis principles:
+
+| Field | Description |
+|-------|-------------|
+| `primary_trend` | `uptrend` / `downtrend` / `sideways` — based on sequence of higher highs/higher lows or lower highs/lower lows on weekly chart |
+| `secondary_trend` | `uptrend` / `downtrend` / `sideways` — intermediate correction or rally within the primary trend on daily chart |
+| `trend_maturity` | `early` / `middle` / `late` — based on Dow Theory three-phase model (accumulation phase → public participation phase → distribution/excess phase) |
+| `key_support_levels` | Up to 3 price levels where prior troughs, consolidation bases, or high-volume nodes provide demand |
+| `key_resistance_levels` | Up to 3 price levels where prior peaks, consolidation ceilings, or high-volume nodes provide supply |
+| `ma_structure` | Relative position of price vs. 50-day and 200-day moving averages; whether 50MA is above or below 200MA (golden cross / death cross) |
+| `chart_pattern` | If a classical pattern is identifiable (head & shoulders, double top/bottom, triangle, flag, wedge, cup & handle), name it and state completion status: `forming` / `confirmed` / `failed` |
+
+Hard rules:
+
+- A trend is defined by successive peaks and troughs, not by a single price move.
+- Moving average signals are confirming indicators, not primary trend determinants.
+- Chart patterns require volume confirmation: breakouts on rising volume are valid; breakouts on declining volume are suspect.
+- Support and resistance are zones, not exact prices. State levels as approximate ranges when appropriate.
+
+##### Layer 2: Volume-Price Analysis and Market Phase (Wyckoff)
+
+Assess the supply/demand dynamics and identify the current Wyckoff market phase:
+
+| Field | Description |
+|-------|-------------|
+| `wyckoff_phase` | `accumulation` / `markup` / `distribution` / `markdown` / `re-accumulation` / `re-distribution` |
+| `phase_evidence` | Specific price-volume behaviors that support the phase classification (see checklist below) |
+| `effort_vs_result` | Whether volume (effort) is producing proportional price movement (result), or whether divergence exists |
+| `composite_man_read` | Inferred smart-money behavior based on volume at key price levels: is institutional activity consistent with accumulation or distribution? |
+| `spring_upthrust` | Whether a Spring (false breakdown below support in accumulation) or Upthrust (false breakout above resistance in distribution) has occurred: `none` / `suspected` / `confirmed` |
+
+Wyckoff Phase Identification Checklist:
+
+**Accumulation signs:**
+
+- Preliminary Support (PS): first significant buying after prolonged decline, with volume increase
+- Selling Climax (SC): sharp price drop on heavy volume, marking potential bottom
+- Automatic Rally (AR): bounce after SC with declining volume
+- Secondary Test (ST): price revisits SC area on lighter volume
+- Spring: brief dip below trading range support on low volume, followed by strong recovery
+- Sign of Strength (SOS): price advances on expanding volume above resistance
+- Last Point of Support (LPS): pullback on declining volume before markup phase
+
+**Distribution signs:**
+
+- Preliminary Supply (PSY): first significant selling after prolonged advance, with volume increase
+- Buying Climax (BC): sharp price spike on heavy volume, marking potential top
+- Automatic Reaction (AR): decline after BC
+- Secondary Test (ST): price revisits BC area on lighter volume
+- Upthrust (UT): brief move above trading range resistance on low volume, followed by reversal
+- Sign of Weakness (SOW): price declines on expanding volume below support
+- Last Point of Supply (LPSY): weak rally on declining volume before markdown phase
+
+Hard rules:
+
+- Wyckoff phases are interpretive frameworks, not guaranteed predictors. State confidence level: `high` / `moderate` / `low`.
+- Effort vs. Result divergence is meaningful only at key support/resistance levels, not in mid-trend.
+- The three Wyckoff laws must be referenced: (1) Supply and Demand determines price direction; (2) Cause and Effect — the trading range duration and width forecast the magnitude of the subsequent move; (3) Effort vs. Result — volume should confirm price movement.
+
+##### Layer 3: Candlestick Pattern Recognition (Nison)
+
+Identify significant candlestick patterns on the daily and weekly charts:
+
+| Field | Description |
+|-------|-------------|
+| `daily_patterns` | List of significant patterns observed in the last 20 trading days, with date and pattern name |
+| `weekly_patterns` | List of significant patterns observed in the last 8 weeks |
+| `pattern_context` | Whether the pattern appears at a significant technical level (support, resistance, MA, or trendline) — patterns at random locations are low-signal |
+| `confirmation_status` | Whether the pattern has been confirmed by subsequent price action: `pending` / `confirmed` / `failed` |
+
+Pattern Classification (priority order):
+
+**Reversal patterns (high priority when at key levels):**
+
+- Single-candle: Hammer, Inverted Hammer, Hanging Man, Shooting Star, Doji (at extremes)
+- Two-candle: Bullish/Bearish Engulfing, Piercing Line, Dark Cloud Cover, Tweezer Top/Bottom
+- Three-candle: Morning Star, Evening Star, Three White Soldiers, Three Black Crows, Abandoned Baby
+
+**Continuation patterns:**
+
+- Rising/Falling Three Methods, Tasuki Gap, Side-by-Side White Lines
+
+**Indecision patterns:**
+
+- Doji (at mid-range), Spinning Top, High Wave Candle
+
+Hard rules:
+
+- A candlestick pattern is meaningful only when it appears at a key technical level (support, resistance, trendline, or moving average). Patterns in the middle of a range are noise.
+- Reversal patterns require confirmation from the next candle(s). An unconfirmed pattern is labeled `pending`.
+- Engulfing patterns and Morning/Evening Stars have higher reliability than single-candle patterns.
+- Weekly patterns carry more weight than daily patterns.
+- Combine with volume: a hammer on high volume is stronger than one on low volume.
+
+#### Synthesis: Technical Structure Summary
+
+After completing all three layers, produce a brief synthesis:
+
+| Field | Value |
+|-------|-------|
+| `technical_posture` | `bullish` / `cautiously_bullish` / `neutral` / `cautiously_bearish` / `bearish` |
+| `trend_volume_alignment` | `aligned` (trend and volume confirm each other) or `divergent` (volume contradicts trend) |
+| `phase_trend_consistency` | Whether Wyckoff phase and Murphy trend classification are consistent |
+| `key_inflection` | The single most important price level to watch, with rationale |
+| `candlestick_signal` | The strongest candlestick signal observed, if any, with its location context |
+
+#### Technical Structure Disclaimer
+
+Always end this section with:
+
+> This technical structure assessment is supplementary to the fundamental analysis above. It reflects historical price-volume patterns and does not predict future prices. Technical context should be used alongside — never in place of — fundamental, financial, and regulatory due diligence. This is not investment advice and does not constitute a trading recommendation.
 
 ## Output Rules
 
@@ -278,3 +411,4 @@ In the valuation section, always state:
 - Read [angle-library.md](./references/angle-library.md) for human-readable angle guidance.
 - Read [source-policy.md](./references/source-policy.md) for source hierarchy, global market routing, sector routing, and exclusions.
 - Read [proprietary-data.md](./references/proprietary-data.md) whenever valuation or market-data work might depend on terminal-only fields.
+- Read [technical-analysis-framework.md](./references/technical-analysis-framework.md) when writing the §9 Technical Structure Assessment appendix.

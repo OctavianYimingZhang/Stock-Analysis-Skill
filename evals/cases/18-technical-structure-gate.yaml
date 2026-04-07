@@ -1,0 +1,71 @@
+id: technical-structure-gate
+title: "Technical Structure Assessment — §9 appendix behavior"
+description: >
+  Validates that the Technical Structure Assessment appendix (§9) appears
+  after the fundamental body, does not leak into the fundamental body,
+  uses the three-layer framework (Murphy → Wyckoff → Nison), and respects
+  archetype skip rules.
+
+fixture_dir: fixtures/ter
+
+input:
+  ticker: TER
+  archetype: mature
+  user_request: "Analyze Teradyne"
+
+assertions:
+  # §9 appears after fundamental body
+  - type: section_order
+    rule: "Technical Structure Assessment section appears after Risks section"
+
+  # §9 three-layer structure
+  - type: section_present
+    sections:
+      - "Trend Structure and Key Levels"
+      - "Volume-Price Analysis and Market Phase"
+      - "Candlestick Pattern Recognition"
+      - "Technical Structure Summary"
+      - "Technical Structure Disclaimer"
+
+  # No TA in fundamental body
+  - type: forbidden_in_section
+    sections: ["Core thesis", "Business model", "Operating metrics", "Valuation", "Risks"]
+    patterns:
+      - "wyckoff_phase"
+      - "accumulation"
+      - "distribution"
+      - "candlestick"
+      - "golden cross"
+      - "death cross"
+      - "hammer"
+      - "engulfing"
+      - "morning star"
+      - "evening star"
+
+  # No position sizing or trading plans anywhere
+  - type: forbidden_everywhere
+    patterns:
+      - "stop.loss"
+      - "stop.gain"
+      - "take.profit"
+      - "position.siz"
+      - "risk.reward.ratio"
+      - "entry.point"
+      - "exit.point"
+
+  # Technical posture does not override valuation
+  - type: logical_gate
+    rule: "If valuation is blocked by fundamental gates, technical_posture does not unblock it"
+
+  # Disclaimer present
+  - type: text_present
+    text: "This technical structure assessment is supplementary"
+
+  # Skip for industry_chain_context
+  - type: archetype_skip
+    archetype: industry_chain_context
+    rule: "§9 Technical Structure Assessment is not present"
+
+notes:
+  - "Use TER as the golden case since it is a liquid mature stock with ample price/volume history"
+  - "The assertion set validates isolation, structure, and safety — not prose quality"

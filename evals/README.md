@@ -37,3 +37,4 @@ The suite also covers:
 - `b2b_software_platform` legal-accounting quality gating
 - `industry_chain_context` no-valuation behavior
 - `resource_policy` study-standard, qualification-status, and inventory-realization layering
+- §9 Technical Structure Assessment appendix isolation, three-layer structure, and archetype skip rules

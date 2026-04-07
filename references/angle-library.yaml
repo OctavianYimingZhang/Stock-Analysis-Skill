@@ -65,11 +65,21 @@ defaults:
     - no_unverified_denominator
     - no_terminal_target_price
   red_flags:
-    - technical_analysis
+    - technical_analysis_in_fundamental_body
     - self_media
     - discord_youtube
     - stop_loss_language
     - uncited_numbers
+  technical_context:
+    default_behavior: append_section_9
+    skip_when:
+      - industry_chain_context
+      - pre_ipo
+      - spac_without_de_spac
+    methodology_layers:
+      - murphy_trend_structure
+      - wyckoff_volume_price
+      - nison_candlestick
 reports:
   - id: tsem
     source_file: "TowerSemiconductor深度研究报告 (1).pdf"
@@ -85,7 +95,7 @@ reports:
     inventory_realization_status: null
     forbidden_inferences: [uncited_ai_demand_extrapolation, unsupported_margin_rerating]
     valuation_gates: [default_cap_structure, no_unverified_denominator]
-    red_flags: [technical_analysis, position_language, uncited_numbers]
+    red_flags: [technical_analysis_in_fundamental_body, position_language, uncited_numbers]
   - id: uamy
     source_file: "UAMY深度研究报告 (3).pdf"
     archetype: resource_policy
@@ -100,7 +110,7 @@ reports:
     inventory_realization_status: null
     forbidden_inferences: [geopolitical_premium_as_fact, unsupported_demand_claims]
     valuation_gates: [default_cap_structure, no_unverified_denominator]
-    red_flags: [technical_analysis, institution_buying_claims, uncited_numbers]
+    red_flags: [technical_analysis_in_fundamental_body, institution_buying_claims, uncited_numbers]
   - id: ter
     source_file: "TeradyneInc（TER）深度研究报告.pdf"
     archetype: mature
@@ -115,7 +125,7 @@ reports:
     inventory_realization_status: null
     forbidden_inferences: [unsupported_pe_expansion, cycle_without_source]
     valuation_gates: [default_cap_structure, no_terminal_target_price]
-    red_flags: [technical_analysis, uncited_numbers]
+    red_flags: [technical_analysis_in_fundamental_body, uncited_numbers]
   - id: umac
     source_file: "Unusual Machines Inc.（UMAC）研究报告 (4).pdf"
     archetype: frontier
@@ -130,7 +140,7 @@ reports:
     inventory_realization_status: null
     forbidden_inferences: [partnership_implies_revenue, milestone_as_fact]
     valuation_gates: [default_cap_structure, no_unverified_denominator, no_terminal_target_price]
-    red_flags: [technical_analysis, self_media, uncited_numbers]
+    red_flags: [technical_analysis_in_fundamental_body, self_media, uncited_numbers]
   - id: csiq
     source_file: "CSIQ分析 (3).docx"
     archetype: mature
@@ -145,7 +155,7 @@ reports:
     inventory_realization_status: null
     forbidden_inferences: [policy_conclusion_without_disclosure, technical_overlay_as_evidence]
     valuation_gates: [default_cap_structure, no_unverified_denominator]
-    red_flags: [technical_analysis, position_language, uncited_numbers]
+    red_flags: [technical_analysis_in_fundamental_body, position_language, uncited_numbers]
   - id: t1energy
     source_file: "T1Energy深度研究报告 (3).pdf"
     archetype: frontier
@@ -160,7 +170,7 @@ reports:
     inventory_realization_status: null
     forbidden_inferences: [policy_subsidy_as_fact, roadmap_as_settled]
     valuation_gates: [default_cap_structure, no_unverified_denominator]
-    red_flags: [technical_analysis, uncited_numbers]
+    red_flags: [technical_analysis_in_fundamental_body, uncited_numbers]
   - id: fcel
     source_file: "FuelCell Energy（FCEL）深度研究报告 (6).pdf"
     archetype: frontier
@@ -175,7 +185,7 @@ reports:
     inventory_realization_status: null
     forbidden_inferences: [narrative_demand_without_orders, profitability_without_filings]
     valuation_gates: [default_cap_structure, no_unverified_denominator]
-    red_flags: [technical_analysis, uncited_numbers]
+    red_flags: [technical_analysis_in_fundamental_body, uncited_numbers]
   - id: gdot
     source_file: "GDOT分析Green Dot（GDOT）深度分析报告.pdf"
     archetype: digital_bank_or_lender
@@ -190,7 +200,7 @@ reports:
     inventory_realization_status: null
     forbidden_inferences: [multi_bagger_without_method, uncited_operating_metrics]
     valuation_gates: [default_cap_structure, no_terminal_target_price]
-    red_flags: [technical_analysis, uncited_numbers]
+    red_flags: [technical_analysis_in_fundamental_body, uncited_numbers]
   - id: bw
     source_file: "BW分析.pdf"
     archetype: turnaround
@@ -205,7 +215,7 @@ reports:
     inventory_realization_status: null
     forbidden_inferences: [broad_power_theme_without_orders, target_price_without_support]
     valuation_gates: [default_cap_structure, no_unverified_denominator]
-    red_flags: [technical_analysis, target_price_hype, uncited_numbers]
+    red_flags: [technical_analysis_in_fundamental_body, target_price_hype, uncited_numbers]
   - id: comm
     source_file: "COMM分析.docx"
     archetype: turnaround
@@ -220,7 +230,7 @@ reports:
     inventory_realization_status: null
     forbidden_inferences: [deleveraging_without_maturity_detail, target_price_without_support]
     valuation_gates: [default_cap_structure, no_terminal_target_price]
-    red_flags: [technical_analysis, target_price_hype, uncited_numbers]
+    red_flags: [technical_analysis_in_fundamental_body, target_price_hype, uncited_numbers]
   - id: hims
     source_file: "HIMS分析.pptx"
     archetype: consumer_health_platform
@@ -295,7 +305,7 @@ reports:
     inventory_realization_status: produced_unsold
     forbidden_inferences: [scarcity_narrative_as_valuation, self_media_as_evidence, aace_class4_equals_ni43_101_or_sk1300, under_certification_equals_binding_demand, inventory_mark_to_market_equals_cash_realization]
     valuation_gates: [default_cap_structure, no_unverified_denominator]
-    red_flags: [technical_analysis, discord_youtube, stop_loss_language, self_media]
+    red_flags: [technical_analysis_in_fundamental_body, discord_youtube, stop_loss_language, self_media]
   - id: sei
     source_file: "SEI分析.docx"
     archetype: mature
@@ -325,7 +335,7 @@ reports:
     inventory_realization_status: null
     forbidden_inferences: [commercial_ramp_without_support, self_media_as_evidence]
     valuation_gates: [default_cap_structure, no_terminal_target_price]
-    red_flags: [technical_analysis, target_price_hype, discord_youtube, self_media]
+    red_flags: [technical_analysis_in_fundamental_body, target_price_hype, discord_youtube, self_media]
   - id: pgy
     source_file: "PGY分析 (3).docx"
     archetype: lending_marketplace
@@ -355,7 +365,7 @@ reports:
     inventory_realization_status: null
     forbidden_inferences: [policy_upside_as_permanent, reimbursement_durability_without_support]
     valuation_gates: [default_cap_structure, no_terminal_target_price]
-    red_flags: [technical_analysis, uncited_numbers]
+    red_flags: [technical_analysis_in_fundamental_body, uncited_numbers]
   - id: iren
     source_file: "IREN分析 (2).docx"
     archetype: frontier
@@ -385,7 +395,7 @@ reports:
     inventory_realization_status: null
     forbidden_inferences: [customer_name_extrapolation, valuation_jump_without_support]
     valuation_gates: [default_cap_structure, no_terminal_target_price]
-    red_flags: [technical_analysis, uncited_numbers]
+    red_flags: [technical_analysis_in_fundamental_body, uncited_numbers]
   - id: dave
     source_file: "DAVE分析.docx"
     archetype: digital_bank_or_lender
@@ -400,7 +410,7 @@ reports:
     inventory_realization_status: null
     forbidden_inferences: [growth_without_credit_context, funding_dependency_ignored]
     valuation_gates: [default_cap_structure, no_terminal_target_price]
-    red_flags: [technical_analysis, position_language, uncited_numbers]
+    red_flags: [technical_analysis_in_fundamental_body, position_language, uncited_numbers]
   - id: asts
     source_file: "ASTS分析.docx"
     archetype: frontier
@@ -430,7 +440,7 @@ reports:
     inventory_realization_status: null
     forbidden_inferences: [nuclear_theme_without_execution, target_price_without_support]
     valuation_gates: [default_cap_structure, no_unverified_denominator]
-    red_flags: [technical_analysis, institution_buying_claims, uncited_numbers]
+    red_flags: [technical_analysis_in_fundamental_body, institution_buying_claims, uncited_numbers]
   - id: achr
     source_file: "ACHR分析.docx"
     archetype: frontier
@@ -445,4 +455,4 @@ reports:
     inventory_realization_status: null
     forbidden_inferences: [partner_announcement_implies_revenue, unverified_commercialization_timing]
     valuation_gates: [default_cap_structure, no_unverified_denominator, no_terminal_target_price]
-    red_flags: [stop_loss_language, technical_analysis, uncited_numbers]
+    red_flags: [stop_loss_language, technical_analysis_in_fundamental_body, uncited_numbers]

@@ -148,6 +148,28 @@ Prefer, in order:
 - `ITU`
 - official launch, spectrum, or government counterparties
 
+### Data Center and Power Infrastructure
+
+Prefer, in order:
+
+- issuer filings and project disclosures
+- `PJM`, `ERCOT`, `CAISO`, or applicable ISO/RTO
+- `NERC`
+- `DOE`
+- state utility or public utility commission sources
+- grid operator or utility counterparty disclosures
+
+### Satellite and Space Communications
+
+Prefer, in order:
+
+- issuer filings
+- `FCC`
+- `ITU`
+- `FAA`
+- `NOAA` or `NASA` when relevant
+- official spectrum, launch, or government counterparty disclosures
+
 ### Legal / Accounting Quality
 
 Prefer, in order:
@@ -283,25 +305,43 @@ Do not rely on:
 - unsourced charts
 - copied numbers without attribution
 
-Do not use these patterns as evidence:
+Do not use these patterns as evidence in the fundamental-analysis body (§1–§7):
 
-- technical analysis
-- chart patterns
-- stop-loss or take-profit plans
-- position sizing
+- technical analysis (confined to §9 Technical Structure Assessment only)
+- chart patterns (confined to §9 Technical Structure Assessment only)
+- stop-loss or take-profit plans (forbidden everywhere)
+- position sizing (forbidden everywhere)
 - "institutions are buying"
 - "the stock should double"
 - uncited TAM claims
 - uncited management quotes
 - uncited peer multiples
 
+### Technical Analysis Data Sources (§9 Only)
+
+The §9 Technical Structure Assessment appendix may reference the following for price and volume:
+
+**Acceptable:**
+
+- Exchange-provided historical OHLCV data
+- Yahoo Finance, Google Finance (price/volume only)
+- TradingView (chart observations, not user-generated ideas)
+- Bloomberg/FactSet terminal data when user-supplied
+
+**Not acceptable:**
+
+- Social media technical analysis ("YouTuber says breakout")
+- Forum or Discord chart posts
+- Signal services or alert systems
+- Any source mixing technical analysis with promotional content
+
 ## Corpus-Specific Lessons
 
 The provided corpus contained useful angle selection but also repeated weak habits:
 
-- technical-analysis sections mixed into fundamental reports
-- position recommendations and stop-loss language
-- self-media distribution and community links
-- strong valuation conclusions with incomplete sourcing
+- technical-analysis sections mixed into fundamental body — now separated into dedicated §9 appendix with structured methodology
+- position recommendations and stop-loss language — forbidden everywhere
+- self-media distribution and community links — excluded
+- strong valuation conclusions with incomplete sourcing — blocked by gates
 
 Do not inherit those habits. Reuse only the angle, not the unsupported evidence style.

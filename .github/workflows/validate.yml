@@ -1,0 +1,68 @@
+name: Validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  yaml-syntax:
+    name: YAML Syntax Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install PyYAML
+        run: pip install pyyaml
+
+      - name: Validate reference YAML files
+        run: |
+          python3 -c "import yaml; yaml.safe_load(open('references/angle-library.yaml')); print('OK: angle-library.yaml')"
+          python3 -c "import yaml; yaml.safe_load(open('references/claim-gates.yaml')); print('OK: claim-gates.yaml')"
+          python3 -c "import yaml; yaml.safe_load(open('references/report-digests.yaml')); print('OK: report-digests.yaml')"
+
+      - name: Validate eval case YAML files
+        run: |
+          for f in evals/cases/*.yaml; do
+            python3 -c "import yaml; yaml.safe_load(open('$f')); print('OK: $f')"
+          done
+
+  forbidden-patterns:
+    name: Forbidden Pattern Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check no trading language in fundamental body
+        run: |
+          # Extract lines 1-248 (fundamental body, before §8/§9)
+          head -248 SKILL.md > /tmp/fundamental_body.md
+          # These patterns should NOT appear in the fundamental body
+          if grep -inE "wyckoff_phase|candlestick|golden.cross|death.cross|stop.loss|position.siz|take.profit" /tmp/fundamental_body.md; then
+            echo "ERROR: Forbidden technical/trading patterns found in fundamental body (§1-§7)"
+            exit 1
+          fi
+          echo "OK: No forbidden patterns in fundamental body"
+
+  markdown-links:
+    name: Internal Link Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check reference file links in SKILL.md
+        run: |
+          links=$(grep -oP '\./references/[a-z0-9_-]+\.(md|yaml)' SKILL.md | sort -u)
+          for link in $links; do
+            if [ ! -f "$link" ]; then
+              echo "ERROR: Broken link in SKILL.md: $link"
+              exit 1
+            fi
+          done
+          echo "OK: All reference links resolve"

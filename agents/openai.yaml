@@ -1,4 +1,10 @@
 interface:
   display_name: "Stock Analysis"
-  short_description: "Analyze stocks with authoritative sources first"
-  default_prompt: "Use $stock-analysis to analyze a public company with primary filings, official sources, and explicit source-quality rules."
+  short_description: "Source-led fundamental stock analysis with gate-driven valuation and technical structure appendix"
+  keywords: [stock, fundamental, valuation, filing, source-quality, wyckoff, candlestick, technical-analysis]
+  category: "financial-analysis"
+  version: "1.1.0"
+  default_prompt: >
+    Use $stock-analysis to analyze a public company with primary filings,
+    official sources, explicit source-quality rules, and a structured
+    technical analysis appendix.

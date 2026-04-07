@@ -27,6 +27,7 @@ body:
         - Capacity-state gating
         - Valuation blocking
         - Source routing
+        - Technical structure (§9)
         - Eval coverage
         - Documentation
     validations:
@@ -37,6 +38,8 @@ body:
       label: Minimal evidence bundle
       description: List the official source types involved and any relevant case file.
       placeholder: "issuer filing, regulator source, eval case name"
+    validations:
+      required: true
   - type: checkboxes
     id: compliance
     attributes:

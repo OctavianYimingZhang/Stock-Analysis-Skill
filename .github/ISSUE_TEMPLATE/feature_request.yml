@@ -1,5 +1,5 @@
 name: Feature request
-description: Propose a new router, gate, digest improvement, or eval case
+description: Propose a new router, gate, archetype, digest improvement, or eval case
 title: "[Feature] "
 labels: ["enhancement"]
 body:
@@ -27,6 +27,8 @@ body:
         - Commercial evidence gate
         - Capacity-state gate
         - Valuation hard gate
+        - Technical structure (§9)
+        - Archetype (new or modified)
         - Angle library or digest
         - Eval case
         - README or contributor docs
@@ -38,3 +40,11 @@ body:
       label: Acceptance criteria
       description: Describe the exact pass condition.
       placeholder: "New case should block valuation when ..."
+    validations:
+      required: true
+  - type: textarea
+    id: compatibility
+    attributes:
+      label: Backward compatibility
+      description: Does this change break any existing eval cases or make the skill looser?
+      placeholder: "No existing cases affected / Case X needs update because ..."

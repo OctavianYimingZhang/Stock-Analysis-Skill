@@ -90,7 +90,7 @@ Hard rules:
 - If `economic_dependency` is `high` and status is not `approved` or `qualified`, downgrade valuation to scenario framing.
 - If active litigation, restatement, material weakness, or revenue-recognition challenge exists, surface it here rather than only in risks.
 
-### 3. Search authoritative sources first
+### 3. Search authoritative sources first and assess data confidence
 
 - Search online before relying on memory.
 - Start with market-specific official sources and issuer materials:
@@ -100,6 +100,17 @@ Hard rules:
   - official partner, customer, or counterparty disclosures when directly relevant
 - For commercial claims, seek bilateral confirmation when possible.
 - Read [source-policy.md](./references/source-policy.md) at the start of every analysis.
+
+After searching, assess data confidence for each material data point:
+
+| Confidence | Definition | Action |
+|-----------|-----------|--------|
+| `high` | Exact figures from issuer filings, exchange, or regulator with clear dates | Proceed |
+| `moderate` | From IR materials or earnings calls but lacks precision or is 1+ quarter old | Proceed with staleness flag |
+| `low` | Only from secondary sources; figures conflict across sources; or 2+ quarters old | **Request Bloomberg Terminal data** |
+| `not_found` | Terminal-only field (consensus, peer multiples, ownership, debt pricing) | **Request Bloomberg Terminal data** |
+
+Request Bloomberg Terminal data when: figures conflict across sources, data is 2+ quarters stale, precision is insufficient for valuation, or the field is inherently terminal-only. See [proprietary-data.md](./references/proprietary-data.md) for the full request protocol and templates.
 
 ### 4. Build an evidence ledger
 
@@ -132,14 +143,16 @@ Do not let inference or assumptions drift into fact statements.
 - Read [proprietary-data.md](./references/proprietary-data.md) whenever valuation, ownership, consensus, peer-multiple, or debt-market work is involved.
 - If the user has not supplied terminal-only data required for peer multiples, valuation bands, or consensus, allow scenario framing only.
 - If fully diluted share count, dilution stack, debt stack, or net-debt bridge is incomplete, block valuation.
+- When online data is assessed as `low` confidence or `not_found` for a material field, issue a Bloomberg Terminal data request using the templates in [proprietary-data.md](./references/proprietary-data.md). Explain what was searched, why it was insufficient, and which section is blocked.
+- Continue writing all non-blocked sections while waiting for terminal data. Mark blocked sections with `[待Bloomberg数据]`.
 
 ### 7. Write the analysis as base structure plus archetype routing
 
 Start with a `Data Sufficiency` note:
 
-- what was verified
+- what was verified (with confidence level)
 - what was inferred
-- what is blocked by missing proprietary data
+- what is blocked by missing Bloomberg Terminal data (list pending requests)
 - what is blocked by weak commercial, capacity, regulatory, qualification, or legal evidence
 
 Then write the base structure:

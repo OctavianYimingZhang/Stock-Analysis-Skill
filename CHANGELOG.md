@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.0] - 2026-04-08
+
+### Added
+- **Bloomberg Terminal Data Request System** — agent self-assesses data confidence (`high`/`moderate`/`low`/`not_found`) after online search; requests Bloomberg Terminal data when online sources are insufficient, conflicting, stale, or missing
+- Data confidence assessment table in §3 with clear triggers for terminal data requests
+- Bloomberg request protocol with step-by-step flow: explain gap → request with precision → continue non-blocked sections
+- Bilingual (Chinese) request templates for consensus, peer valuation, ownership, capital structure, and debt market data
+- Bloomberg function references (BEst, RELS, RV, OWN, SI, DDIS, CACS, SRCH, RATD) in request templates
+- `[待Bloomberg数据]` placeholder convention for blocked sections awaiting terminal data
+- Six categorized Bloomberg data request types: consensus, peer valuation, ownership, debt/capital markets, capital structure, commodity/industry series
+
+### Changed
+- Rewrote `references/proprietary-data.md` from static field list to active data confidence assessment and request system
+- Updated §3 to include data confidence assessment after online search
+- Updated §6 to integrate Bloomberg request flow with `low`/`not_found` triggers
+- Updated §7 Data Sufficiency note to include confidence levels and pending Bloomberg requests
+
 ## [1.2.0] - 2026-04-08
 
 ### Added

@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stock Analysis Skill</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --border: #30363d;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --accent: #58a6ff;
+    --accent-hover: #79c0ff;
+    --green: #3fb950;
+    --yellow: #d29922;
+    --red: #f85149;
+    --purple: #bc8cff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { color: var(--accent-hover); text-decoration: underline; }
+
+  .hero {
+    text-align: center;
+    padding: 80px 24px 60px;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 16px; }
+  .hero p { font-size: 1.15rem; color: var(--muted); max-width: 640px; margin: 0 auto 24px; }
+  .hero .badges { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+  .badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border: 1px solid var(--border);
+  }
+  .badge.version { background: rgba(88,166,255,0.15); color: var(--accent); border-color: rgba(88,166,255,0.3); }
+  .badge.license { background: rgba(63,185,80,0.15); color: var(--green); border-color: rgba(63,185,80,0.3); }
+  .badge.evals { background: rgba(188,140,255,0.15); color: var(--purple); border-color: rgba(188,140,255,0.3); }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+  section { padding: 60px 0; border-bottom: 1px solid var(--border); }
+  section:last-child { border-bottom: none; }
+  section h2 { font-size: 1.6rem; margin-bottom: 24px; }
+  section h3 { font-size: 1.15rem; margin: 20px 0 12px; color: var(--muted); }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+  }
+  .card h4 { font-size: 1rem; margin-bottom: 8px; }
+  .card p { font-size: 0.9rem; color: var(--muted); }
+  .card .tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 12px;
+    margin-top: 10px;
+    font-weight: 600;
+  }
+  .tag.gate { background: rgba(248,81,73,0.15); color: var(--red); }
+  .tag.source { background: rgba(63,185,80,0.15); color: var(--green); }
+  .tag.new { background: rgba(210,153,34,0.15); color: var(--yellow); }
+  .tag.ta { background: rgba(188,140,255,0.15); color: var(--purple); }
+
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.9rem; }
+  th, td { padding: 10px 14px; text-align: left; border: 1px solid var(--border); }
+  th { background: var(--surface); color: var(--muted); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; }
+  td { color: var(--text); }
+  tr:hover td { background: rgba(88,166,255,0.05); }
+
+  code {
+    background: var(--surface);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+  }
+
+  .flow { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin: 20px 0; }
+  .flow-step {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 0.85rem;
+    text-align: center;
+    min-width: 120px;
+  }
+  .flow-step .num { font-size: 1.4rem; font-weight: 700; color: var(--accent); display: block; margin-bottom: 4px; }
+  .flow-arrow { color: var(--muted); font-size: 1.2rem; }
+
+  .cta {
+    text-align: center;
+    padding: 60px 24px;
+  }
+  .cta a.btn {
+    display: inline-block;
+    padding: 12px 32px;
+    background: var(--accent);
+    color: var(--bg);
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    margin: 0 8px;
+  }
+  .cta a.btn:hover { background: var(--accent-hover); text-decoration: none; }
+  .cta a.btn.secondary { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+
+  footer {
+    text-align: center;
+    padding: 40px 24px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    border-top: 1px solid var(--border);
+  }
+
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 1.8rem; }
+    .flow { flex-direction: column; }
+    .flow-arrow { transform: rotate(90deg); }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Stock Analysis Skill</h1>
+  <p>Gate-driven fundamental stock analysis with source-quality controls, Bloomberg Terminal integration, and structured technical analysis. Built for AI coding agents.</p>
+  <div class="badges">
+    <span class="badge version">v1.3.0</span>
+    <span class="badge license">MIT License</span>
+    <span class="badge evals">21 Eval Cases</span>
+  </div>
+</div>
+
+<div class="container">
+
+<section>
+  <h2>How It Works</h2>
+  <div class="flow">
+    <div class="flow-step"><span class="num">1</span>Scope &amp; Classify</div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-step"><span class="num">2</span>Build Gate Tables</div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-step"><span class="num">3</span>Search &amp; Assess Confidence</div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-step"><span class="num">4</span>Evidence Ledger</div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-step"><span class="num">5</span>Claim Gates</div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-step"><span class="num">6</span>Bloomberg Request</div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-step"><span class="num">7</span>Analysis + Financial Quality</div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-step"><span class="num">8</span>Quality Gates</div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-step"><span class="num">9</span>Technical Assessment</div>
+  </div>
+</section>
+
+<section>
+  <h2>Key Features</h2>
+  <div class="grid">
+    <div class="card">
+      <h4>Source-First Analysis</h4>
+      <p>4-tier source hierarchy: issuer filings &rarr; regulators &rarr; official datasets &rarr; secondary. Global market routers for US, Canada, UK, Australia, Japan, Korea, HK, China, and more.</p>
+      <span class="tag source">Source Quality</span>
+    </div>
+    <div class="card">
+      <h4>Gate-Driven Valuation</h4>
+      <p>3 mandatory gating tables block weak evidence. Valuation is blocked when capital structure is unverified, commercial evidence is weak, or regulatory gates are unresolved.</p>
+      <span class="tag gate">Valuation Gate</span>
+    </div>
+    <div class="card">
+      <h4>Bloomberg Terminal Integration</h4>
+      <p>Agent assesses data confidence after online search. When data is insufficient, conflicting, or stale, it generates structured Bloomberg Terminal requests with function references.</p>
+      <span class="tag new">v1.3</span>
+    </div>
+    <div class="card">
+      <h4>Financial Analysis Framework</h4>
+      <p>Revenue quality decomposition (pass-through vs value-creating), earnings quality, cash flow decomposition, ROIC/ROE, and variance analysis with materiality thresholds.</p>
+      <span class="tag new">v1.2</span>
+    </div>
+    <div class="card">
+      <h4>Semantic Claim Controls</h4>
+      <p>Gates for <code>moat</code>, <code>platform</code>, <code>data flywheel</code>, <code>network effect</code>, and <code>high margin business</code>. Claims require minimum evidence or are downgraded to fallback labels.</p>
+      <span class="tag gate">Claim Gate</span>
+    </div>
+    <div class="card">
+      <h4>Technical Structure Assessment</h4>
+      <p>3-layer appendix: Murphy (trend structure), Wyckoff (volume-price phase), Nison (candlestick patterns). Supplementary only &mdash; cannot override fundamental conclusions.</p>
+      <span class="tag ta">Technical</span>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>10 Company Archetypes</h2>
+  <table>
+    <thead>
+      <tr><th>Archetype</th><th>Use When</th><th>Key Sections</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>mature</code></td><td>Established, profitable</td><td>Business logic, operating metrics, valuation</td></tr>
+      <tr><td><code>frontier</code></td><td>Pre-revenue or early-revenue</td><td>Certification, cash runway, dilution ladder</td></tr>
+      <tr><td><code>turnaround</code></td><td>Distressed or restructuring</td><td>Maturity wall, refi path, covenant headroom</td></tr>
+      <tr><td><code>consumer_health_platform</code></td><td>DTC health/wellness</td><td>Retention, regulatory distribution, fulfillment</td></tr>
+      <tr><td><code>b2b_software_platform</code></td><td>Enterprise SaaS</td><td>NRR, SBC &amp; true FCF, legal/accounting quality</td></tr>
+      <tr><td><code>digital_bank_or_lender</code></td><td>Bank charter holders</td><td>Funding stack, NIM, capital ratios</td></tr>
+      <tr><td><code>lending_marketplace</code></td><td>Non-bank lending</td><td>Securitization, partner funding, take rate</td></tr>
+      <tr><td><code>provider_reimbursement</code></td><td>Healthcare services</td><td>Reimbursement mechanics, policy sensitivity</td></tr>
+      <tr><td><code>resource_policy</code></td><td>Mining, energy, minerals</td><td>Permits, offtake, processing capacity</td></tr>
+      <tr><td><code>industry_chain_context</code></td><td>Sector/theme analysis only</td><td>Supply-demand, no standalone valuation</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h2>Bloomberg Terminal Data Request Flow</h2>
+  <p style="color:var(--muted); margin-bottom:20px;">When online data is insufficient, the agent generates structured requests for Bloomberg Terminal data.</p>
+  <table>
+    <thead>
+      <tr><th>Confidence</th><th>Definition</th><th>Action</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><span style="color:var(--green)">high</span></td><td>Exact figures from filings with clear dates</td><td>Proceed</td></tr>
+      <tr><td><span style="color:var(--yellow)">moderate</span></td><td>IR materials, 1+ quarter old</td><td>Proceed with staleness flag</td></tr>
+      <tr><td><span style="color:var(--red)">low</span></td><td>Secondary sources only, figures conflict</td><td>Request Bloomberg data</td></tr>
+      <tr><td><span style="color:var(--muted)">not_found</span></td><td>Terminal-only field</td><td>Request Bloomberg data</td></tr>
+    </tbody>
+  </table>
+  <h3>Data Categories</h3>
+  <div class="grid">
+    <div class="card"><h4>Consensus</h4><p>Forward revenue, EPS, EBITDA, revision trends. <code>BEst</code></p></div>
+    <div class="card"><h4>Peer Valuation</h4><p>Comp tables, multiples, methodology. <code>RELS</code> <code>RV</code></p></div>
+    <div class="card"><h4>Ownership</h4><p>Institutional holders, short interest. <code>OWN</code> <code>SI</code></p></div>
+    <div class="card"><h4>Debt Markets</h4><p>Bond pricing, yields, spreads, ratings. <code>SRCH</code> <code>RATD</code></p></div>
+    <div class="card"><h4>Capital Structure</h4><p>Diluted shares, dilution stack, debt detail. <code>DDIS</code> <code>CACS</code></p></div>
+    <div class="card"><h4>Commodity/Industry</h4><p>Paywalled price series, market share data.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>Financial Analysis Framework</h2>
+  <div class="grid">
+    <div class="card">
+      <h4>A. Revenue Quality</h4>
+      <p>Decomposes revenue into value-creating vs pass-through. Calculates core margin after stripping procurement, hardware resale, and sub-contractor pass-through.</p>
+    </div>
+    <div class="card">
+      <h4>B. Earnings Quality</h4>
+      <p>GAAP vs non-GAAP bridge, SBC impact, accrual ratio, ASC 606 revenue recognition checks.</p>
+    </div>
+    <div class="card">
+      <h4>C. Cash Flow</h4>
+      <p>Maintenance vs growth capex, FCF variants, working capital decomposition (DSO, DIO, DPO).</p>
+    </div>
+    <div class="card">
+      <h4>D. Return &amp; Leverage</h4>
+      <p>ROIC, ROE DuPont decomposition, tangible ROIC, net debt/EBITDA, interest coverage.</p>
+    </div>
+    <div class="card">
+      <h4>E. Variance Analysis</h4>
+      <p>Price/volume/mix decomposition, materiality thresholds (15% YoY, 5% vs guidance), waterfall format.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Technical Structure Assessment</h2>
+  <table>
+    <thead>
+      <tr><th>Layer</th><th>Source</th><th>What It Covers</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Layer 1</td><td>Murphy</td><td>Trend structure, support/resistance, chart patterns, moving averages</td></tr>
+      <tr><td>Layer 2</td><td>Wyckoff</td><td>Market phase (accumulation/distribution), volume-price analysis, effort vs result</td></tr>
+      <tr><td>Layer 3</td><td>Nison</td><td>Candlestick patterns at key levels, confirmation status</td></tr>
+    </tbody>
+  </table>
+  <p style="color:var(--muted); margin-top:12px; font-size:0.9rem;">Supplementary appendix only. Cannot override fundamental conclusions or unblock a blocked valuation.</p>
+</section>
+
+<section>
+  <h2>Repository Structure</h2>
+  <table>
+    <thead><tr><th>File</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr><td><code>SKILL.md</code></td><td>Main skill instructions (9 mandatory workflow sections)</td></tr>
+      <tr><td><code>references/source-policy.md</code></td><td>Source hierarchy, global market routers, sector routers, exclusions</td></tr>
+      <tr><td><code>references/proprietary-data.md</code></td><td>Bloomberg Terminal data request system and confidence assessment</td></tr>
+      <tr><td><code>references/financial-analysis-framework.md</code></td><td>Revenue quality, earnings quality, cash flow, returns, variance methodology</td></tr>
+      <tr><td><code>references/technical-analysis-framework.md</code></td><td>Murphy/Wyckoff/Nison three-layer methodology reference</td></tr>
+      <tr><td><code>references/angle-library.yaml</code></td><td>Machine-readable archetype routing and gates (26 companies)</td></tr>
+      <tr><td><code>references/claim-gates.yaml</code></td><td>Semantic claim controls (moat, flywheel, network effect, platform, margin)</td></tr>
+      <tr><td><code>evals/cases/</code></td><td>21 YAML regression cases for gate behavior testing</td></tr>
+    </tbody>
+  </table>
+</section>
+
+</div>
+
+<div class="cta">
+  <a href="https://github.com/OctavianYimingZhang/Stock-Analysis-Skill" class="btn">View on GitHub</a>
+  <a href="https://github.com/OctavianYimingZhang/Stock-Analysis-Skill/blob/main/SKILL.md" class="btn secondary">Read SKILL.md</a>
+</div>
+
+<footer>
+  <p>Stock Analysis Skill &copy; 2026 OctavianYimingZhang. MIT License.</p>
+</footer>
+
+</body>
+</html>

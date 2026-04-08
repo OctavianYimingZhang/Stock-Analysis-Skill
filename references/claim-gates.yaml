@@ -48,6 +48,17 @@ claim_gates:
       - product_count_only
       - brand_narrative_only
       - user_growth_only
+  high_margin_business:
+    allowed_labels:
+      strong: high_margin_business
+      fallback: reported_margin_subject_to_pass_through_analysis
+    minimum_evidence:
+      - revenue_quality_decomposition_completed
+      - core_margin_calculated
+      - pass_through_share_identified
+    disallowed_proxies:
+      - gaap_margin_only_when_pass_through_is_material
+      - management_claim_of_margin_expansion_only
 output_rule:
   - "If minimum evidence is incomplete, do not state the strong label as fact."
   - "Downgrade to the fallback label or mark the statement as inference."

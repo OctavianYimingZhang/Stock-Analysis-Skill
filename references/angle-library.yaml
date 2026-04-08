@@ -49,16 +49,21 @@ defaults:
     - produced_unsold
     - contracted_unsold
     - mark_to_market_only
+  revenue_type_taxonomy:
+    - value_creating
+    - pass_through
+    - agency
+    - mixed
   required_sections_by_archetype:
-    mature: [business_logic, operating_metrics, customers_channels, orders_backlog, capital_structure, valuation, risks]
-    frontier: [certification_status, commercialization_gates, cash_runway, dilution_ladder, partner_quality]
-    turnaround: [maturity_wall, refi_path, interest_burden, covenant_headroom, asset_sale_dependency]
-    consumer_health_platform: [product_concentration, retention_cross_sell, marketing_efficiency, regulatory_distribution_risk, fulfillment_margin]
-    b2b_software_platform: [customer_concentration, nrr_or_expansion, sbc_and_true_fcf, legal_accounting_quality, data_privacy]
-    digital_bank_or_lender: [funding_stack, asset_liability_sensitivity, credit_quality, capital_ratios, regulatory_status]
-    lending_marketplace: [funding_stack, partner_funding_quality, credit_quality, securitization_dependence, take_rate_or_fee_model]
-    provider_reimbursement: [site_or_facility_economics, reimbursement_mechanics, collections_quality, policy_sensitivity, payer_or_idr_dependency]
-    resource_policy: [permit_path, offtake, realized_pricing, processing_capacity, working_capital]
+    mature: [business_logic, operating_metrics, customers_channels, orders_backlog, capital_structure, financial_quality, valuation, risks]
+    frontier: [certification_status, commercialization_gates, cash_runway, dilution_ladder, partner_quality, financial_quality]
+    turnaround: [maturity_wall, refi_path, interest_burden, covenant_headroom, asset_sale_dependency, financial_quality]
+    consumer_health_platform: [product_concentration, retention_cross_sell, marketing_efficiency, regulatory_distribution_risk, fulfillment_margin, financial_quality]
+    b2b_software_platform: [customer_concentration, nrr_or_expansion, sbc_and_true_fcf, legal_accounting_quality, data_privacy, financial_quality]
+    digital_bank_or_lender: [funding_stack, asset_liability_sensitivity, credit_quality, capital_ratios, regulatory_status, financial_quality]
+    lending_marketplace: [funding_stack, partner_funding_quality, credit_quality, securitization_dependence, take_rate_or_fee_model, financial_quality]
+    provider_reimbursement: [site_or_facility_economics, reimbursement_mechanics, collections_quality, policy_sensitivity, payer_or_idr_dependency, financial_quality]
+    resource_policy: [permit_path, offtake, realized_pricing, processing_capacity, working_capital, financial_quality]
     industry_chain_context: [supply_demand_balance, bottleneck_map, policy_catalysts, company_bridge, no_valuation]
   valuation_gates:
     - default_cap_structure

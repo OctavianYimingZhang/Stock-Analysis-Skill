@@ -148,8 +148,102 @@ Then write the base structure:
 - Business model and segment structure
 - Industry and policy context
 - Operating metrics and milestones
-- Financial quality, liquidity, and capital structure
+- Financial quality, liquidity, and capital structure (see sub-components below)
 - Valuation or scenario framing
+
+#### Financial Quality Sub-Components
+
+Build these tables and metrics whenever the analysis covers a company-level archetype (all except `industry_chain_context`). Read [financial-analysis-framework.md](./references/financial-analysis-framework.md) for detailed methodology.
+
+##### A. Revenue Quality Decomposition
+
+For each material revenue segment, record:
+
+| Field | Description |
+|-------|-------------|
+| `segment_or_stream` | Business segment or revenue line |
+| `revenue_type` | `value_creating` / `pass_through` / `agency` / `mixed` |
+| `pass_through_share` | Percentage of segment revenue that is procurement-on-behalf, hardware resale, sub-contractor pass-through, or cost-plus-zero-margin |
+| `core_margin` | Gross margin after stripping pass-through revenue |
+| `evidence_source` | Filing reference (MD&A, segment footnote, ASC 606 disclosure, earnings call) |
+
+Hard rules:
+
+- When pass-through share exceeds 30% of total revenue, report core margin alongside GAAP margin. State both.
+- Do not assume all low-margin segments are pass-through. Verify the business model from filings.
+- This decomposition answers: "Is the business structurally low-margin, or is there a hidden high-margin core?"
+
+##### B. Earnings Quality Assessment
+
+For each material adjusted metric, record:
+
+| Field | Description |
+|-------|-------------|
+| `metric` | GAAP metric name |
+| `gaap_value` | GAAP-reported figure |
+| `adjusted_value` | Non-GAAP adjusted figure |
+| `adjustment_items` | List of items bridging GAAP to adjusted, with sign and magnitude |
+| `sbc_treatment` | `included` / `excluded` / `partially_excluded` |
+| `source` | Filing reference |
+
+Hard rules:
+
+- Always present GAAP figures first. Adjusted metrics are supplementary.
+- When SBC exceeds 10% of operating income, disclose the impact on both operating margin and FCF.
+- When GAAP-to-adjusted bridge includes more than 3 items, list each with magnitude.
+- Revenue recognition policy must be identified from filings (ASC 606 disclosures). If changed in the past 3 years, flag it.
+- Calculate accrual ratio: (net income - OCF) / average total assets. Rising accrual ratio = deteriorating earnings quality.
+
+##### C. Cash Flow Decomposition
+
+Calculate from filings when available:
+
+| Metric | Definition |
+|--------|-----------|
+| Operating cash flow | GAAP reported |
+| Maintenance capex | Management disclosure, or depreciation as proxy |
+| Growth capex | Total capex minus maintenance capex |
+| Free cash flow | OCF minus total capex (state capex definition) |
+| Maintenance FCF | OCF minus maintenance capex only |
+| Working capital change | Contribution to OCF from AR, inventory, AP changes |
+| Cash conversion ratio | OCF / net income, or OCF / EBITDA |
+
+Hard rules:
+
+- When maintenance vs. growth capex split is not disclosed, use depreciation as maintenance capex proxy and state the assumption.
+- When working capital change drives more than 50% of the net-income-to-OCF gap, decompose it (receivables, inventory, payables).
+- Do not state FCF without specifying the capex definition used.
+
+##### D. Return and Leverage Metrics
+
+Calculate when data is available from filings:
+
+| Metric | Formula |
+|--------|---------|
+| ROIC | NOPAT / average invested capital |
+| ROE | Net income / average equity (DuPont: margin x turnover x leverage) |
+| Gross / operating / net margin | Per income statement |
+| Net debt / EBITDA | (Total debt - cash) / LTM EBITDA |
+| Interest coverage | EBIT / interest expense |
+
+Hard rules:
+
+- State the exact denominator used for each return metric.
+- When goodwill exceeds 30% of total assets, calculate both total ROIC and tangible ROIC.
+- Leverage metrics feed into existing valuation gates. If net-debt/EBITDA is unverifiable, flag in the Data Sufficiency note.
+
+##### E. Variance Analysis
+
+When comparing periods (QoQ, YoY, or vs. guidance):
+
+- Decompose material revenue changes into volume, price, and mix effects where segment data permits.
+- Decompose material margin changes into gross-margin drivers (input cost, product mix, utilization, pass-through share changes) and opex-leverage effects.
+- Use materiality thresholds: flag variances exceeding 15% vs. prior period or 5% vs. guidance.
+- Present variance drivers in a waterfall structure (starting point → each driver → ending point).
+
+Hard rule:
+
+- Do not attribute variance to a driver without sourcing from filings, earnings releases, or official transcripts.
 - Risks
 - Missing-data request, if blocked
 
@@ -261,6 +355,7 @@ In the valuation section, always state:
   - `economic_dependency` is `high` and the relevant regulatory, qualification, or legal gate is not `approved` or `qualified`
 - If valuation is blocked, downgrade to scenario framing and ask for the exact missing fields.
 - If evidence is insufficient to verify a claim, leave it out or label it as uncertain.
+- When revenue quality decomposition reveals pass-through share exceeding 50% of total revenue, the core-margin figure must appear in the Data Sufficiency note and must be referenced in any margin-based valuation methodology.
 
 ### 9. Technical Structure Assessment (Appendix)
 
@@ -411,4 +506,5 @@ Always end this section with:
 - Read [angle-library.md](./references/angle-library.md) for human-readable angle guidance.
 - Read [source-policy.md](./references/source-policy.md) for source hierarchy, global market routing, sector routing, and exclusions.
 - Read [proprietary-data.md](./references/proprietary-data.md) whenever valuation or market-data work might depend on terminal-only fields.
+- Read [financial-analysis-framework.md](./references/financial-analysis-framework.md) for revenue quality, earnings quality, cash flow, return metrics, and variance analysis methodology.
 - Read [technical-analysis-framework.md](./references/technical-analysis-framework.md) when writing the §9 Technical Structure Assessment appendix.

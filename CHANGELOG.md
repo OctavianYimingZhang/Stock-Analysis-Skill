@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.0] - 2026-04-08
+
+### Added
+- **Financial Analysis Framework** — structured financial quality sub-section in §7 with revenue quality decomposition, earnings quality assessment, cash flow decomposition, return metrics, and variance analysis
+- `references/financial-analysis-framework.md` — detailed methodology reference covering revenue type taxonomy, pass-through identification, GAAP vs non-GAAP bridge, capex classification, ROIC/ROE DuPont, variance decomposition, and leverage/solvency framework
+- Revenue quality decomposition with pass-through/agency/value-creating classification (addresses EPC/contract-services margin analysis)
+- Earnings quality assessment with GAAP vs non-GAAP bridge and SBC impact analysis
+- Cash flow decomposition with maintenance vs growth capex classification
+- Return metrics framework (ROIC, ROE DuPont, tangible returns)
+- Variance analysis methodology with price/volume/mix decomposition and materiality thresholds
+- Leverage and solvency framework with maturity profile analysis
+- `high_margin_business` semantic claim gate in claim-gates.yaml
+- `revenue_type_taxonomy` in angle-library.yaml defaults
+- `financial_quality` as required section for all company-level archetypes
+- Pass-through quality gate in §8: core margin must appear in Data Sufficiency note when pass-through > 50%
+- `evals/cases/19-epc-pass-through-margin.yaml` — regression test for pass-through revenue decomposition
+- `evals/cases/20-earnings-quality-sbc.yaml` — regression test for SBC and earnings quality
+- `evals/cases/21-cash-flow-decomposition.yaml` — regression test for cash flow analysis
+
+### Changed
+- Expanded "Financial quality, liquidity, and capital structure" base section in SKILL.md from a single bullet into a structured sub-section with 5 tables and hard rules
+- angle-library.yaml `required_sections_by_archetype` updated for all company-level archetypes (industry_chain_context excluded)
+
 ## [1.1.0] - 2026-04-07
 
 ### Added

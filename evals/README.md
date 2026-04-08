@@ -91,6 +91,9 @@ The suite covers:
 - `industry_chain_context` no-valuation behavior
 - `resource_policy` study-standard, qualification-status, and inventory-realization layering
 - §9 Technical Structure Assessment appendix isolation, three-layer structure, and archetype skip rules
+- Revenue quality decomposition with pass-through identification and core margin reporting
+- Earnings quality assessment with GAAP-to-adjusted bridge and SBC impact disclosure
+- Cash flow decomposition with maintenance vs. growth capex and working capital analysis
 
 ## Adding a New Case
 

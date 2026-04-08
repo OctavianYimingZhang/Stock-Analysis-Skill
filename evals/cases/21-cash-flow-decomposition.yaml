@@ -1,0 +1,40 @@
+id: cash-flow-decomposition
+title: "Cash Flow Decomposition — maintenance vs growth capex and working capital"
+description: >
+  Validates that cash flow decomposition is present in the financial quality
+  section, maintenance vs growth capex is addressed, FCF states its capex
+  definition, and working capital is decomposed when material.
+
+fixture_dir: fixtures/ter
+
+input:
+  ticker: TER
+  archetype: mature
+  user_request: "Analyze Teradyne with focus on cash flow quality and capital allocation"
+
+assertions:
+  - type: section_present
+    sections:
+      - "Cash Flow Decomposition"
+    rule: "Cash flow decomposition must appear in financial quality section"
+
+  - type: tag_present
+    tags:
+      - "maintenance capex"
+      - "free cash flow"
+
+  - type: forbidden_output
+    patterns:
+      - "FCF"
+    context: "without specifying capex definition"
+    rule: "FCF must not be stated without specifying which capex definition is used"
+
+  - type: logical_gate
+    rule: "When maintenance vs growth capex split is not disclosed, depreciation proxy is stated as assumption"
+
+  - type: logical_gate
+    rule: "When working capital change > 50% of net-income-to-OCF gap, decomposition includes AR, inventory, AP"
+
+notes:
+  - "Teradyne (TER) is a mature archetype with significant capex and working capital dynamics"
+  - "Tests cash flow framework integration with existing gate architecture"

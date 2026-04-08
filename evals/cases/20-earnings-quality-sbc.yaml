@@ -1,0 +1,41 @@
+id: earnings-quality-sbc
+title: "Earnings Quality Assessment — SBC impact for b2b_software_platform"
+description: >
+  Validates that a high-SBC company triggers the earnings quality assessment,
+  presents the GAAP-to-adjusted bridge, and discloses SBC impact on FCF
+  when SBC exceeds 10% of operating income.
+
+fixture_dir: fixtures/zeta
+
+input:
+  ticker: ZETA
+  archetype: b2b_software_platform
+  user_request: "Analyze Zeta Global with focus on earnings quality and true cash flow"
+
+assertions:
+  - type: table_present
+    table: "Earnings Quality Assessment"
+    rule: "Earnings quality table must appear in financial quality section"
+
+  - type: tag_present
+    tags:
+      - "gaap_value"
+      - "adjusted_value"
+      - "sbc_treatment"
+
+  - type: text_present
+    text: "GAAP"
+    rule: "GAAP figures must be presented first"
+
+  - type: forbidden_output
+    patterns:
+      - "adjusted EBITDA"
+    context: "without corresponding GAAP figure"
+    rule: "Adjusted metrics must not appear without GAAP counterpart"
+
+  - type: logical_gate
+    rule: "When SBC > 10% of operating income, SBC impact on FCF is disclosed"
+
+notes:
+  - "Zeta (ZETA) is a b2b_software_platform with material SBC"
+  - "Tests earnings quality framework from Anthropic financial-statements skill methodology"

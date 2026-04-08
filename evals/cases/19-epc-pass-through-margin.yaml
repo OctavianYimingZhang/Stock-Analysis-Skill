@@ -1,0 +1,40 @@
+id: epc-pass-through-margin
+title: "Revenue Quality Decomposition — EPC/contract-services pass-through"
+description: >
+  Validates that a company with material pass-through revenue triggers
+  revenue quality decomposition, reports core margin alongside GAAP margin,
+  and feeds pass-through findings into the Data Sufficiency note when
+  pass-through share exceeds 50%.
+
+fixture_dir: fixtures/bw
+
+input:
+  ticker: BW
+  archetype: turnaround
+  user_request: "Analyze Broadwind and explain why margins are so low"
+
+assertions:
+  - type: table_present
+    table: "Revenue Quality Decomposition"
+    rule: "Revenue quality table must appear in financial quality section"
+
+  - type: tag_present
+    tags:
+      - "pass_through"
+      - "core_margin"
+
+  - type: forbidden_output
+    patterns:
+      - "high.margin.business"
+    rule: "Must not claim high-margin without revenue quality decomposition evidence"
+
+  - type: text_present
+    text: "core margin"
+    rule: "Core margin must be stated when pass-through is identified"
+
+  - type: logical_gate
+    rule: "If pass-through > 50%, core margin appears in Data Sufficiency note"
+
+notes:
+  - "Broadwind (BW) is a turnaround archetype with EPC-style revenue including tower manufacturing and services"
+  - "Tests the Silas insight: business model determines margins, strip pass-through to see the real picture"

@@ -158,11 +158,115 @@ Start with a `Data Sufficiency` note:
 Then write the base structure:
 
 - Core thesis
+- **Business Logic Transformation** (mandatory — see below)
 - Business model and segment structure
 - Industry and policy context
+- **Macro-to-Company Transmission** (see below)
 - Operating metrics and milestones
+- **Management Signal Extraction** (mandatory — see below)
+- **Customer and Supply Chain Deep Dive** (see below)
+- **Competitive Positioning** (see below)
 - Financial quality, liquidity, and capital structure (see sub-components below)
 - Valuation or scenario framing
+- **Forward Catalyst Calendar** (mandatory — see below)
+
+#### Business Logic Transformation (Mandatory)
+
+Every company has a core business logic — the mechanism through which it creates and captures value. This section must answer four questions in narrative form, not as a checklist:
+
+1. **Old Logic**: What was the company's primary value driver 2-3 years ago? (e.g., mobile SoC testing, China-based operations, oil field services, Bitcoin mining)
+2. **New Logic**: What is the company's primary value driver now or in the near future? (e.g., AI chip complexity testing, US-localized manufacturing, data center power, AI cloud infrastructure)
+3. **Why Now**: What structural change is forcing or enabling this transformation? (e.g., AI infrastructure buildout, regulatory/policy shift, technology inflection, supply-demand imbalance)
+4. **Endgame**: If the transformation succeeds, what does the company look like in 3-5 years? What is the terminal business model?
+
+Hard rules:
+
+- Do not present this as four bullet points. Write a cohesive 2-4 paragraph narrative that tells the transformation story.
+- Support each claim with specific data points from filings or earnings calls (e.g., "Compute grew from 10% of SoC revenue in 2023 to 80% in 2025").
+- If no meaningful transformation is occurring (stable mature business), state "No active business logic transformation — stable operational model" and describe the current steady-state logic.
+- This section should answer the investor question: "Why is this company interesting RIGHT NOW?"
+
+#### Macro-to-Company Transmission
+
+Analyze how macroeconomic and policy factors specifically impact this company's valuation and business:
+
+| Factor | Direction | Transmission Mechanism | Impact Magnitude |
+|--------|-----------|----------------------|-----------------|
+| Interest rates | rising/falling/stable | How rate changes affect cost of capital, customer behavior, or valuation multiples | high/medium/low |
+| Trade/tariff policy | specific policy | How tariffs or trade restrictions affect supply chain, pricing, or market access | high/medium/low |
+| Industry-specific regulation | specific regulation | How regulation creates or destroys value for this company | high/medium/low |
+| Currency | strengthening/weakening | Revenue/cost exposure by currency | high/medium/low |
+
+Hard rules:
+
+- Do not list generic macroeconomic risks. Each factor must have a specific, traceable transmission mechanism to the company's revenue, margins, or valuation.
+- Reference specific policies by name (e.g., "OBBBA domestic content requirements", "IRA Section 45X manufacturing credits", "CHIPS Act funding").
+- Include the "Davis Double Play" framework when applicable: identify whether EPS growth AND multiple expansion could occur simultaneously (e.g., earnings recovery + rate cuts = both earnings and PE expand).
+
+#### Management Signal Extraction (Mandatory)
+
+Extract and cite specific management commentary from the most recent 2-3 earnings calls and investor conferences:
+
+| Date | Event | Speaker | Key Quote/Signal | Implication |
+|------|-------|---------|-----------------|-------------|
+| YYYY-MM-DD | Q[X] Earnings Call | Name, Title | Direct quote or close paraphrase | What this means for the investment thesis |
+| YYYY-MM-DD | Conference Name | Name, Title | Direct quote or close paraphrase | What this means for the investment thesis |
+
+Hard rules:
+
+- Cite the exact date, event name, and speaker for every management signal.
+- Distinguish between forward guidance (quantitative), strategic commentary (qualitative), and tone/confidence signals.
+- Flag any management commentary that contradicts prior statements or consensus expectations.
+- If earnings call transcripts are not accessible, state "Transcript not available — using press release and filing data only" and skip this table.
+
+#### Customer and Supply Chain Deep Dive
+
+| Customer | Revenue Share | CAPEX as % of TER Revenue | Trend | Strategic Significance |
+|----------|-------------|--------------------------|-------|----------------------|
+| Top customer | XX% | XX% | growing/stable/declining | Why this customer matters |
+| ... | ... | ... | ... | ... |
+
+Also analyze:
+
+- **Customer concentration risk**: Top-5 customer share and trend over 3 years
+- **Supply chain bottleneck**: Identify the single most critical supply chain dependency
+- **Customer CAPEX cycle**: Are key customers in expansion or contraction mode?
+
+Hard rules:
+
+- Use Bloomberg SPLC data or 10-K customer disclosures for top customer identification.
+- If customer names are not disclosed, use segment/geography as proxy.
+
+#### Competitive Positioning
+
+| Dimension | Company | Competitor 1 | Competitor 2 | Competitor 3 |
+|-----------|---------|-------------|-------------|-------------|
+| Market share | XX% | XX% | XX% | XX% |
+| Gross margin | XX% | XX% | XX% | XX% |
+| Revenue growth | XX% | XX% | XX% | XX% |
+| Key differentiator | ... | ... | ... | ... |
+
+Also include:
+
+- Third-party analyst positioning (Gartner Magic Quadrant, Forrester Wave, IDC rankings) if available
+- Switching cost assessment (high/medium/low with evidence)
+- Market structure (monopoly/duopoly/oligopoly/fragmented)
+
+#### Forward Catalyst Calendar (Mandatory)
+
+| Date (Est.) | Event | Expected Impact | Monitoring Source |
+|-------------|-------|----------------|-------------------|
+| YYYY-MM-DD | Next earnings release | Revenue/guidance update | IR website |
+| YYYY-MM-DD | Factory/facility completion | Capacity expansion milestone | 10-Q, press releases |
+| YYYY-MM-DD | Regulatory decision | Approval/denial of key permit | Federal Register, agency website |
+| YYYY-QX | Contract renewal/expiration | Revenue visibility change | 10-K contract disclosures |
+| ... | ... | ... | ... |
+
+Hard rules:
+
+- Include at least 3 forward catalysts within the next 6-12 months.
+- For each catalyst, state what the bull case and bear case outcomes are.
+- Prioritize catalysts that could move the stock >5%.
 
 #### Financial Quality Sub-Components
 
@@ -501,6 +605,40 @@ After completing all three layers, produce a brief synthesis:
 Always end this section with:
 
 > This technical structure assessment is supplementary to the fundamental analysis above. It reflects historical price-volume patterns and does not predict future prices. Technical context should be used alongside — never in place of — fundamental, financial, and regulatory due diligence. This is not investment advice and does not constitute a trading recommendation.
+
+### 10. Investment Decision Appendix (Optional — User Must Request)
+
+When the user explicitly asks for an investment decision, trading plan, or position recommendation, append this section AFTER all other analysis is complete. This section is opt-in only and never generated by default.
+
+#### Investment Decision Summary
+
+| Field | Value |
+|-------|-------|
+| Verdict | Strong Buy / Buy / Hold / Reduce / Sell |
+| Core Story (one sentence) | The single most compelling reason to own or avoid this stock |
+| Fair Value Range | $XX — $XX (from valuation section) |
+| Current Price | $XX.XX |
+| Upside/Downside | +XX% / -XX% |
+| Conviction Level | High / Medium / Low |
+| Suggested Position Size | XX% of portfolio (based on conviction and risk) |
+| Entry Strategy | Specific price level or condition for entry |
+| Stop-Loss | Price level where the thesis is invalidated |
+| First Target | Price level for first partial take-profit |
+| Key Catalyst (next 90 days) | The single most important near-term event |
+| Key Risk (most likely) | The single most likely risk to the thesis |
+
+Position sizing guidelines:
+
+- High conviction (>30% upside, strong catalyst, low short-seller risk): 8-15%
+- Medium conviction (15-30% upside): 5-8%
+- Speculative (<15% upside or high uncertainty): 2-5%
+- Adjust down for: high leverage, single-customer dependency, regulatory uncertainty, macro headwinds
+
+Hard rules:
+
+- This section requires ALL of: fundamental analysis complete, valuation section not blocked, and short-seller risk score available.
+- Never generate this section unless the user explicitly requests investment advice, position sizing, or a trading plan.
+- Always include: "This is not professional investment advice. Position sizing and trading decisions should reflect your personal risk tolerance and portfolio context."
 
 ## Output Rules
 

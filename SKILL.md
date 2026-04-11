@@ -167,7 +167,10 @@ Then write the base structure:
 - **Customer and Supply Chain Deep Dive** (see below)
 - **Competitive Positioning** (see below)
 - Financial quality, liquidity, and capital structure (see sub-components below)
+- **Market Pricing Mechanism Analysis** (mandatory — see below)
 - Valuation or scenario framing
+- **Conditional Judgment** (mandatory — replaces simple verdict — see below)
+- **Unresolved Items** (mandatory — see below)
 - **Forward Catalyst Calendar** (mandatory — see below)
 
 #### Business Logic Transformation (Mandatory)
@@ -251,6 +254,77 @@ Also include:
 - Third-party analyst positioning (Gartner Magic Quadrant, Forrester Wave, IDC rankings) if available
 - Switching cost assessment (high/medium/low with evidence)
 - Market structure (monopoly/duopoly/oligopoly/fragmented)
+
+#### Market Pricing Mechanism Analysis (Mandatory)
+
+Before writing valuation, reverse-engineer how the market is actually pricing this stock RIGHT NOW. This is not "how it should be valued" — it is "what method is the market currently using, and what hidden assumptions does that embed?"
+
+**Required Questions:**
+
+1. **What pricing method does the market currently use?**
+   - Provide evidence: peer multiple comparison, stock reaction to specific events, sell-side consensus methodology
+   - Example: "Market prices HOOD primarily on Forward P/E (~30x), evidenced by stock reaction to EPS beats (+5% on Q4) vs revenue beats (+2% on Q3)"
+
+2. **What hidden assumptions are embedded in the current price?**
+   - Each assumption must be falsifiable and specific
+   - Example: "Current 30x P/E implies ~25% revenue growth for 3+ years" — not just "market expects growth"
+
+3. **What does the market explicitly disbelieve or discount?**
+   - Infer from: valuation multiples vs peers, stock reaction patterns, sell-side reports
+   - Example: "Market discounts crypto revenue sustainability (crypto at ~4x revenue contribution vs ~8x for options)"
+
+4. **Where is the pricing most vulnerable?**
+   - Identify the specific mechanism by which the pricing could break
+   - Example: "If revenue growth decelerates to <15%, the growth-stock pricing framework collapses to value-stock pricing (~18x P/E), implying ~40% downside"
+
+Hard rules:
+
+- This section MUST be completed before writing the valuation section.
+- Evidence for pricing method must come from observable market behavior, not from what "should" be the case.
+- Cannot say "stock is cheap/expensive" without completing this section first.
+
+#### Conditional Judgment (Mandatory — Replaces Simple Verdict)
+
+The final judgment must be CONDITIONAL, not directional. "Bullish" is a label, not a judgment. A judgment specifies conditions, time windows, and outcomes.
+
+**Required Structure:**
+
+```
+Core Judgment: [One paragraph — why you believe the market is wrong, and where the odds are]
+
+Condition Structure:
+- If [Key Premise A] verified by [Time Window ≤1 Quarter] → Target Price [X], Position [Y]
+- If [Key Premise A] unverified but not refuted → Maintain current assessment
+- If [Key Premise A] refuted → Price moves toward [Z], Action [W]
+
+Falsification Conditions: [Specific, observable events/data that would invalidate the thesis]
+
+Tracking Framework:
+| Time Window | What to Watch | Validates/Falsifies What | Action If Triggered |
+|-------------|---------------|--------------------------|---------------------|
+| Next earnings | [specific metric] | [which premise] | [specific action] |
+| Next 90 days | [specific event] | [which premise] | [specific action] |
+```
+
+Hard rules:
+
+- Time windows must be ≤1 quarter for primary conditions. Do not use vague timeframes like "medium-term" or "2H 2026".
+- Falsification conditions must be specific observable events or data thresholds — not "fundamentals deteriorate".
+- If judgment is genuinely uncertain, state "uncertain" and specify what evidence resolves it. This is more valuable than a forced direction.
+
+#### Unresolved Items (Mandatory)
+
+Every honest analysis has questions it cannot fully answer. List them explicitly.
+
+| Question | What Evidence Answers It | When Available | Impact If Unresolved |
+|----------|------------------------|----------------|---------------------|
+| [Specific unknown] | [Type of data/event] | [Approximate date] | Fatal / Serious / General |
+
+Hard rules:
+
+- If the unresolved items list is empty, the analysis is not honest enough. Every company has blind spots.
+- "Fatal" impact means the entire thesis could be wrong. "Serious" means direction unchanged but magnitude significantly affected. "General" means local adjustment only.
+- Do not use vague language to mask uncertainty (e.g., "expected to gradually improve" when you don't know). State "unknown" and explain what resolves it.
 
 #### Forward Catalyst Calendar (Mandatory)
 
@@ -473,6 +547,55 @@ In the valuation section, always state:
 - If valuation is blocked, downgrade to scenario framing and ask for the exact missing fields.
 - If evidence is insufficient to verify a claim, leave it out or label it as uncertain.
 - When revenue quality decomposition reveals pass-through share exceeding 50% of total revenue, the core-margin figure must appear in the Data Sufficiency note and must be referenced in any margin-based valuation methodology.
+
+### 8b. Negative Constraints (Anti-Label-Substitution Rules)
+
+These rules prevent shallow analysis by making label-substitution more costly than genuine reasoning. Before delivering the report, verify NO violations exist:
+
+1. **Cannot give a target price** unless the Market Pricing Mechanism section is complete (what method does market use? is this method correct?).
+
+2. **Cannot say "cheap" or "expensive"** unless at least 2 valuation perspectives are shown with substantive differences.
+
+3. **Cannot skip the Business Logic Transformation section** and jump directly to financial analysis. The economic problem the company solves must come first.
+
+4. **Cannot substitute a label for reasoning:**
+   - "Turnaround" is not analysis; "the turnaround mechanism is X, because Y, evidenced by Z" is analysis.
+   - "Growth stock" is not analysis; "growth driver is A, persistence depends on B, ceiling is C" is analysis.
+   - "Has a moat" is not analysis; "moat is maintained by X mechanism, decay signals are Y" is analysis.
+
+5. **Cannot give direction-only judgment.** "Bullish" is not a judgment. Must use conditional structure (if [premise] by [time] then [target], else [alternative]).
+
+6. **Cannot put negative evidence only in the risk section.** If negative evidence impacts the reasoning chain, it must appear in the relevant section of the main analysis, not be deferred to a separate "risks" list.
+
+7. **Cannot give a determined conclusion when evidence is insufficient.** If uncertain, say "uncertain" and specify what evidence resolves it.
+
+### 8c. Proof Obligations (Extended)
+
+Every key claim requires attached proof. A claim without proof is not a claim. This extends beyond semantic claims (moat, network effect) to ALL material analytical assertions.
+
+| Claim Type | Required Proof | Unacceptable Proof |
+|-----------|---------------|-------------------|
+| "X is the first-order value driver" | Counterfactual: if X changes 30%, revenue impact vs if Y changes 30% | "X is most important" (no comparison) |
+| "Market prices via method Y" | Evidence: peer multiple pattern, stock reaction to events, sell-side consensus | "Market typically uses this" (impression) |
+| "Expectation gap exists at Z" | Three-way alignment: your view vs market-implied vs consensus — where they differ | "Market undervalues" (no decomposition) |
+| "Target price is W" | Decomposition: W = current price + which expectation gaps close, with probability weights | "Based on XX P/E" (no gap decomposition) |
+| "Moat exists" | Maintenance mechanism + decay signals + counterfactual (if moat disappears, what happens) | "Company has brand/tech moat" (label) |
+| "Cash flow form is S" | Historical data evidence + conditions under which the form changes | "Looks cyclical" (label) |
+| "Valuation transition possible" | Specific mechanism + evidence threshold + failure consequence | "Growth stocks typically re-rate" (generic) |
+
+### 8d. Meta-Question Self-Reflection
+
+After completing the main analysis body (before the Technical Structure appendix), answer this meta-question:
+
+> **"In this analysis, what was most tempting to skip, assert without sufficient evidence, or gloss over? Why might it actually matter?"**
+
+This question exploits LLM self-awareness: Claude knows when it has taken shortcuts. Forced self-reflection is more effective than external review because the model knows what it skipped.
+
+Hard rules:
+
+- The meta-question answer must be substantive (2-4 sentences minimum), not a dismissive "nothing was skipped."
+- If the meta-question reveals a gap that could change the conclusion, acknowledge it and adjust accordingly.
+- If it doesn't generate any adjustment, the self-reflection wasn't honest enough.
 
 ### 9. Technical Structure Assessment (Appendix)
 

@@ -13,7 +13,7 @@ Analyze a public company from verified evidence, not from memory or recycled wri
 
 - Default to a single-stock deep dive.
 - Use industry-chain or theme analysis only as context for the stock under review.
-- Write the final answer in the user's language when possible. Keep tickers, filing names, source names, and regulatory body names in their original form.
+- Keep tickers, filing names, source names, and regulatory body names in their original form.
 - Treat the research corpus as an angle library only. Do not inherit factual claims from it without re-sourcing them from authoritative sources at runtime.
 
 ## Mandatory Workflow

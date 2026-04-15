@@ -1,784 +1,411 @@
 ---
 name: stock-analysis
-description: Fundamental stock analysis for public companies using authoritative sources first and explicit source-quality controls. Use when Codex needs to analyze a stock, ticker, public company, peer set, thesis update, post-earnings change, or industry context for a stock across global markets. Prioritize issuer filings, exchange notices, regulators, government or official industry datasets, and user-provided Bloomberg/FactSet/CapIQ data when needed.
+description: >
+  Fundamental stock analysis for public companies. Produces themed content blocks
+  (business logic, operating logic, customers & orders, financial data, catalysts)
+  that can be used standalone OR fed to the stock-research-report orchestrator.
+  Uses authoritative sources (filings, exchange notices, regulators) and optional
+  Bloomberg Terminal data. Emphasizes bottom-up unit economics, operating leverage
+  decomposition, and named customers/contracts over generic end-market narratives.
+triggers:
+  - fundamental analysis
+  - stock analysis
+  - analyze stock
+  - 基本面分析
+  - company analysis
+  - equity analysis
 ---
 
-# Stock Analysis
+# Stock Analysis — Fundamental
 
 ## Overview
 
-Analyze a public company from verified evidence, not from memory or recycled writeups. This skill is gate-driven: it must block weak commercial evidence, untagged capacity claims, incomplete capital-structure work, unsupported semantic claims such as `moat` or `network effect`, and terminal-only valuation inputs that the user has not supplied.
+Analyze a public company from verified evidence. Produce **themed content blocks** that either (a) feed the `stock-research-report` orchestrator or (b) stand alone as a fundamental analysis. Emphasize:
 
-## Default Scope
+- **Business logic transformation** (why this company is interesting RIGHT NOW)
+- **Bottom-up operating logic** (capacity × utilization × unit economics)
+- **Named customers and contract walks** (not generic end-market percentages)
+- **Operating leverage decomposition** (incremental margin walk)
+- **Dated management quotes** (speaker + date always preserved)
 
-- Default to a single-stock deep dive.
-- Use industry-chain or theme analysis only as context for the stock under review.
-- Keep tickers, filing names, source names, and regulatory body names in their original form.
-- Treat the research corpus as an angle library only. Do not inherit factual claims from it without re-sourcing them from authoritative sources at runtime.
+This skill is **gate-driven**: block weak commercial evidence, untagged capacity claims, incomplete capital-structure work, unsupported semantic claims (`moat`, `network effect`), and terminal-only valuation inputs the user has not supplied.
+
+## Output Format
+
+This skill has **two output modes**:
+
+- **Content Block Mode** (default when called by `stock-research-report`): Output themed content blocks with ALL material facts preserved. The orchestrator will weave them into a final narrative. Do NOT self-format as a complete report with headers.
+- **Standalone Mode** (when called directly): Produce a themed analyst-style output that follows the report format in `references/report-format.md` and ends with a trade plan.
+
+In both modes: strip Claude-voice vocabulary (see Style section). Preserve all named customers, dated quotes, contract numbers, and catalyst dates. Do not pre-compress.
+
+---
 
 ## Mandatory Workflow
 
-### 1. Scope the request
+### 1. Scope the Request
 
-- Identify the company, ticker, exchange, and analysis scope.
-- Resolve ambiguity before valuation or peer work. If ticker or exchange is unclear and cannot be resolved from authoritative sources, ask a short clarifying question.
-- Classify the company into one archetype before building the thesis:
-  - `mature`
-  - `frontier`
-  - `turnaround`
-  - `consumer_health_platform`
-  - `b2b_software_platform`
-  - `digital_bank_or_lender`
-  - `lending_marketplace`
-  - `provider_reimbursement`
-  - `resource_policy`
-  - `industry_chain_context`
-- Read [angle-library.yaml](./references/angle-library.yaml) first for runtime routing.
-- Read [claim-gates.yaml](./references/claim-gates.yaml) before writing any semantic claim such as `moat`, `platform`, `data flywheel`, or `network effect`.
-- Read [report-digests.yaml](./references/report-digests.yaml) for offline report summaries. Do not reread the raw research corpus at runtime.
-- Read [angle-library.md](./references/angle-library.md) only as human-readable backup context.
+- Identify company, ticker, exchange, and analysis scope.
+- Resolve ticker/exchange ambiguity from authoritative sources before starting. Ask a short clarifying question only if unresolvable.
+- Classify the company into ONE archetype:
+  - `mature` — stable operations, focus on margin and capital allocation
+  - `frontier` — pre-revenue or early commercialization
+  - `turnaround` — balance sheet repair, operational restructuring
+  - `b2b_software_platform` — SaaS, ARR/NRR-driven
+  - `digital_bank_or_lender` — funding stack, credit quality
+  - `lending_marketplace` — capital partners, take rate
+  - `provider_reimbursement` — site economics, payer policy
+  - `resource_policy` — permit path, offtake, processing capacity
+  - `industry_chain_context` — thematic context, no standalone valuation
+  - `consumer_health_platform` — product mix, retention, regulatory
+- Read `references/angle-library.yaml` for runtime routing and `references/claim-gates.yaml` before writing semantic claims.
 
-### 2. Build the mandatory gating tables before writing a thesis
+### 2. Build Evidence Gating Tables (Silent — Used Internally)
 
-Create these tables whenever the thesis depends on commercial claims, milestones, capacity, regulatory gating, reimbursement, qualification, litigation, or accounting quality.
+Build these internally, surface only when they materially affect the thesis. Do NOT output them as tables in the final report.
 
-#### Commercial Evidence Table
-
-For each material commercial claim, record:
-
-- `claim`
-- `source_side`: `issuer_only | bilateral | regulator`
-- `contract_form`: `mou | pilot | framework | commercial_agreement | binding_po | backlog | recognized_revenue`
-- `disclosed_value`: `yes | no`
-- `valuation_usability`: `no | limited | yes`
+**Commercial Evidence** — for each material commercial claim, internally record:
+- `claim`, `source_side` (issuer_only / bilateral / regulator), `contract_form` (mou / pilot / framework / commercial_agreement / binding_po / backlog / recognized_revenue), `disclosed_value`, `valuation_usability`
 
 Hard rules:
+- `mou`, `pilot`, `framework`, management aspiration are NOT valuation denominators
+- Only `binding_po`, `backlog`, `recognized_revenue` are strong economic visibility
 
-- `mou`, `pilot`, `framework`, and management aspiration are not valuation denominators.
-- `issuer_only` evidence is weaker than bilateral or regulator-backed evidence. If bilateral or regulator evidence should exist and is missing, downgrade confidence.
-- Only `binding_po`, `backlog`, or `recognized_revenue` may be treated as strong economic visibility by default.
+**Capacity and Milestone** — for each capacity claim, internally record:
+- `metric`, `status` (planned / ordered / under_construction / mechanically_complete / ramping / operational), `monetization_status` (uncontracted / partially_contracted / contracted), `date`
 
-#### Capacity and Milestone Table
+Hard rule: `planned`, `ordered`, `under_construction`, `uncontracted` capacity is NOT a valuation denominator. Distinguish physical completion from commercial monetization.
 
-For each material capacity, deployment, or infrastructure claim, record:
+**Regulatory/Qualification/Legal** — for any thesis-gating regulatory item, internally record:
+- `gate`, `gate_type`, `authority`, `status`, `economic_dependency`, `next_observable`, `source`
 
-- `metric`
-- `status`: `planned | ordered | under_construction | mechanically_complete | ramping | operational`
-- `monetization_status`: `uncontracted | partially_contracted | contracted`
-- `date_or_in_service_date`
+Hard rule: `under_review`, `qualified_pending`, `contested` are NOT realized economic facts.
 
-Hard rules:
+### 3. Search Authoritative Sources
 
-- `planned`, `ordered`, `under_construction`, or `uncontracted` capacity cannot be used as a valuation denominator.
-- Distinguish physical completion from commercial monetization. `operational` is not the same as `contracted`.
+Start with:
+- Issuer filings and investor relations
+- Exchange notices and filing systems (SEC EDGAR, HKEX, SSE, SZSE, TSE, LSE)
+- Regulators and government databases
+- Official partner/customer/counterparty disclosures when directly relevant
+- sec-parser library for 10-K semantic extraction (optional — yields risk-factor diffing)
 
-#### Regulatory_Qualification_Legal_Gate_Table
-
-Create this table whenever the thesis depends on certification, permits, reimbursement, qualification, litigation, accounting quality, product approval, telehealth or pharmacy distribution rules, or regulatory distribution.
-
-- `gate`
-- `gate_type`: `regulator | qualification | legal`
-- `authority_or_counterparty`
-- `status`: `not_started | submitted | under_review | approved | qualified | contested`
-- `economic_dependency`: `low | medium | high`
-- `next_observable`
-- `source`
-
-Hard rules:
-
-- `under_review`, `qualified_pending`, and `contested` are not realized economic facts.
-- If `economic_dependency` is `high` and status is not `approved` or `qualified`, downgrade valuation to scenario framing.
-- If active litigation, restatement, material weakness, or revenue-recognition challenge exists, surface it here rather than only in risks.
-
-### 3. Search authoritative sources first and assess data confidence
-
-- Search online before relying on memory.
-- Start with market-specific official sources and issuer materials:
-  - issuer filings and investor relations
-  - exchange notices and filing systems
-  - regulators and government databases
-  - official partner, customer, or counterparty disclosures when directly relevant
-- For commercial claims, seek bilateral confirmation when possible.
-- Read [source-policy.md](./references/source-policy.md) at the start of every analysis.
-
-After searching, assess data confidence for each material data point:
+**Data confidence assessment:**
 
 | Confidence | Definition | Action |
 |-----------|-----------|--------|
-| `high` | Exact figures from issuer filings, exchange, or regulator with clear dates | Proceed |
-| `moderate` | From IR materials or earnings calls but lacks precision or is 1+ quarter old | Proceed with staleness flag |
-| `low` | Only from secondary sources; figures conflict across sources; or 2+ quarters old | **Request Bloomberg Terminal data** |
-| `not_found` | Terminal-only field (consensus, peer multiples, ownership, debt pricing) | **Request Bloomberg Terminal data** |
+| `high` | Exact figures from filings, exchange, or regulator with clear dates | Proceed |
+| `moderate` | From IR materials or earnings calls; lacks precision or is 1+ quarter old | Proceed with staleness note inline |
+| `low` | Secondary sources only; figures conflict; or 2+ quarters old | Request Bloomberg Terminal data |
+| `not_found` | Terminal-only field (consensus, peer multiples, ownership, debt pricing) | Request Bloomberg Terminal data |
 
-Request Bloomberg Terminal data when: figures conflict across sources, data is 2+ quarters stale, precision is insufficient for valuation, or the field is inherently terminal-only. See [proprietary-data.md](./references/proprietary-data.md) for the full request protocol and templates.
+When requesting Bloomberg data, use `references/bloomberg-request-templates.md`. Continue writing all non-blocked sections while waiting; mark blocked sections inline with a brief note ("因数据限制，此处仅做框架性估算").
 
-### 4. Build an evidence ledger
+**Do NOT start the final report with a "数据充分性说明" section.** Confidence notes are embedded inline where relevant, not at the top.
+
+### 4. Build an Evidence Ledger
 
 For every material quantitative or semantic claim, capture:
+- Value or claim text
+- Date or period
+- Source
+- Source class
 
-- value or claim text
-- date or period
-- source
-- source class
-
-Separate content into four buckets while you work:
-
-- verified facts
-- inference from verified facts
-- scenario assumptions
-- opinions or judgments
+Keep four buckets while working (not as output):
+- Verified facts
+- Inference from verified facts
+- Scenario assumptions
+- Opinions or judgments
 
 Do not let inference or assumptions drift into fact statements.
 
-### 5. Run semantic claim gates before thesis writing
+### 5. Produce Themed Content Blocks
 
-- When the output uses `data_flywheel`, `network_effect`, `moat`, or `platform`, check [claim-gates.yaml](./references/claim-gates.yaml).
-- If the minimum evidence is incomplete, do not state the strong label as fact.
-- Downgrade to the configured fallback label or mark the statement as inference.
-- Do not use downgraded semantic claims as valuation support by themselves.
+The output is organized as THEMED BLOCKS, not numbered parts. In Content Block Mode, emit each block with a clear label so the orchestrator can weave. In Standalone Mode, these become the sections of the report.
 
-### 6. Detect proprietary data and capital-structure gaps early
+#### Block A: 业务逻辑 (Business Logic Transformation)
 
-- Before writing valuation, verify the capital structure from authoritative disclosures.
-- Read [proprietary-data.md](./references/proprietary-data.md) whenever valuation, ownership, consensus, peer-multiple, or debt-market work is involved.
-- If the user has not supplied terminal-only data required for peer multiples, valuation bands, or consensus, allow scenario framing only.
-- If fully diluted share count, dilution stack, debt stack, or net-debt bridge is incomplete, block valuation.
-- When online data is assessed as `low` confidence or `not_found` for a material field, issue a Bloomberg Terminal data request using the templates in [proprietary-data.md](./references/proprietary-data.md). Explain what was searched, why it was insufficient, and which section is blocked.
-- Continue writing all non-blocked sections while waiting for terminal data. Mark blocked sections with `[待Bloomberg数据]`.
+**Length**: 2-4 paragraphs
+**Purpose**: Tell the transformation story — why is this company interesting RIGHT NOW?
 
-### 7. Write the analysis as base structure plus archetype routing
+**Must answer four questions in narrative form (not as a bullet list):**
+1. What was the OLD value driver 2-3 years ago? (with specific data)
+2. What is the NEW value driver now or near future? (with specific data)
+3. What structural change is forcing/enabling the transformation?
+4. If successful, what does the company look like in 3-5 years?
 
-Start with a `Data Sufficiency` note:
+**Hard rules:**
+- Never output as four bullet points — write cohesive prose
+- Support each claim with specific data (e.g., "计算类收入从 2023 年 10% 提升至 2025 年 80%")
+- Include management quotes with dates (e.g., "Greg Smith 在 2026 年 1 月 Q4 电话会中指出...")
+- Weave in industry chain context naturally
+- If no transformation is happening (stable mature), state "公司处于稳定运营模式" and describe the steady-state logic plus what's changing at the margin
 
-- what was verified (with confidence level)
-- what was inferred
-- what is blocked by missing Bloomberg Terminal data (list pending requests)
-- what is blocked by weak commercial, capacity, regulatory, qualification, or legal evidence
-
-Then write the base structure:
-
-- Core thesis
-- **Business Logic Transformation** (mandatory — see below)
-- Business model and segment structure
-- Industry and policy context
-- **Macro-to-Company Transmission** (see below)
-- Operating metrics and milestones
-- **Management Signal Extraction** (mandatory — see below)
-- **Customer and Supply Chain Deep Dive** (see below)
-- **Competitive Positioning** (see below)
-- Financial quality, liquidity, and capital structure (see sub-components below)
-- **Market Pricing Mechanism Analysis** (mandatory — see below)
-- Valuation or scenario framing
-- **Conditional Judgment** (mandatory — replaces simple verdict — see below)
-- **Unresolved Items** (mandatory — see below)
-- **Forward Catalyst Calendar** (mandatory — see below)
-
-#### Business Logic Transformation (Mandatory)
-
-Every company has a core business logic — the mechanism through which it creates and captures value. This section must answer four questions in narrative form, not as a checklist:
-
-1. **Old Logic**: What was the company's primary value driver 2-3 years ago? (e.g., mobile SoC testing, China-based operations, oil field services, Bitcoin mining)
-2. **New Logic**: What is the company's primary value driver now or in the near future? (e.g., AI chip complexity testing, US-localized manufacturing, data center power, AI cloud infrastructure)
-3. **Why Now**: What structural change is forcing or enabling this transformation? (e.g., AI infrastructure buildout, regulatory/policy shift, technology inflection, supply-demand imbalance)
-4. **Endgame**: If the transformation succeeds, what does the company look like in 3-5 years? What is the terminal business model?
-
-Hard rules:
-
-- Do not present this as four bullet points. Write a cohesive 2-4 paragraph narrative that tells the transformation story.
-- Support each claim with specific data points from filings or earnings calls (e.g., "Compute grew from 10% of SoC revenue in 2023 to 80% in 2025").
-- If no meaningful transformation is occurring (stable mature business), state "No active business logic transformation — stable operational model" and describe the current steady-state logic.
-- This section should answer the investor question: "Why is this company interesting RIGHT NOW?"
-
-#### Macro-to-Company Transmission
-
-Analyze how macroeconomic and policy factors specifically impact this company's valuation and business:
-
-| Factor | Direction | Transmission Mechanism | Impact Magnitude |
-|--------|-----------|----------------------|-----------------|
-| Interest rates | rising/falling/stable | How rate changes affect cost of capital, customer behavior, or valuation multiples | high/medium/low |
-| Trade/tariff policy | specific policy | How tariffs or trade restrictions affect supply chain, pricing, or market access | high/medium/low |
-| Industry-specific regulation | specific regulation | How regulation creates or destroys value for this company | high/medium/low |
-| Currency | strengthening/weakening | Revenue/cost exposure by currency | high/medium/low |
-
-Hard rules:
-
-- Do not list generic macroeconomic risks. Each factor must have a specific, traceable transmission mechanism to the company's revenue, margins, or valuation.
-- Reference specific policies by name (e.g., "OBBBA domestic content requirements", "IRA Section 45X manufacturing credits", "CHIPS Act funding").
-- Include the "Davis Double Play" framework when applicable: identify whether EPS growth AND multiple expansion could occur simultaneously (e.g., earnings recovery + rate cuts = both earnings and PE expand).
-
-#### Management Signal Extraction (Mandatory)
-
-Extract and cite specific management commentary from the most recent 2-3 earnings calls and investor conferences:
-
-| Date | Event | Speaker | Key Quote/Signal | Implication |
-|------|-------|---------|-----------------|-------------|
-| YYYY-MM-DD | Q[X] Earnings Call | Name, Title | Direct quote or close paraphrase | What this means for the investment thesis |
-| YYYY-MM-DD | Conference Name | Name, Title | Direct quote or close paraphrase | What this means for the investment thesis |
-
-Hard rules:
-
-- Cite the exact date, event name, and speaker for every management signal.
-- Distinguish between forward guidance (quantitative), strategic commentary (qualitative), and tone/confidence signals.
-- Flag any management commentary that contradicts prior statements or consensus expectations.
-- If earnings call transcripts are not accessible, state "Transcript not available — using press release and filing data only" and skip this table.
-
-#### Customer and Supply Chain Deep Dive
-
-| Customer | Revenue Share | CAPEX as % of TER Revenue | Trend | Strategic Significance |
-|----------|-------------|--------------------------|-------|----------------------|
-| Top customer | XX% | XX% | growing/stable/declining | Why this customer matters |
-| ... | ... | ... | ... | ... |
-
-Also analyze:
-
-- **Customer concentration risk**: Top-5 customer share and trend over 3 years
-- **Supply chain bottleneck**: Identify the single most critical supply chain dependency
-- **Customer CAPEX cycle**: Are key customers in expansion or contraction mode?
-
-Hard rules:
-
-- Use Bloomberg SPLC data or 10-K customer disclosures for top customer identification.
-- If customer names are not disclosed, use segment/geography as proxy.
-
-#### Competitive Positioning
-
-| Dimension | Company | Competitor 1 | Competitor 2 | Competitor 3 |
-|-----------|---------|-------------|-------------|-------------|
-| Market share | XX% | XX% | XX% | XX% |
-| Gross margin | XX% | XX% | XX% | XX% |
-| Revenue growth | XX% | XX% | XX% | XX% |
-| Key differentiator | ... | ... | ... | ... |
-
-Also include:
-
-- Third-party analyst positioning (Gartner Magic Quadrant, Forrester Wave, IDC rankings) if available
-- Switching cost assessment (high/medium/low with evidence)
-- Market structure (monopoly/duopoly/oligopoly/fragmented)
-
-#### Market Pricing Mechanism Analysis (Mandatory)
-
-Before writing valuation, reverse-engineer how the market is actually pricing this stock RIGHT NOW. This is not "how it should be valued" — it is "what method is the market currently using, and what hidden assumptions does that embed?"
-
-**Required Questions:**
-
-1. **What pricing method does the market currently use?**
-   - Provide evidence: peer multiple comparison, stock reaction to specific events, sell-side consensus methodology
-   - Example: "Market prices HOOD primarily on Forward P/E (~30x), evidenced by stock reaction to EPS beats (+5% on Q4) vs revenue beats (+2% on Q3)"
-
-2. **What hidden assumptions are embedded in the current price?**
-   - Each assumption must be falsifiable and specific
-   - Example: "Current 30x P/E implies ~25% revenue growth for 3+ years" — not just "market expects growth"
-
-3. **What does the market explicitly disbelieve or discount?**
-   - Infer from: valuation multiples vs peers, stock reaction patterns, sell-side reports
-   - Example: "Market discounts crypto revenue sustainability (crypto at ~4x revenue contribution vs ~8x for options)"
-
-4. **Where is the pricing most vulnerable?**
-   - Identify the specific mechanism by which the pricing could break
-   - Example: "If revenue growth decelerates to <15%, the growth-stock pricing framework collapses to value-stock pricing (~18x P/E), implying ~40% downside"
-
-Hard rules:
-
-- This section MUST be completed before writing the valuation section.
-- Evidence for pricing method must come from observable market behavior, not from what "should" be the case.
-- Cannot say "stock is cheap/expensive" without completing this section first.
-
-#### Conditional Judgment (Mandatory — Replaces Simple Verdict)
-
-The final judgment must be CONDITIONAL, not directional. "Bullish" is a label, not a judgment. A judgment specifies conditions, time windows, and outcomes.
-
-**Required Structure:**
-
+**Template:**
 ```
-Core Judgment: [One paragraph — why you believe the market is wrong, and where the odds are]
+[OLD LOGIC paragraph — 1 paragraph]
+在 2023 年之前，[Company] 主要靠 [old value driver]。[Supporting data with source and date]. 这个模式的核心特征是 [characteristic] — 高度依赖 [dependency], 利润弹性受限于 [constraint].
 
-Condition Structure:
-- If [Key Premise A] verified by [Time Window ≤1 Quarter] → Target Price [X], Position [Y]
-- If [Key Premise A] unverified but not refuted → Maintain current assessment
-- If [Key Premise A] refuted → Price moves toward [Z], Action [W]
+[NEW LOGIC paragraph — 1 paragraph]
+从 2024 年开始，业务逻辑发生了结构性变化。[New value driver] 取代 [old] 成为核心收入来源。具体表现在 [specific data points — shift in revenue mix, new customer wins, new products]. [Management quote with date and speaker] 证实了这一转变。
 
-Falsification Conditions: [Specific, observable events/data that would invalidate the thesis]
-
-Tracking Framework:
-| Time Window | What to Watch | Validates/Falsifies What | Action If Triggered |
-|-------------|---------------|--------------------------|---------------------|
-| Next earnings | [specific metric] | [which premise] | [specific action] |
-| Next 90 days | [specific event] | [which premise] | [specific action] |
+[WHY NOW + ENDGAME — 1-2 paragraphs]
+这一转变不是偶然的 — [structural driver such as AI buildout, trade war, technology inflection, policy change]. [Industry data point showing the structural change is real].
+如果这个转变顺利完成，[Company] 将在 [time window] 成为 [endgame description] — 估值框架也将从 [old multiple framework] 重估为 [new multiple framework].
 ```
 
+#### Block B: 运营逻辑 (Operating Logic)
+
+**Length**: 2-4 paragraphs + 1-2 tables
+**Purpose**: HOW does the business logic convert into P&L, and when?
+
+**Must include:**
+- Named facilities with current capacity and ramp schedule
+- Capex cadence (quarterly or annual capex with guidance)
+- Utilization targets with dates (e.g., "2026 末预计达到 85% 利用率")
+- Product mix shifts with specific revenue numbers
+- **Bottom-up unit economics** for commodity/industrial/capacity-driven companies:
+  - Production volume × realized price × unit margin = EBITDA contribution
+  - See `references/commodity-math-template.md` or use this pattern:
+    - Unit output (tons / lb / GW / # chips / TWh)
+    - Realized price (spot-adjusted or long-term contract)
+    - Unit cost (AISC or cash cost)
+    - Unit margin = price − cost
+    - EBITDA = unit margin × volume − fixed costs
+- **Operating leverage decomposition** (incremental margin walk):
+  - "From Q1 to Q4, revenue +$XM, gross profit +$YM, incremental gross margin = Y/X = Z%"
+  - "EBITDA change: +$WM, incremental EBITDA margin: W/X = V%"
+- **Byproduct credits** if applicable (sulfuric acid, silver from JV, vanadium from uranium ops, etc.) — NEVER skip these for mining/industrial companies
+
+**Capacity ramp table (when applicable):**
+```
+| Facility | Current | 2026 Target | 2027 Target | Investment | Status |
+|----------|---------|-------------|-------------|-----------|--------|
+| Thompson Falls | 100 t/mo | 300 t/mo | 500 t/mo | $35M | Q1 2026 投产 |
+```
+
+**Hard rules:**
+- If production guidance is not disclosed, ASK for Bloomberg data — do NOT fall back to consensus without a bottom-up walk
+- Operating leverage MUST be quantified if the thesis relies on margin expansion. "Operating leverage release" without numbers is a buzzword.
+- Byproduct credits require a dollar value, not just acknowledgment
+
+#### Block C: 客户与订单 (Customers & Orders)
+
+**Length**: 1-2 paragraphs + 1-2 tables
+**Purpose**: Who pays this company, and how locked-in is the revenue?
+
+**Must include:**
+- **Top-5 customers by NAME** (from 10-K customer disclosures or Bloomberg SPLC data). If customer names are not disclosed, use named segments or geographies as proxy AND explicitly state the limitation.
+- Revenue share per customer (%)
+- Strategic significance per customer (one phrase)
+- Customer CAPEX trend (are they in expansion mode?)
+- **Contract/backlog walk** — contract-by-contract if disclosed:
+  - Contract value, counterparty, contract form (firm / IDIQ / framework)
+  - 2025 delivery, 2026 delivery, remaining
+- **Customer concentration risk** — top-5 share and 3-year trend
+- **Supply chain bottleneck** — single most critical dependency (one sentence)
+
+**Customer table format:**
+```
+| 客户 | 营收占比 | 趋势 | 战略意义 |
+|------|---------|------|---------|
+| NVIDIA | ~15% | 快速增长 | AI GPU 测试核心客户 |
+| Samsung | 12% | 稳定 | 存储 + SoC 双线供货 |
+```
+
+**Contract walk format:**
+```
+| 合约 | 总额 | 2025 交付 | 2026 交付 | 状态 |
+|------|------|----------|----------|------|
+| DLA IDIQ | $245M | $10M | $50-60M | 首批发货 |
+| Bolivia | $75M | 0 | $30M | 2026 Q2 启动 |
+```
+
+**Hard rules:**
+- Do NOT substitute end-market percentages ("computing 27%") for named customers unless customer names are legitimately undisclosed
+- When using segment/geography as proxy, state: "Top customer names not disclosed in 10-K; using geographic proxy"
+
+#### Block D: 财务数据 (Financial Data)
+
+**Length**: Tables + 2-3 paragraphs commentary
+**Purpose**: Show the numbers that support the thesis and flag quality concerns.
+
+**Must include:**
+- **3-year financial comparison table** (Revenue, Gross Margin, EBITDA, Net Income, EPS, FCF, FCF Margin)
+- **Forward model table** with explicit growth drivers in column headers (not just "consensus"):
+
+```
+| 指标 | 2026E | 驱动力 |
+|------|-------|-------|
+| 收入 | $1,680M | 汽车 +24% × 占比 19% + 计算 +25% × 27% + 其他持平 |
+| 毛利率 | 34% | 内部晶圆厂利用率 72%→82%，摊销降 +300bp |
+| EBITDA | $244M | 14.5% 利润率 |
+```
+
+- Management guidance (with date of guidance)
+- **2-3 key earnings call quotes with dates and speakers** — these are critical. Preserve exact dates and speaker names.
+- Variance analysis (volume / price / mix decomposition) for material revenue changes
+- Accrual ratio: (net income − OCF) / average total assets — rising ratio is a quality concern
+
+**Financial Quality Sub-analysis (silent unless material):**
+
+Build these internally; surface findings inline when they affect the thesis:
+- **Revenue quality**: value_creating vs pass_through vs agency. If pass-through > 30%, report core margin separately.
+- **Earnings quality**: GAAP vs adjusted bridge. If GAAP-to-adjusted bridge has >3 items, list each. If SBC > 10% of operating income, disclose impact on both operating margin and FCF.
+- **Cash flow decomposition**: OCF, maintenance capex (or depreciation as proxy), growth capex, FCF, maintenance FCF, cash conversion ratio (OCF / net income).
+- **Return metrics**: ROE (with DuPont decomposition when material), ROIC (NOPAT / average invested capital), gross / operating / net margin trends.
+- **Leverage metrics**: Net debt / EBITDA, interest coverage.
+
+Hard rule: Do NOT create lettered sub-sections ("Financial Quality Sub-Component A/B/C/D/E") in the final output. These are analysis buckets, not report sections.
+
+#### Block E: 催化剂 (Forward Catalyst Calendar)
+
+**Length**: Table + 1-2 paragraphs
+**Purpose**: What events could move the stock in the next 6-12 months?
+
+**Must include:**
+- At least 3 forward catalysts in the next 6-12 months
+- For each: specific date (or QX 2026), event, bull case outcome, bear case outcome, monitoring source
+
+```
+| 日期 | 事件 | 预期影响 | 监控源 |
+|------|------|---------|--------|
+| 2026-02-10 | Q4 财报 | 毛利率回升确认 | IR 网站 |
+| 2026-03 | Thompson Falls 投产 | 产能提升 100→300 t/mo | 季度运营更新 |
+| 2026-04 | DoD Phase 2 订单决定 | $50-100M incremental | DoD 公告 |
+```
+
+**Prioritize catalysts that could move the stock >5%.**
+
+#### Block F: Valuation Hand-off (Content Block Mode only)
+
+When called by the orchestrator, emit one paragraph identifying:
+- The archetype-appropriate primary valuation method (NOT 9 methods)
+- Key inputs for that method (2026E EBITDA, 2027E EPS, diluted share count, net debt)
+- The catalyst that re-rates the multiple
+
+Do NOT produce a full valuation model — that's the `valuation-calculator` skill's job. Just hand off the inputs.
+
+#### Block G: Unresolved Items
+
+**Length**: 3-5 items
+**Purpose**: Every honest analysis has questions it can't fully answer.
+
+```
+| 问题 | 什么证据可以解答 | 何时可得 | 影响级别 |
+|------|----------------|---------|---------|
+| 内部晶圆厂利用率当前水平 | 下次电话会或 10-K 披露 | Q1 2026 | Serious |
+```
+
 Hard rules:
+- "Fatal" = entire thesis could be wrong; "Serious" = direction unchanged but magnitude affected; "General" = local adjustment only
+- If the unresolved items list is empty, the analysis is not honest enough — every company has blind spots
+- Do NOT use vague language ("expected to improve") to mask uncertainty
 
-- Time windows must be ≤1 quarter for primary conditions. Do not use vague timeframes like "medium-term" or "2H 2026".
-- Falsification conditions must be specific observable events or data thresholds — not "fundamentals deteriorate".
-- If judgment is genuinely uncertain, state "uncertain" and specify what evidence resolves it. This is more valuable than a forced direction.
+---
 
-#### Unresolved Items (Mandatory)
+### 6. Archetype-Specific Extensions
 
-Every honest analysis has questions it cannot fully answer. List them explicitly.
-
-| Question | What Evidence Answers It | When Available | Impact If Unresolved |
-|----------|------------------------|----------------|---------------------|
-| [Specific unknown] | [Type of data/event] | [Approximate date] | Fatal / Serious / General |
-
-Hard rules:
-
-- If the unresolved items list is empty, the analysis is not honest enough. Every company has blind spots.
-- "Fatal" impact means the entire thesis could be wrong. "Serious" means direction unchanged but magnitude significantly affected. "General" means local adjustment only.
-- Do not use vague language to mask uncertainty (e.g., "expected to gradually improve" when you don't know). State "unknown" and explain what resolves it.
-
-#### Forward Catalyst Calendar (Mandatory)
-
-| Date (Est.) | Event | Expected Impact | Monitoring Source |
-|-------------|-------|----------------|-------------------|
-| YYYY-MM-DD | Next earnings release | Revenue/guidance update | IR website |
-| YYYY-MM-DD | Factory/facility completion | Capacity expansion milestone | 10-Q, press releases |
-| YYYY-MM-DD | Regulatory decision | Approval/denial of key permit | Federal Register, agency website |
-| YYYY-QX | Contract renewal/expiration | Revenue visibility change | 10-K contract disclosures |
-| ... | ... | ... | ... |
-
-Hard rules:
-
-- Include at least 3 forward catalysts within the next 6-12 months.
-- For each catalyst, state what the bull case and bear case outcomes are.
-- Prioritize catalysts that could move the stock >5%.
-
-#### Financial Quality Sub-Components
-
-Build these tables and metrics whenever the analysis covers a company-level archetype (all except `industry_chain_context`). Read [financial-analysis-framework.md](./references/financial-analysis-framework.md) for detailed methodology.
-
-##### A. Revenue Quality Decomposition
-
-For each material revenue segment, record:
-
-| Field | Description |
-|-------|-------------|
-| `segment_or_stream` | Business segment or revenue line |
-| `revenue_type` | `value_creating` / `pass_through` / `agency` / `mixed` |
-| `pass_through_share` | Percentage of segment revenue that is procurement-on-behalf, hardware resale, sub-contractor pass-through, or cost-plus-zero-margin |
-| `core_margin` | Gross margin after stripping pass-through revenue |
-| `evidence_source` | Filing reference (MD&A, segment footnote, ASC 606 disclosure, earnings call) |
-
-Hard rules:
-
-- When pass-through share exceeds 30% of total revenue, report core margin alongside GAAP margin. State both.
-- Do not assume all low-margin segments are pass-through. Verify the business model from filings.
-- This decomposition answers: "Is the business structurally low-margin, or is there a hidden high-margin core?"
-
-##### B. Earnings Quality Assessment
-
-For each material adjusted metric, record:
-
-| Field | Description |
-|-------|-------------|
-| `metric` | GAAP metric name |
-| `gaap_value` | GAAP-reported figure |
-| `adjusted_value` | Non-GAAP adjusted figure |
-| `adjustment_items` | List of items bridging GAAP to adjusted, with sign and magnitude |
-| `sbc_treatment` | `included` / `excluded` / `partially_excluded` |
-| `source` | Filing reference |
-
-Hard rules:
-
-- Always present GAAP figures first. Adjusted metrics are supplementary.
-- When SBC exceeds 10% of operating income, disclose the impact on both operating margin and FCF.
-- When GAAP-to-adjusted bridge includes more than 3 items, list each with magnitude.
-- Revenue recognition policy must be identified from filings (ASC 606 disclosures). If changed in the past 3 years, flag it.
-- Calculate accrual ratio: (net income - OCF) / average total assets. Rising accrual ratio = deteriorating earnings quality.
-
-##### C. Cash Flow Decomposition
-
-Calculate from filings when available:
-
-| Metric | Definition |
-|--------|-----------|
-| Operating cash flow | GAAP reported |
-| Maintenance capex | Management disclosure, or depreciation as proxy |
-| Growth capex | Total capex minus maintenance capex |
-| Free cash flow | OCF minus total capex (state capex definition) |
-| Maintenance FCF | OCF minus maintenance capex only |
-| Working capital change | Contribution to OCF from AR, inventory, AP changes |
-| Cash conversion ratio | OCF / net income, or OCF / EBITDA |
-
-Hard rules:
-
-- When maintenance vs. growth capex split is not disclosed, use depreciation as maintenance capex proxy and state the assumption.
-- When working capital change drives more than 50% of the net-income-to-OCF gap, decompose it (receivables, inventory, payables).
-- Do not state FCF without specifying the capex definition used.
-
-##### D. Return and Leverage Metrics
-
-Calculate when data is available from filings:
-
-| Metric | Formula |
-|--------|---------|
-| ROIC | NOPAT / average invested capital |
-| ROE | Net income / average equity (DuPont: margin x turnover x leverage) |
-| Gross / operating / net margin | Per income statement |
-| Net debt / EBITDA | (Total debt - cash) / LTM EBITDA |
-| Interest coverage | EBIT / interest expense |
-
-Hard rules:
-
-- State the exact denominator used for each return metric.
-- When goodwill exceeds 30% of total assets, calculate both total ROIC and tangible ROIC.
-- Leverage metrics feed into existing valuation gates. If net-debt/EBITDA is unverifiable, flag in the Data Sufficiency note.
-
-##### E. Variance Analysis
-
-When comparing periods (QoQ, YoY, or vs. guidance):
-
-- Decompose material revenue changes into volume, price, and mix effects where segment data permits.
-- Decompose material margin changes into gross-margin drivers (input cost, product mix, utilization, pass-through share changes) and opex-leverage effects.
-- Use materiality thresholds: flag variances exceeding 15% vs. prior period or 5% vs. guidance.
-- Present variance drivers in a waterfall structure (starting point → each driver → ending point).
-
-Hard rule:
-
-- Do not attribute variance to a driver without sourcing from filings, earnings releases, or official transcripts.
-- Risks
-- Missing-data request, if blocked
-
-Add archetype-specific mandatory sections:
+Add archetype-specific blocks when relevant. These extend (not replace) the core blocks above.
 
 #### `frontier`
-
-- certification status
-- commercialization gates
-- cash runway
-- dilution ladder
-- partner quality
+- Certification status, commercialization gates, cash runway, dilution ladder, partner quality
 
 #### `turnaround`
-
-- maturity wall
-- refi path
-- interest burden
-- covenant headroom
-- asset-sale dependency
+- Maturity wall, refi path, interest burden, covenant headroom, asset-sale dependency
 
 #### `consumer_health_platform`
-
-- product concentration
-- retention_cross_sell
-- marketing_efficiency
-- regulatory_distribution_risk
-- fulfillment_margin
+- Product concentration, retention/cross-sell, marketing efficiency, regulatory distribution risk, fulfillment margin
 
 #### `b2b_software_platform`
-
-- customer_concentration
-- nrr_or_expansion
-- sbc_and_true_fcf
-- legal_accounting_quality
-- data_privacy
+- Customer concentration, NRR/expansion, SBC and true FCF, legal/accounting quality, data privacy
 
 #### `digital_bank_or_lender`
-
-- funding_stack
-- asset_liability_sensitivity
-- credit_quality
-- capital_ratios
-- regulatory_status
+- Funding stack, asset-liability sensitivity, credit quality, capital ratios, regulatory status
 
 #### `lending_marketplace`
-
-- funding_stack
-- partner_funding_quality
-- credit_quality
-- securitization_dependence
-- take_rate_or_fee_model
+- Funding stack, partner funding quality, credit quality, securitization dependence, take rate / fee model
 
 #### `provider_reimbursement`
-
-- site_or_facility_economics
-- reimbursement_mechanics
-- collections_quality
-- policy_sensitivity
-- payer_or_idr_dependency
+- Site/facility economics, reimbursement mechanics, collections quality, policy sensitivity, payer/IDR dependency
 
 #### `resource_policy`
-
-- permit_path
-- offtake
-- realized_pricing
-- processing_capacity
-- working_capital
+- Permit path, offtake, realized pricing, processing capacity, working capital
+- **Commodity math block is MANDATORY** for this archetype — see `references/commodity-math-template.md`
 
 #### `industry_chain_context`
-
-- supply_demand_balance
-- bottleneck_map
-- policy_catalysts
-- company_bridge
-- no_valuation
-
-#### `mature`
-
-- business logic
-- operating metrics
-- customers and channels
-- orders or backlog
-- capital structure
-- valuation
-- risks
-
-In the valuation section, always state:
-
-- method
-- period
-- numerator and denominator
-- capital-structure convention
-- major assumptions
-- source basis for inputs
-
-### 8. Run quality gates before answering
-
-- Reject excluded sources and patterns listed in [source-policy.md](./references/source-policy.md).
-- Do not use technical analysis, chart patterns, or Wyckoff phase labels in the fundamental-analysis body (sections 1–7). Technical analysis is confined to the dedicated §9 Technical Structure Assessment appendix.
-- Do not use position sizing, stop-loss, stop-gain, or trading plans anywhere in the output.
-- Do not output a target price unless the user explicitly asks for one and the valuation section clears all hard gates.
-- Block valuation if:
-  - fully diluted share count is unverified
-  - any part of the dilution stack is unverified
-  - the debt stack or net-debt bridge is unverified
-  - the denominator depends on `mou`, `pilot`, `framework`, management aspiration, planned capacity, or uncontracted capacity
-  - terminal-only consensus or peer data are required and the user has not provided them
-  - `economic_dependency` is `high` and the relevant regulatory, qualification, or legal gate is not `approved` or `qualified`
-- If valuation is blocked, downgrade to scenario framing and ask for the exact missing fields.
-- If evidence is insufficient to verify a claim, leave it out or label it as uncertain.
-- When revenue quality decomposition reveals pass-through share exceeding 50% of total revenue, the core-margin figure must appear in the Data Sufficiency note and must be referenced in any margin-based valuation methodology.
-
-### 8b. Negative Constraints (Anti-Label-Substitution Rules)
-
-These rules prevent shallow analysis by making label-substitution more costly than genuine reasoning. Before delivering the report, verify NO violations exist:
-
-1. **Cannot give a target price** unless the Market Pricing Mechanism section is complete (what method does market use? is this method correct?).
-
-2. **Cannot say "cheap" or "expensive"** unless at least 2 valuation perspectives are shown with substantive differences.
-
-3. **Cannot skip the Business Logic Transformation section** and jump directly to financial analysis. The economic problem the company solves must come first.
-
-4. **Cannot substitute a label for reasoning:**
-   - "Turnaround" is not analysis; "the turnaround mechanism is X, because Y, evidenced by Z" is analysis.
-   - "Growth stock" is not analysis; "growth driver is A, persistence depends on B, ceiling is C" is analysis.
-   - "Has a moat" is not analysis; "moat is maintained by X mechanism, decay signals are Y" is analysis.
-
-5. **Cannot give direction-only judgment.** "Bullish" is not a judgment. Must use conditional structure (if [premise] by [time] then [target], else [alternative]).
-
-6. **Cannot put negative evidence only in the risk section.** If negative evidence impacts the reasoning chain, it must appear in the relevant section of the main analysis, not be deferred to a separate "risks" list.
-
-7. **Cannot give a determined conclusion when evidence is insufficient.** If uncertain, say "uncertain" and specify what evidence resolves it.
-
-### 8c. Proof Obligations (Extended)
-
-Every key claim requires attached proof. A claim without proof is not a claim. This extends beyond semantic claims (moat, network effect) to ALL material analytical assertions.
-
-| Claim Type | Required Proof | Unacceptable Proof |
-|-----------|---------------|-------------------|
-| "X is the first-order value driver" | Counterfactual: if X changes 30%, revenue impact vs if Y changes 30% | "X is most important" (no comparison) |
-| "Market prices via method Y" | Evidence: peer multiple pattern, stock reaction to events, sell-side consensus | "Market typically uses this" (impression) |
-| "Expectation gap exists at Z" | Three-way alignment: your view vs market-implied vs consensus — where they differ | "Market undervalues" (no decomposition) |
-| "Target price is W" | Decomposition: W = current price + which expectation gaps close, with probability weights | "Based on XX P/E" (no gap decomposition) |
-| "Moat exists" | Maintenance mechanism + decay signals + counterfactual (if moat disappears, what happens) | "Company has brand/tech moat" (label) |
-| "Cash flow form is S" | Historical data evidence + conditions under which the form changes | "Looks cyclical" (label) |
-| "Valuation transition possible" | Specific mechanism + evidence threshold + failure consequence | "Growth stocks typically re-rate" (generic) |
-
-### 8d. Meta-Question Self-Reflection
-
-After completing the main analysis body (before the Technical Structure appendix), answer this meta-question:
-
-> **"In this analysis, what was most tempting to skip, assert without sufficient evidence, or gloss over? Why might it actually matter?"**
-
-This question exploits LLM self-awareness: Claude knows when it has taken shortcuts. Forced self-reflection is more effective than external review because the model knows what it skipped.
-
-Hard rules:
-
-- The meta-question answer must be substantive (2-4 sentences minimum), not a dismissive "nothing was skipped."
-- If the meta-question reveals a gap that could change the conclusion, acknowledge it and adjust accordingly.
-- If it doesn't generate any adjustment, the self-reflection wasn't honest enough.
-
-### 9. Technical Structure Assessment (Appendix)
-
-After the fundamental analysis body is complete, append a **Technical Structure Assessment** section. This section is supplementary context only — it cannot override fundamental conclusions, block or unblock valuation, or serve as a standalone investment thesis.
-
-Skip this section entirely for `industry_chain_context` archetype, pre-IPO targets, or SPACs that have not completed de-SPAC.
-
-Read [technical-analysis-framework.md](./references/technical-analysis-framework.md) for detailed methodology guidance.
-
-#### Scope and Data Requirements
-
-- Use publicly available price and volume data only (daily and weekly timeframes).
-- State the observation date and data source (exchange data, Yahoo Finance, etc.).
-- Do not fabricate price levels or volume figures. If real-time data is unavailable, state so and skip this section.
-
-#### Three-Layer Analysis Framework
-
-The technical assessment integrates three complementary methodologies. All three layers must be addressed in order.
-
-##### Layer 1: Trend Structure and Key Levels (Murphy)
-
-Identify the current trend regime using Dow Theory and classical trend analysis principles:
-
-| Field | Description |
-|-------|-------------|
-| `primary_trend` | `uptrend` / `downtrend` / `sideways` — based on sequence of higher highs/higher lows or lower highs/lower lows on weekly chart |
-| `secondary_trend` | `uptrend` / `downtrend` / `sideways` — intermediate correction or rally within the primary trend on daily chart |
-| `trend_maturity` | `early` / `middle` / `late` — based on Dow Theory three-phase model (accumulation phase → public participation phase → distribution/excess phase) |
-| `key_support_levels` | Up to 3 price levels where prior troughs, consolidation bases, or high-volume nodes provide demand |
-| `key_resistance_levels` | Up to 3 price levels where prior peaks, consolidation ceilings, or high-volume nodes provide supply |
-| `ma_structure` | Relative position of price vs. 50-day and 200-day moving averages; whether 50MA is above or below 200MA (golden cross / death cross) |
-| `chart_pattern` | If a classical pattern is identifiable (head & shoulders, double top/bottom, triangle, flag, wedge, cup & handle), name it and state completion status: `forming` / `confirmed` / `failed` |
-
-Hard rules:
-
-- A trend is defined by successive peaks and troughs, not by a single price move.
-- Moving average signals are confirming indicators, not primary trend determinants.
-- Chart patterns require volume confirmation: breakouts on rising volume are valid; breakouts on declining volume are suspect.
-- Support and resistance are zones, not exact prices. State levels as approximate ranges when appropriate.
-
-##### Layer 2: Volume-Price Analysis and Market Phase (Wyckoff)
-
-Assess the supply/demand dynamics and identify the current Wyckoff market phase:
-
-| Field | Description |
-|-------|-------------|
-| `wyckoff_phase` | `accumulation` / `markup` / `distribution` / `markdown` / `re-accumulation` / `re-distribution` |
-| `phase_evidence` | Specific price-volume behaviors that support the phase classification (see checklist below) |
-| `effort_vs_result` | Whether volume (effort) is producing proportional price movement (result), or whether divergence exists |
-| `composite_man_read` | Inferred smart-money behavior based on volume at key price levels: is institutional activity consistent with accumulation or distribution? |
-| `spring_upthrust` | Whether a Spring (false breakdown below support in accumulation) or Upthrust (false breakout above resistance in distribution) has occurred: `none` / `suspected` / `confirmed` |
-
-Wyckoff Phase Identification Checklist:
-
-**Accumulation signs:**
-
-- Preliminary Support (PS): first significant buying after prolonged decline, with volume increase
-- Selling Climax (SC): sharp price drop on heavy volume, marking potential bottom
-- Automatic Rally (AR): bounce after SC with declining volume
-- Secondary Test (ST): price revisits SC area on lighter volume
-- Spring: brief dip below trading range support on low volume, followed by strong recovery
-- Sign of Strength (SOS): price advances on expanding volume above resistance
-- Last Point of Support (LPS): pullback on declining volume before markup phase
-
-**Distribution signs:**
-
-- Preliminary Supply (PSY): first significant selling after prolonged advance, with volume increase
-- Buying Climax (BC): sharp price spike on heavy volume, marking potential top
-- Automatic Reaction (AR): decline after BC
-- Secondary Test (ST): price revisits BC area on lighter volume
-- Upthrust (UT): brief move above trading range resistance on low volume, followed by reversal
-- Sign of Weakness (SOW): price declines on expanding volume below support
-- Last Point of Supply (LPSY): weak rally on declining volume before markdown phase
-
-Hard rules:
-
-- Wyckoff phases are interpretive frameworks, not guaranteed predictors. State confidence level: `high` / `moderate` / `low`.
-- Effort vs. Result divergence is meaningful only at key support/resistance levels, not in mid-trend.
-- The three Wyckoff laws must be referenced: (1) Supply and Demand determines price direction; (2) Cause and Effect — the trading range duration and width forecast the magnitude of the subsequent move; (3) Effort vs. Result — volume should confirm price movement.
-
-##### Layer 3: Candlestick Pattern Recognition (Nison)
-
-Identify significant candlestick patterns on the daily and weekly charts:
-
-| Field | Description |
-|-------|-------------|
-| `daily_patterns` | List of significant patterns observed in the last 20 trading days, with date and pattern name |
-| `weekly_patterns` | List of significant patterns observed in the last 8 weeks |
-| `pattern_context` | Whether the pattern appears at a significant technical level (support, resistance, MA, or trendline) — patterns at random locations are low-signal |
-| `confirmation_status` | Whether the pattern has been confirmed by subsequent price action: `pending` / `confirmed` / `failed` |
-
-Pattern Classification (priority order):
-
-**Reversal patterns (high priority when at key levels):**
-
-- Single-candle: Hammer, Inverted Hammer, Hanging Man, Shooting Star, Doji (at extremes)
-- Two-candle: Bullish/Bearish Engulfing, Piercing Line, Dark Cloud Cover, Tweezer Top/Bottom
-- Three-candle: Morning Star, Evening Star, Three White Soldiers, Three Black Crows, Abandoned Baby
-
-**Continuation patterns:**
-
-- Rising/Falling Three Methods, Tasuki Gap, Side-by-Side White Lines
-
-**Indecision patterns:**
-
-- Doji (at mid-range), Spinning Top, High Wave Candle
-
-Hard rules:
-
-- A candlestick pattern is meaningful only when it appears at a key technical level (support, resistance, trendline, or moving average). Patterns in the middle of a range are noise.
-- Reversal patterns require confirmation from the next candle(s). An unconfirmed pattern is labeled `pending`.
-- Engulfing patterns and Morning/Evening Stars have higher reliability than single-candle patterns.
-- Weekly patterns carry more weight than daily patterns.
-- Combine with volume: a hammer on high volume is stronger than one on low volume.
-
-#### Synthesis: Technical Structure Summary
-
-After completing all three layers, produce a brief synthesis:
-
-| Field | Value |
-|-------|-------|
-| `technical_posture` | `bullish` / `cautiously_bullish` / `neutral` / `cautiously_bearish` / `bearish` |
-| `trend_volume_alignment` | `aligned` (trend and volume confirm each other) or `divergent` (volume contradicts trend) |
-| `phase_trend_consistency` | Whether Wyckoff phase and Murphy trend classification are consistent |
-| `key_inflection` | The single most important price level to watch, with rationale |
-| `candlestick_signal` | The strongest candlestick signal observed, if any, with its location context |
-
-#### Technical Structure Disclaimer
-
-Always end this section with:
-
-> This technical structure assessment is supplementary to the fundamental analysis above. It reflects historical price-volume patterns and does not predict future prices. Technical context should be used alongside — never in place of — fundamental, financial, and regulatory due diligence. This is not investment advice and does not constitute a trading recommendation.
-
-### 10. Investment Decision Appendix (Optional — User Must Request)
-
-When the user explicitly asks for an investment decision, trading plan, or position recommendation, append this section AFTER all other analysis is complete. This section is opt-in only and never generated by default.
-
-#### Investment Decision Summary
-
-| Field | Value |
-|-------|-------|
-| Verdict | Strong Buy / Buy / Hold / Reduce / Sell |
-| Core Story (one sentence) | The single most compelling reason to own or avoid this stock |
-| Fair Value Range | $XX — $XX (from valuation section) |
-| Current Price | $XX.XX |
-| Upside/Downside | +XX% / -XX% |
-| Conviction Level | High / Medium / Low |
-| Suggested Position Size | XX% of portfolio (based on conviction and risk) |
-| Entry Strategy | Specific price level or condition for entry |
-| Stop-Loss | Price level where the thesis is invalidated |
-| First Target | Price level for first partial take-profit |
-| Key Catalyst (next 90 days) | The single most important near-term event |
-| Key Risk (most likely) | The single most likely risk to the thesis |
-
-Position sizing guidelines:
-
-- High conviction (>30% upside, strong catalyst, low short-seller risk): 8-15%
-- Medium conviction (15-30% upside): 5-8%
-- Speculative (<15% upside or high uncertainty): 2-5%
-- Adjust down for: high leverage, single-customer dependency, regulatory uncertainty, macro headwinds
-
-Hard rules:
-
-- This section requires ALL of: fundamental analysis complete, valuation section not blocked, and short-seller risk score available.
-- Never generate this section unless the user explicitly requests investment advice, position sizing, or a trading plan.
-- Always include: "This is not professional investment advice. Position sizing and trading decisions should reflect your personal risk tolerance and portfolio context."
-
-## Output Rules
-
-- Be direct and evidence-led.
-- Prefer primary and official sources over summaries.
-- Cite the source class for every material figure.
-- State when a conclusion is an inference rather than a disclosed fact.
-- If commercial evidence, capacity status, regulatory status, qualification status, or legal quality is not investment-grade, block valuation rather than forcing a numeric conclusion.
-- `industry_chain_context` may provide context and company bridges only. It cannot produce standalone stock valuation.
-
-## Reference Files
-
-- Read [angle-library.yaml](./references/angle-library.yaml) for runtime field-level routing and gates.
-- Read [claim-gates.yaml](./references/claim-gates.yaml) for semantic claim controls.
-- Read [report-digests.yaml](./references/report-digests.yaml) for offline report digests and locators.
-- Read [angle-library.md](./references/angle-library.md) for human-readable angle guidance.
-- Read [source-policy.md](./references/source-policy.md) for source hierarchy, global market routing, sector routing, and exclusions.
-- Read [proprietary-data.md](./references/proprietary-data.md) whenever valuation or market-data work might depend on terminal-only fields.
-- Read [financial-analysis-framework.md](./references/financial-analysis-framework.md) for revenue quality, earnings quality, cash flow, return metrics, and variance analysis methodology.
-- Read [technical-analysis-framework.md](./references/technical-analysis-framework.md) when writing the §9 Technical Structure Assessment appendix.
+- Supply-demand balance, bottleneck map, policy catalysts, company bridge, NO valuation
+
+---
+
+### 7. Quality Gates Before Answering
+
+- Reject excluded sources and patterns listed in `references/source-policy.md`
+- Do NOT use technical analysis, chart patterns, or Wyckoff phase labels — that's the `technical-analysis` skill's job
+- **Target price IS allowed** when running in Standalone Mode (hand off to valuation-calculator or state your own)
+- Block fundamental analysis conclusions if:
+  - Fully diluted share count is unverified
+  - Dilution stack is unverified
+  - Debt stack or net-debt bridge is unverified
+  - Any claim depends on `mou` / `pilot` / `framework` / management aspiration / planned capacity / uncontracted capacity
+  - `economic_dependency` is `high` and the relevant regulatory gate is not `approved` or `qualified`
+- When pass-through revenue > 50% of total, surface the core-margin figure inline
+- Semantic claims (`moat`, `network effect`, `platform`, `data flywheel`) require claim-gate verification per `references/claim-gates.yaml`. If minimum evidence is incomplete, downgrade to inference label.
+
+---
+
+## Style Rules
+
+### DO
+
+- Write as one analyst with a clear point of view
+- Use "我们"/"我认为"/"从数据看" for opinions and observations
+- Reference Bloomberg screenshots naturally when provided
+- Use **bold** for key numbers and conclusions
+- Keep paragraphs to 3-5 sentences max
+- Preserve dated management quotes verbatim with speaker names
+- End with forward-catalyst calendar and unresolved items
+
+### DO NOT
+
+- Do NOT start with "数据充分性说明" section
+- Do NOT use "Commercial Evidence Table", "Claim Gate", "value_creating", "Financial Quality Sub-Component A/B/C/D/E" as visible section headers
+- Do NOT use "第一部分/第二部分" numbering
+- Do NOT write "Meta-Question Self-Reflection" in the output (use it as a private sanity check)
+- Do NOT write "Conditional Judgment" framing as a visible section
+- Do NOT use `target_price` language at the end in Content Block Mode — hand off to valuation-calculator
+- Do NOT duplicate technical analysis — that's a separate skill
+- Do NOT end with a matrix. End with unresolved items and catalyst calendar in prose.
+
+---
+
+## Supporting Files
+
+- `references/angle-library.yaml` — Runtime routing and archetype angles
+- `references/angle-library.md` — Human-readable backup
+- `references/claim-gates.yaml` — Semantic claim evidence thresholds
+- `references/source-policy.md` — Allowed and excluded source types
+- `references/proprietary-data.md` — Bloomberg data request protocol
+- `references/report-digests.yaml` — Offline summaries of research corpus
+- `references/financial-analysis-framework.md` — Detailed financial quality methodology
+- `references/bloomberg-request-templates.md` — Standard data request templates
+- `references/commodity-math-template.md` — (NEW) Bottom-up unit economics template for mining/industrial
+- `references/sec-parser-integration.md` — (NEW) 10-K semantic extraction patterns, including risk-factor YoY diffing
+
+---
+
+## Anti-Truncation Verification (Before Emission)
+
+Before emitting content blocks, verify:
+
+- [ ] Every named customer from research is in Block C
+- [ ] Every dated management quote is in Block A or D with speaker + date preserved
+- [ ] Every forward catalyst with a date is in Block E
+- [ ] Every unresolved item is in Block G
+- [ ] Bottom-up unit math is in Block B for commodity/industrial archetypes
+- [ ] Byproduct credits are in Block B (mining/industrial only)
+- [ ] Operating leverage is quantified in Block B if the thesis depends on margin expansion
+- [ ] 3-year P&L table + forward model table in Block D
+- [ ] Contract walk in Block C if backlog exists
+
+If any item fails, regenerate the relevant block — do NOT silently omit.

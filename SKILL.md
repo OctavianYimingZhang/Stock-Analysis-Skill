@@ -39,6 +39,20 @@ This skill has **two output modes**:
 
 In both modes: strip Claude-voice vocabulary (see Style section). Preserve all named customers, dated quotes, contract numbers, and catalyst dates. Do not pre-compress.
 
+## Voice and Conviction (MANDATORY — READ BEFORE WRITING)
+
+Even in Content Block Mode, the prose itself must already read like analyst output. The orchestrator weaves — it does not inject voice. Therefore this skill must produce conviction-laden prose.
+
+**Core rules** (full details in `stock-research-report/references/voice-and-conviction.md`):
+
+1. **First-person "我"/"我认为"/"我觉得"/"我们" must appear at least 2-3 times** in business logic and catalyst blocks when outputting in Standalone Mode. In Content Block Mode, populate so that orchestrator has material to weave.
+2. **Narrative tension in Block A opener** — not founding date. Start with the pivot/inflection.
+3. **Inline prose arithmetic** for unit economics. Banned: `Step 1 / Step 2 / Step 3 / Step 4 / Step 5` enumerations.
+4. **Specific dates (YYYY-MM or YYYY-Q#)** in every dated-catalyst mention. Vague "in coming quarters" is BANNED.
+5. **Section-closing opinionated takeaway sentence** on each block — not a "综上所述" rephrase.
+6. **Banned phrases**: 综上所述, 由此可见, 换言之, 综合来看, 值得关注的是, 读这个表的关键一句话, 一句话总结, 业务总结：, 综合评级, 核心判断：, 长话短说, 核心逻辑是, 中性偏负, 非对称性极强. Scan output for all of these before finalizing.
+7. **Rough-number vernacular**: "翻倍就可以", "3-5 倍空间", "我不求吃完,只求 X", "(我认为这已经很保守了)" — use when organic to the fact pattern.
+
 ---
 
 ## Mandatory Workflow
